@@ -1,6 +1,8 @@
 # Realism 🌍
 
-Real life in Minecraft (NeoForge 1.21.1), built in phases. **Phase 1: your body.**
+Real life in Minecraft (NeoForge 1.21.1), built in phases.
+
+## Phase 1: your body
 
 | Rule | What happens |
 |---|---|
@@ -12,12 +14,25 @@ Real life in Minecraft (NeoForge 1.21.1), built in phases. **Phase 1: your body.
 | 🔥 Burns | Punching a working furnace bare-handed: 1st, 2nd or 3rd degree burn. A Cold Sweat boiler is always 3rd degree. (In VR, touching it with your hand counts.) |
 | 🥶 Frostbite | With Cold Sweat: freezing for a minute gives frostbite, and it keeps hurting while you stay frozen. |
 
-A small panel in the top-left shows water, rest, stamina and injuries (only once they matter).
-`/realism` shows your numbers. English and Czech.
+## Phase 2: blood 🩸
+
+| Rule | What happens |
+|---|---|
+| 🩸 Blood | You have **5 liters**. Under 4.2 l you're pale (weaker), under 3.5 l dizzy, under 2.6 l you collapse, and under **2 l you bleed out**. Blood slowly comes back while you're fed. |
+| 🔪 Bleeding | Mob hits, weapons, arrows, cactus and explosions can make you bleed: **light** (stops by itself), **heavy** or **severe**. Breaking a leg on rock is an open fracture: heavy bleeding. |
+| 🩹 Bandage | Stops light and heavy bleeding. Paper + string + wool = 3. |
+| 🎗️ Tourniquet | Holds severe bleeding, but you're slower while it's on. String, leather, string over a stick. |
+| 🅰️ Blood types | Everyone gets a real blood type (O+, A-, AB+...) by real-world odds, and keeps it after death. |
+| 💉 Syringe + blood bag | A syringe draws 0.5 l from you or a friend into a blood bag. A blood bag gives 0.5 l, **only if the type matches** (O- gives to everyone, AB+ takes from everyone); the wrong type makes you very sick. |
+
+Blocky pixel blood particles while bleeding: turn them off with `bloodParticles = false`.
+
+A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
+`/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 
 **Config** (`serverconfig/realism-server.toml`): days for thirst/sleep, real-life days instead of Minecraft days,
 and on/off for each rule.
 
-Coming next: phase 2 (hospital, doctors, surgeons, Chromeflesh surgery), then eras, computers, countries...
+Coming next: the hospital (doctors, surgeons, Chromeflesh surgery, no reviving after serious injuries), then eras, computers, countries...
 
 MIT license.

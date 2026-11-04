@@ -75,7 +75,7 @@ public final class BodyEvents {
         Body b = body(p);
         if (!p.isCreative() && !p.isSpectator()) second(p);
         b.handStrain *= 0.8f;
-        if (p.connection != null && p.connection.hasChannel(BodySync.TYPE)) PacketDistributor.sendToPlayer(p, sync(b));
+        if (p.connection != null && p.connection.hasChannel(BodySync.TYPE)) PacketDistributor.sendToPlayer(p, sync(p));
     }
 
     /** One second of every body rule for this player (also called directly by the GameTests). */
@@ -86,15 +86,20 @@ public final class BodyEvents {
         if (RealismConfig.STAMINA.get()) stamina(p, b);
         injuries(p, b);
         if (RealismConfig.FROSTBITE.get()) frostbite(p, b);
+        if (RealismConfig.BLEEDING.get()) Blood.second(p, b);
     }
 
-    public static BodySync sync(Body b) {
+    public static BodySync sync(Player p) {
+        Body b = body(p);
         long limitT = RealismConfig.THIRST_DAYS.get() * RealismConfig.dayTicks();
         long limitS = RealismConfig.SLEEP_DAYS.get() * RealismConfig.dayTicks();
         int flags = (b.brokenLeg > 0 ? BodySync.BROKEN_LEG : 0) | (b.armTear > 0 ? BodySync.ARM_TEAR : 0)
                 | (b.badTear ? BodySync.BAD_TEAR : 0) | (b.frostbite > 0 ? BodySync.FROSTBITE : 0)
-                | (b.burn > 0 ? (b.burnDegree == 1 ? BodySync.BURN1 : b.burnDegree == 2 ? BodySync.BURN2 : BodySync.BURN3) : 0);
-        return new BodySync(Math.min(1f, b.thirst / (float) limitT), Math.min(1f, b.awake / (float) limitS), b.stamina, flags);
+                | (b.burn > 0 ? (b.burnDegree == 1 ? BodySync.BURN1 : b.burnDegree == 2 ? BodySync.BURN2 : BodySync.BURN3) : 0)
+                | (b.bleeding == 1 ? BodySync.BLEED_LIGHT : b.bleeding == 2 ? BodySync.BLEED_HEAVY : b.bleeding == 3 ? BodySync.BLEED_SEVERE : 0)
+                | (b.tourniquet > 0 ? BodySync.TOURNIQUET : 0);
+        return new BodySync(Math.min(1f, b.thirst / (float) limitT), Math.min(1f, b.awake / (float) limitS), b.stamina, flags,
+                b.blood, p.getData(Realism.BLOOD_TYPE));
     }
 
     // ---- Thirst ----
@@ -251,6 +256,7 @@ public final class BodyEvents {
             Body b = body(p);
             b.brokenLeg = (int) (RealismConfig.dayTicks() * (rock ? 5 : 3));
             say(p, rock ? "leg.rock" : "leg");
+            if (rock && RealismConfig.BLEEDING.get()) Blood.bleed(p, 2); // open fracture
         }
     }
 

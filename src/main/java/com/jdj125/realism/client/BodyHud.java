@@ -15,7 +15,7 @@ import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 
 /**
  * A small body panel in the top-left corner: water and sleep (how close you are to dying of each), a stamina bar,
- * and any injuries. Stays out of the way: water/sleep only show once they matter.
+ * blood (liters and type) and any injuries or bleeding. Stays out of the way: water/sleep only show once they matter.
  */
 @EventBusSubscriber(modid = Realism.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class BodyHud {
@@ -53,8 +53,15 @@ public final class BodyHud {
             y += 8;
         }
         int f = s.injuries();
-        String[] keys = {"leg", "tear", "burn1", "burn2", "burn3", "frostbite", "tear_bad"};
-        int[] bits = {BodySync.BROKEN_LEG, BodySync.ARM_TEAR, BodySync.BURN1, BodySync.BURN2, BodySync.BURN3, BodySync.FROSTBITE, BodySync.BAD_TEAR};
+        if (s.blood() < 4.95f || (f & (BodySync.BLEED_LIGHT | BodySync.BLEED_HEAVY | BodySync.BLEED_SEVERE)) != 0) {
+            float danger = s.blood() <= 2.6f ? 1 : s.blood() <= 3.5f ? 0.7f : s.blood() <= 4.2f ? 0.4f : 0;
+            g.drawString(font, Component.translatable("realism.hud.blood", String.format(java.util.Locale.ROOT, "%.1f", s.blood()), s.bloodType()),
+                    x, y, color(danger));
+            y += 10;
+        }
+        String[] keys = {"bleed1", "bleed2", "bleed3", "tourniquet", "leg", "tear", "burn1", "burn2", "burn3", "frostbite", "tear_bad"};
+        int[] bits = {BodySync.BLEED_LIGHT, BodySync.BLEED_HEAVY, BodySync.BLEED_SEVERE, BodySync.TOURNIQUET, BodySync.BROKEN_LEG,
+                BodySync.ARM_TEAR, BodySync.BURN1, BodySync.BURN2, BodySync.BURN3, BodySync.FROSTBITE, BodySync.BAD_TEAR};
         for (int i = 0; i < bits.length; i++) {
             if ((f & bits[i]) == 0 || (bits[i] == BodySync.ARM_TEAR && (f & BodySync.BAD_TEAR) != 0)) continue;
             g.drawString(font, Component.translatable("realism.hud." + keys[i]), x, y, 0xFFFF7070);

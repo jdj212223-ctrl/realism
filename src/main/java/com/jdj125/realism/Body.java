@@ -27,6 +27,12 @@ public class Body implements INBTSerializable<CompoundTag> {
     public int freezing;
     /** Recent hand actions (breaks/attacks), for muscle tears: a short rolling count that decays. */
     public float handStrain;
+    /** Blood in liters (a healthy adult has about 5). */
+    public float blood = 5;
+    /** 0 = not bleeding, 1 = light, 2 = heavy, 3 = severe. */
+    public int bleeding;
+    /** Ticks a tourniquet has been on (it stops severe bleeding but slows you while on). */
+    public int tourniquet;
     /** The last warning stage shown for thirst and sleep, so each warning is said once. */
     public int thirstStage, sleepStage;
 
@@ -46,6 +52,9 @@ public class Body implements INBTSerializable<CompoundTag> {
         t.putInt("freezing", freezing);
         t.putInt("thirstStage", thirstStage);
         t.putInt("sleepStage", sleepStage);
+        t.putFloat("blood", blood);
+        t.putInt("bleeding", bleeding);
+        t.putInt("tourniquet", tourniquet);
         return t;
     }
 
@@ -64,5 +73,8 @@ public class Body implements INBTSerializable<CompoundTag> {
         freezing = t.getInt("freezing");
         thirstStage = t.getInt("thirstStage");
         sleepStage = t.getInt("sleepStage");
+        blood = t.contains("blood") ? t.getFloat("blood") : 5;
+        bleeding = t.getInt("bleeding");
+        tourniquet = t.getInt("tourniquet");
     }
 }

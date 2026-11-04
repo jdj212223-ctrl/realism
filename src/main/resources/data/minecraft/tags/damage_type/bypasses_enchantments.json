@@ -1,4 +1,11 @@
 {
   "replace": false,
-  "values": ["realism:dehydration", "realism:sleeplessness", "realism:exhaustion", "realism:burn", "realism:frostbite"]
+  "values": [
+    "realism:dehydration",
+    "realism:sleeplessness",
+    "realism:exhaustion",
+    "realism:burn",
+    "realism:frostbite",
+    "realism:bled_out"
+  ]
 }

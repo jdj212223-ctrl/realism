@@ -20,7 +20,8 @@ import java.util.function.Supplier;
 
 /**
  * Realism: real life in Minecraft, built in phases. Phase 1 is the body: thirst, sleep, stamina and exhaustion,
- * muscle tears, broken legs, burns and frostbite. See {@link BodyEvents} for the rules.
+ * muscle tears, broken legs, burns and frostbite ({@link BodyEvents}). Phase 2 is blood: bleeding, blood types,
+ * bandages, tourniquets and transfusions ({@link Blood}, {@link RealismItems}).
  */
 @Mod(Realism.MODID)
 public class Realism {
@@ -29,15 +30,21 @@ public class Realism {
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MODID);
     /** Not copied on death: you respawn with a fresh, healthy body. */
     public static final Supplier<AttachmentType<Body>> BODY = ATTACHMENTS.register("body", () -> AttachmentType.serializable(Body::new).build());
+    /** Your blood type ("" until picked): kept for good, even after death. */
+    public static final Supplier<AttachmentType<String>> BLOOD_TYPE = ATTACHMENTS.register("blood_type",
+            () -> AttachmentType.builder(() -> "").serialize(com.mojang.serialization.Codec.STRING).copyOnDeath().build());
 
     public static final ResourceKey<DamageType> DEHYDRATION = damage("dehydration"), SLEEPLESSNESS = damage("sleeplessness"),
-            EXHAUSTION = damage("exhaustion"), BURN = damage("burn"), FROSTBITE = damage("frostbite");
+            EXHAUSTION = damage("exhaustion"), BURN = damage("burn"), FROSTBITE = damage("frostbite"),
+            BLED_OUT = damage("bled_out");
 
     public Realism(IEventBus modBus, ModContainer container) {
         ATTACHMENTS.register(modBus);
+        RealismItems.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
         modBus.addListener(Realism::registerPayloads);
         NeoForge.EVENT_BUS.register(BodyEvents.class);
+        NeoForge.EVENT_BUS.register(Blood.class);
         NeoForge.EVENT_BUS.addListener(RealismCommand::register);
     }
 

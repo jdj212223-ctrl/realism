@@ -1,5 +1,6 @@
 package com.jdj125.realism.test;
 
+import com.jdj125.realism.Blood;
 import com.jdj125.realism.Body;
 import com.jdj125.realism.BodyEvents;
 import com.jdj125.realism.Realism;
@@ -74,6 +75,58 @@ public class BodyGameTests {
             Body b = BodyEvents.body(p);
             helper.assertTrue(b.burnDegree == 3 && b.burn > 0, "3rd degree burn recorded");
             helper.assertTrue(p.getHealth() < before, "a burn hurts");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
+    public static void severeBleedingDrainsBlood(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            Body b = BodyEvents.body(p);
+            Blood.bleed(p, 3);
+            float before = b.blood;
+            second(p);
+            helper.assertTrue(b.blood < before, "severe bleeding loses blood every second");
+            b.tourniquet = 1;
+            float held = b.blood;
+            second(p);
+            helper.assertTrue(b.blood == held, "a tourniquet holds severe bleeding");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
+    public static void bleedingOutKills(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            Body b = BodyEvents.body(p);
+            b.blood = Blood.DEAD + 0.01f;
+            Blood.bleed(p, 3);
+            second(p);
+            helper.assertTrue(p.getHealth() <= 0, "under 2 liters you bleed out");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena")
+    public static void bloodTypesMatchLikeRealLife(GameTestHelper helper) {
+        helper.assertTrue(Blood.compatible("O-", "AB+"), "O- gives to everyone");
+        helper.assertTrue(Blood.compatible("A+", "AB+"), "AB+ takes from everyone");
+        helper.assertTrue(Blood.compatible("B-", "B+"), "Rh- gives to Rh+ of the same group");
+        helper.assertFalse(Blood.compatible("A+", "A-"), "Rh+ can't go to Rh-");
+        helper.assertFalse(Blood.compatible("A+", "B+"), "A can't go to B");
+        helper.assertFalse(Blood.compatible("AB-", "O-"), "AB can't go to O");
+        helper.succeed();
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
+    public static void transfusionAddsBloodOrReacts(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            p.setData(Realism.BLOOD_TYPE, "A+");
+            Body b = BodyEvents.body(p);
+            b.blood = 3.8f;
+            helper.assertTrue(Blood.transfuse(p, "O-"), "O- into A+ works");
+            helper.assertTrue(Math.abs(b.blood - 4.3f) < 0.01f, "adds half a liter, got " + b.blood);
+            helper.assertFalse(Blood.transfuse(p, "B+"), "B+ into A+ is a reaction");
             helper.succeed();
         });
     }

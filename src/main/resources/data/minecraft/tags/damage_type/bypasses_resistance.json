@@ -1,4 +1,9 @@
 {
   "replace": false,
-  "values": ["realism:dehydration", "realism:sleeplessness", "realism:exhaustion"]
+  "values": [
+    "realism:dehydration",
+    "realism:sleeplessness",
+    "realism:exhaustion",
+    "realism:bled_out"
+  ]
 }
