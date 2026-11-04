@@ -1,0 +1,64 @@
+package com.jdj125.realism.client;
+
+import com.jdj125.realism.BodySync;
+import com.jdj125.realism.Realism;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+
+/**
+ * A small body panel in the top-left corner: water and sleep (how close you are to dying of each), a stamina bar,
+ * and any injuries. Stays out of the way: water/sleep only show once they matter.
+ */
+@EventBusSubscriber(modid = Realism.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+public final class BodyHud {
+    private BodyHud() {
+    }
+
+    @SubscribeEvent
+    public static void register(RegisterGuiLayersEvent event) {
+        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Realism.MODID, "body"), BodyHud::render);
+    }
+
+    private static int color(float danger) {
+        return danger >= 0.9f ? 0xFFFF4040 : danger >= 0.66f ? 0xFFFF9F30 : danger >= 0.33f ? 0xFFFFE060 : 0xFFE0E0E0;
+    }
+
+    private static void render(GuiGraphics g, DeltaTracker delta) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.options.hideGui || mc.player == null || mc.player.isCreative() || mc.player.isSpectator()) return;
+        BodySync s = BodySync.latest;
+        Font font = mc.font;
+        int x = 4, y = 4;
+        if (s.thirst() >= 0.2f) {
+            g.drawString(font, Component.translatable("realism.hud.water", Math.round((1 - s.thirst()) * 100)), x, y, color(s.thirst()));
+            y += 10;
+        }
+        if (s.awake() >= 0.2f) {
+            g.drawString(font, Component.translatable("realism.hud.sleep", Math.round((1 - s.awake()) * 100)), x, y, color(s.awake()));
+            y += 10;
+        }
+        if (s.stamina() < 100) {
+            int w = 50;
+            g.fill(x, y + 1, x + w, y + 5, 0x80000000);
+            int fill = Math.round(w * s.stamina() / 100f);
+            g.fill(x, y + 1, x + fill, y + 5, s.stamina() < 20 ? 0xFFFF5050 : 0xFF60D060);
+            y += 8;
+        }
+        int f = s.injuries();
+        String[] keys = {"leg", "tear", "burn1", "burn2", "burn3", "frostbite", "tear_bad"};
+        int[] bits = {BodySync.BROKEN_LEG, BodySync.ARM_TEAR, BodySync.BURN1, BodySync.BURN2, BodySync.BURN3, BodySync.FROSTBITE, BodySync.BAD_TEAR};
+        for (int i = 0; i < bits.length; i++) {
+            if ((f & bits[i]) == 0 || (bits[i] == BodySync.ARM_TEAR && (f & BodySync.BAD_TEAR) != 0)) continue;
+            g.drawString(font, Component.translatable("realism.hud." + keys[i]), x, y, 0xFFFF7070);
+            y += 10;
+        }
+    }
+}

@@ -1,0 +1,55 @@
+package com.jdj125.realism;
+
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.Entity;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+
+import java.util.function.Supplier;
+
+/**
+ * Realism: real life in Minecraft, built in phases. Phase 1 is the body: thirst, sleep, stamina and exhaustion,
+ * muscle tears, broken legs, burns and frostbite. See {@link BodyEvents} for the rules.
+ */
+@Mod(Realism.MODID)
+public class Realism {
+    public static final String MODID = "realism";
+
+    private static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, MODID);
+    /** Not copied on death: you respawn with a fresh, healthy body. */
+    public static final Supplier<AttachmentType<Body>> BODY = ATTACHMENTS.register("body", () -> AttachmentType.serializable(Body::new).build());
+
+    public static final ResourceKey<DamageType> DEHYDRATION = damage("dehydration"), SLEEPLESSNESS = damage("sleeplessness"),
+            EXHAUSTION = damage("exhaustion"), BURN = damage("burn"), FROSTBITE = damage("frostbite");
+
+    public Realism(IEventBus modBus, ModContainer container) {
+        ATTACHMENTS.register(modBus);
+        container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
+        modBus.addListener(Realism::registerPayloads);
+        NeoForge.EVENT_BUS.register(BodyEvents.class);
+        NeoForge.EVENT_BUS.addListener(RealismCommand::register);
+    }
+
+    private static ResourceKey<DamageType> damage(String name) {
+        return ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(MODID, name));
+    }
+
+    public static DamageSource source(Entity victim, ResourceKey<DamageType> type) {
+        return new DamageSource(victim.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(type));
+    }
+
+    private static void registerPayloads(RegisterPayloadHandlersEvent event) {
+        event.registrar("1").playToClient(BodySync.TYPE, BodySync.CODEC, (payload, ctx) -> BodySync.latest = payload);
+    }
+}
