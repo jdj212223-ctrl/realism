@@ -23,6 +23,7 @@ import java.util.function.Supplier;
  * muscle tears, broken legs, burns and frostbite ({@link BodyEvents}). Phase 2 is blood: bleeding, blood types,
  * bandages, tourniquets and transfusions ({@link Blood}, {@link RealismItems}). Phase 3 is the hospital: Doctor
  * villagers, surgery on the Operating Table, burn cream, splints and fiberglass insulation ({@link Hospital}).
+ * Phase 4 is the mind: mood and depression, games, TV, therapy and a real-date calendar ({@link Mind}).
  */
 @Mod(Realism.MODID)
 public class Realism {
@@ -48,6 +49,7 @@ public class Realism {
         NeoForge.EVENT_BUS.register(BodyEvents.class);
         NeoForge.EVENT_BUS.register(Blood.class);
         NeoForge.EVENT_BUS.register(Hospital.class);
+        NeoForge.EVENT_BUS.register(Mind.class);
         NeoForge.EVENT_BUS.addListener(RealismCommand::register);
     }
 

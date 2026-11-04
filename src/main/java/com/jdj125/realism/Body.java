@@ -33,6 +33,10 @@ public class Body implements INBTSerializable<CompoundTag> {
     public int bleeding;
     /** Ticks a tourniquet has been on (it stops severe bleeding but slows you while on). */
     public int tourniquet;
+    /** 0..100: how you feel (phase 4). */
+    public float mood = Mind.START;
+    /** The last mood warning shown (0 fine, 1 low, 2 depressed), and ticks until games/TV cheer you up again. */
+    public int moodStage, funCooldown;
     /** The last warning stage shown for thirst and sleep, so each warning is said once. */
     public int thirstStage, sleepStage;
 
@@ -55,6 +59,9 @@ public class Body implements INBTSerializable<CompoundTag> {
         t.putFloat("blood", blood);
         t.putInt("bleeding", bleeding);
         t.putInt("tourniquet", tourniquet);
+        t.putFloat("mood", mood);
+        t.putInt("moodStage", moodStage);
+        t.putInt("funCooldown", funCooldown);
         return t;
     }
 
@@ -76,5 +83,8 @@ public class Body implements INBTSerializable<CompoundTag> {
         blood = t.contains("blood") ? t.getFloat("blood") : 5;
         bleeding = t.getInt("bleeding");
         tourniquet = t.getInt("tourniquet");
+        mood = t.contains("mood") ? t.getFloat("mood") : Mind.START;
+        moodStage = t.getInt("moodStage");
+        funCooldown = t.getInt("funCooldown");
     }
 }

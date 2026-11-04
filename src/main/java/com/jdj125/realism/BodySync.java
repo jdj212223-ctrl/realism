@@ -8,7 +8,8 @@ import net.minecraft.resources.ResourceLocation;
 
 /**
  * Sent to a player once a second so their HUD can show their body: thirst and sleep as 0..1 of the way to death,
- * stamina 0..100, which injuries they have (and how badly they bleed), liters of blood and their blood type.
+ * stamina 0..100, which injuries they have (and how badly they bleed), liters of blood and their blood type. The
+ * injuries field also carries mood (0..100) in its bits 16-23; read it with {@link #mood()}.
  */
 public record BodySync(float thirst, float awake, float stamina, int injuries, float blood, String bloodType) implements CustomPacketPayload {
     public static final int BROKEN_LEG = 1, ARM_TEAR = 2, BURN1 = 4, BURN2 = 8, BURN3 = 16, FROSTBITE = 32, BAD_TEAR = 64,
@@ -25,6 +26,10 @@ public record BodySync(float thirst, float awake, float stamina, int injuries, f
 
     /** The latest values the client got (read by the HUD). */
     public static volatile BodySync latest = new BodySync(0, 0, 100, 0, 5, "");
+
+    public int mood() {
+        return (injuries >>> 16) & 0xFF;
+    }
 
     @Override
     public Type<? extends CustomPacketPayload> type() {

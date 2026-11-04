@@ -3,6 +3,7 @@ package com.jdj125.realism.test;
 import com.jdj125.realism.Blood;
 import com.jdj125.realism.Body;
 import com.jdj125.realism.Hospital;
+import com.jdj125.realism.Mind;
 import com.jdj125.realism.BodyEvents;
 import com.jdj125.realism.Realism;
 import com.jdj125.realism.RealismConfig;
@@ -148,6 +149,24 @@ public class BodyGameTests {
             helper.assertTrue(b.brokenLeg == 0 && b.armTear == 0 && !b.badTear && b.burn == 0 && b.frostbite == 0 && b.bleeding == 0,
                     "surgery fixes every serious injury");
             helper.assertTrue(b.blood > 3.0f, "surgery gives some blood back");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
+    public static void lowMoodSlowsButNeverHurts(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            Body b = BodyEvents.body(p);
+            b.mood = 5;
+            float health = p.getHealth();
+            second(p);
+            helper.assertTrue(b.moodStage == 2, "very low mood is depression, got stage " + b.moodStage);
+            helper.assertTrue(p.hasEffect(net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN), "depression slows you");
+            helper.assertTrue(p.getHealth() >= health, "mood never hurts you by itself");
+            Mind.lift(p, 40);
+            helper.assertTrue(b.mood >= 44 && b.moodStage == 0, "therapy-sized lift brings you back up, got " + b.mood);
+            Mind.lift(p, 500);
+            helper.assertTrue(b.mood == 100, "mood tops out at 100");
             helper.succeed();
         });
     }

@@ -38,12 +38,22 @@ Blocky pixel blood particles while bleeding: turn them off with `bloodParticles 
 | 🦴 Broken neck | Falling 23+ blocks onto rock breaks your neck. No surviving that. |
 | 🩷 Fiberglass insulation | Pink wall fluff (glass + 2 pink wool = 4). Touch it bare-handed and you itch; break it with no helmet and you cough. It looks like cotton candy. **It is not cotton candy.** |
 
+## Phase 4: the mind 🧠
+
+| Thing | What it does |
+|---|---|
+| 🙂 Mood | 0-100, you start at 70. Being alone, hungry, thirsty, hurt or out in the dark brings it down. Friends nearby, your pets, music from a jukebox, sunshine, meals and a good night's sleep bring it up. |
+| 😔 Low mood / depression | Under 30 you feel down and move slower. Under 15 it's depression: slower and weaker. It **never hurts you by itself**, and there's always a way back up. |
+| 🎮 Game Console / 📺 Television | Play or watch for +15 mood (once a minute). |
+| 🩺 Therapy | The Doctor sells therapy sessions (4 emeralds): +40 mood. In real life too, talking to someone you trust really helps. |
+| 📅 Calendar | Shows the real-life date and the Minecraft day. Paper, paper, red dye, clock. |
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 
 **Config** (`serverconfig/realism-server.toml`): days for thirst/sleep, real-life days instead of Minecraft days,
 and on/off for each rule.
 
-Coming next: Chromeflesh surgery, no reviving after serious injuries, then eras, computers, countries...
+Coming next: computers (build your own PC), radiation and diseases, countries and government, Chromeflesh surgery...
 
 MIT license.

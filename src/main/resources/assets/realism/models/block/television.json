@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "realism:block/television_side",
+    "north": "realism:block/television_front",
+    "south": "realism:block/television_front",
+    "east": "realism:block/television_side",
+    "west": "realism:block/television_side",
+    "up": "realism:block/television_side",
+    "down": "realism:block/television_side"
+  }
+}

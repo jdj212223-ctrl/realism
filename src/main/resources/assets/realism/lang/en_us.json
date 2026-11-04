@@ -83,5 +83,18 @@
   "realism.splint.done": "Splinted. Your leg will heal 3x faster.",
   "realism.fiberglass.itch": "Itchy! Don't touch fiberglass with bare hands.",
   "realism.fiberglass.cough": "*cough cough* Wear a helmet/mask when breaking fiberglass!",
-  "realism.fiberglass.eat": "THAT'S NOT COTTON CANDY!!"
+  "realism.fiberglass.eat": "THAT'S NOT COTTON CANDY!!",
+  "block.realism.game_console": "Game Console",
+  "block.realism.television": "Television",
+  "item.realism.calendar": "Calendar",
+  "item.realism.therapy_voucher": "Therapy Session",
+  "realism.mood.1": "You're feeling down. Friends, pets, music or a good game might help.",
+  "realism.mood.2": "You're feeling really low. Spend time with friends, rest, or see a Doctor for therapy. It gets better.",
+  "realism.hud.mood": "Mood %s%%",
+  "realism.console.fun": "You played some games. That was fun!",
+  "realism.console.again": "You just played. Give it a minute.",
+  "realism.tv.fun": "You watched a show and laughed a lot.",
+  "realism.tv.again": "You just watched something. Give it a minute.",
+  "realism.therapy.done": "You talked things through with the Doctor and feel much lighter. (In real life too: talking to someone you trust really helps.)",
+  "realism.calendar": "Today is %s. Minecraft day %s."
 }

@@ -76,6 +76,16 @@ public final class Hospital {
     public static final DeferredItem<Item> BURN_CREAM = ITEMS.register("burn_cream", () -> new Treatment(new Item.Properties().stacksTo(16), true));
     public static final DeferredItem<Item> SPLINT = ITEMS.register("splint", () -> new Treatment(new Item.Properties().stacksTo(8), false));
 
+    // Phase 4 (the mind) things live here too, so all the mod's blocks and items share one register.
+    public static final DeferredBlock<Block> GAME_CONSOLE = BLOCKS.register("game_console",
+            () -> new Mind.FunBlock(BlockBehaviour.Properties.of().strength(1.0f).sound(SoundType.STONE), "console"));
+    public static final DeferredBlock<Block> TELEVISION = BLOCKS.register("television",
+            () -> new Mind.FunBlock(BlockBehaviour.Properties.of().strength(1.0f).sound(SoundType.GLASS).lightLevel(s -> 7), "tv"));
+    public static final DeferredItem<BlockItem> GAME_CONSOLE_ITEM = ITEMS.registerSimpleBlockItem(GAME_CONSOLE);
+    public static final DeferredItem<BlockItem> TELEVISION_ITEM = ITEMS.registerSimpleBlockItem(TELEVISION);
+    public static final DeferredItem<Item> CALENDAR = ITEMS.register("calendar", () -> new Mind.Paper(new Item.Properties().stacksTo(1), false));
+    public static final DeferredItem<Item> THERAPY_VOUCHER = ITEMS.register("therapy_voucher", () -> new Mind.Paper(new Item.Properties().stacksTo(8), true));
+
     private static final ResourceKey<PoiType> DOCTOR_POI = ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE,
             ResourceLocation.fromNamespaceAndPath(Realism.MODID, "doctor"));
     public static final Supplier<PoiType> DOCTOR_POI_TYPE = POIS.register("doctor",
@@ -103,6 +113,14 @@ public final class Hospital {
             event.accept(OPERATING_TABLE_ITEM.get());
         }
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) event.accept(FIBERGLASS_ITEM.get());
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+            event.accept(GAME_CONSOLE_ITEM.get());
+            event.accept(TELEVISION_ITEM.get());
+        }
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            event.accept(CALENDAR.get());
+            event.accept(THERAPY_VOUCHER.get());
+        }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(BURN_CREAM.get());
             event.accept(SPLINT.get());
@@ -125,6 +143,7 @@ public final class Hospital {
         t.get(2).add((trader, rand) -> new MerchantOffer(new ItemCost(Items.EMERALD, 3), new ItemStack(RealismItems.TOURNIQUET.get()), 8, 5, 0.05f));
         t.get(3).add((trader, rand) -> new MerchantOffer(new ItemCost(Items.EMERALD, 2), new ItemStack(RealismItems.SYRINGE.get(), 3), 12, 10, 0.05f));
         t.get(3).add((trader, rand) -> new MerchantOffer(new ItemCost(Items.WHITE_WOOL, 4), new ItemStack(Items.EMERALD), 16, 10, 0.05f));
+        t.get(2).add((trader, rand) -> new MerchantOffer(new ItemCost(Items.EMERALD, 4), new ItemStack(THERAPY_VOUCHER.get()), 8, 5, 0.05f));
     }
 
     // ---- Surgery ----

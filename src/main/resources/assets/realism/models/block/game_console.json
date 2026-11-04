@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "realism:block/game_console_top",
+    "bottom": "realism:block/game_console_side",
+    "side": "realism:block/game_console_side"
+  }
+}

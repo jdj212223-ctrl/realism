@@ -83,5 +83,18 @@
   "realism.splint.done": "Dlaha nasazena. Noha se zahojí 3x rychleji.",
   "realism.fiberglass.itch": "Svědí to! Na skelnou vatu nesahej holou rukou.",
   "realism.fiberglass.cough": "*kašel* Při bourání skelné vaty nos helmu/roušku!",
-  "realism.fiberglass.eat": "TO NENÍ CUKROVÁ VATA!!"
+  "realism.fiberglass.eat": "TO NENÍ CUKROVÁ VATA!!",
+  "block.realism.game_console": "Herní konzole",
+  "block.realism.television": "Televize",
+  "item.realism.calendar": "Kalendář",
+  "item.realism.therapy_voucher": "Terapie",
+  "realism.mood.1": "Je ti smutno. Pomoct můžou kamarádi, mazlíček, hudba nebo dobrá hra.",
+  "realism.mood.2": "Je ti hodně špatně. Buď s kamarády, odpočiň si, nebo zajdi k doktorovi na terapii. Zlepší se to.",
+  "realism.hud.mood": "Nálada %s%%",
+  "realism.console.fun": "Zahrál/a sis hry. To byla zábava!",
+  "realism.console.again": "Zrovna jsi hrál/a. Dej tomu chvilku.",
+  "realism.tv.fun": "Díval/a ses na pořad a hodně ses nasmál/a.",
+  "realism.tv.again": "Zrovna ses díval/a. Dej tomu chvilku.",
+  "realism.therapy.done": "Promluvil/a sis s doktorem a je ti mnohem líp. (I ve skutečnosti: promluvit si s někým, komu věříš, opravdu pomáhá.)",
+  "realism.calendar": "Dnes je %s. Minecraftový den %s."
 }

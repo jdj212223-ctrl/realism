@@ -1,6 +1,7 @@
 package com.jdj125.realism.client;
 
 import com.jdj125.realism.BodySync;
+import com.jdj125.realism.Mind;
 import com.jdj125.realism.Realism;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -53,6 +54,11 @@ public final class BodyHud {
             y += 8;
         }
         int f = s.injuries();
+        if (s.mood() < 50) {
+            float danger = s.mood() < Mind.DEPRESSED ? 1 : s.mood() < Mind.LOW ? 0.7f : 0.4f;
+            g.drawString(font, Component.translatable("realism.hud.mood", s.mood()), x, y, color(danger));
+            y += 10;
+        }
         if (s.blood() < 4.95f || (f & (BodySync.BLEED_LIGHT | BodySync.BLEED_HEAVY | BodySync.BLEED_SEVERE)) != 0) {
             float danger = s.blood() <= 2.6f ? 1 : s.blood() <= 3.5f ? 0.7f : s.blood() <= 4.2f ? 0.4f : 0;
             g.drawString(font, Component.translatable("realism.hud.blood", String.format(java.util.Locale.ROOT, "%.1f", s.blood()), s.bloodType()),
