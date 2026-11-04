@@ -27,12 +27,23 @@ Real life in Minecraft (NeoForge 1.21.1), built in phases.
 
 Blocky pixel blood particles while bleeding: turn them off with `bloodParticles = false`.
 
+## Phase 3: the hospital 🏥
+
+| Thing | What it does |
+|---|---|
+| 🩺 Doctor | A new villager job. Give a villager a **Medical Station** (white concrete, red dye, iron) and they become a Doctor who sells bandages, burn cream, splints, tourniquets and syringes. |
+| 🛏️ Operating Table | Right-click it with a **Doctor within 8 blocks** and **3 emeralds**: surgery fixes broken legs, torn muscles, burns and frostbite, stops bleeding and gives back half a liter of blood. You wake up groggy. |
+| 🧴 Burn cream | Heals 1st and 2nd degree burns; a 3rd degree burn heals twice as fast. Honey bottle + slime ball. |
+| 🪵 Splint | A broken leg heals 3x faster. Stick, bandage, stick. |
+| 🦴 Broken neck | Falling 23+ blocks onto rock breaks your neck. No surviving that. |
+| 🩷 Fiberglass insulation | Pink wall fluff (glass + 2 pink wool = 4). Touch it bare-handed and you itch; break it with no helmet and you cough. It looks like cotton candy. **It is not cotton candy.** |
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 
 **Config** (`serverconfig/realism-server.toml`): days for thirst/sleep, real-life days instead of Minecraft days,
 and on/off for each rule.
 
-Coming next: the hospital (doctors, surgeons, Chromeflesh surgery, no reviving after serious injuries), then eras, computers, countries...
+Coming next: Chromeflesh surgery, no reviving after serious injuries, then eras, computers, countries...
 
 MIT license.

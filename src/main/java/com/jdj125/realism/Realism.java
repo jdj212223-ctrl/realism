@@ -21,7 +21,8 @@ import java.util.function.Supplier;
 /**
  * Realism: real life in Minecraft, built in phases. Phase 1 is the body: thirst, sleep, stamina and exhaustion,
  * muscle tears, broken legs, burns and frostbite ({@link BodyEvents}). Phase 2 is blood: bleeding, blood types,
- * bandages, tourniquets and transfusions ({@link Blood}, {@link RealismItems}).
+ * bandages, tourniquets and transfusions ({@link Blood}, {@link RealismItems}). Phase 3 is the hospital: Doctor
+ * villagers, surgery on the Operating Table, burn cream, splints and fiberglass insulation ({@link Hospital}).
  */
 @Mod(Realism.MODID)
 public class Realism {
@@ -36,15 +37,17 @@ public class Realism {
 
     public static final ResourceKey<DamageType> DEHYDRATION = damage("dehydration"), SLEEPLESSNESS = damage("sleeplessness"),
             EXHAUSTION = damage("exhaustion"), BURN = damage("burn"), FROSTBITE = damage("frostbite"),
-            BLED_OUT = damage("bled_out");
+            BLED_OUT = damage("bled_out"), BROKEN_NECK = damage("broken_neck");
 
     public Realism(IEventBus modBus, ModContainer container) {
         ATTACHMENTS.register(modBus);
         RealismItems.register(modBus);
+        Hospital.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
         modBus.addListener(Realism::registerPayloads);
         NeoForge.EVENT_BUS.register(BodyEvents.class);
         NeoForge.EVENT_BUS.register(Blood.class);
+        NeoForge.EVENT_BUS.register(Hospital.class);
         NeoForge.EVENT_BUS.addListener(RealismCommand::register);
     }
 

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SPS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "P": {
+      "item": "realism:bandage"
+    }
+  },
+  "result": {
+    "id": "realism:splint",
+    "count": 1
+  }
+}

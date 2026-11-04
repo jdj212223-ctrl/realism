@@ -41,7 +41,7 @@ import java.lang.reflect.Method;
  * <li>Sleep: sleep through a night or die after sleepDays awake, with hallucinations near the end.</li>
  * <li>Stamina: sprinting and hard work drain it; pushing on with none left blacks you out, then kills.</li>
  * <li>Muscle tears: mining or hitting too fast tears your arm (weaker, slower) for days.</li>
- * <li>Broken legs: big falls break them, worse on rock.</li>
+ * <li>Broken legs: big falls break them, worse on rock. A fall of 23+ blocks onto rock breaks your neck.</li>
  * <li>Burns: punching a working furnace bare-handed is a 1st-3rd degree burn; a Cold Sweat boiler is 3rd degree.</li>
  * <li>Frostbite: freezing too long in Cold Sweat.</li>
  * </ul>
@@ -250,6 +250,12 @@ public final class BodyEvents {
         BlockState landed = p.level().getBlockState(BlockPos.containing(p.getX(), p.getY() - 0.2, p.getZ()));
         boolean rock = !soft(landed);
         float d = event.getDistance();
+        // A huge fall onto something hard breaks your neck: no surviving that.
+        if (d >= 23 && rock) {
+            say(p, "neck");
+            die(p, Realism.BROKEN_NECK);
+            return;
+        }
         if (rock) event.setDamageMultiplier(event.getDamageMultiplier() * 1.5f);
         float chance = d >= 12 ? 1 : (d - 6) / 6f * (rock ? 1.5f : 1);
         if (p.getRandom().nextFloat() < chance) {

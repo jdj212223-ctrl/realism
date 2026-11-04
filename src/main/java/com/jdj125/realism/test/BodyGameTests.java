@@ -2,6 +2,7 @@ package com.jdj125.realism.test;
 
 import com.jdj125.realism.Blood;
 import com.jdj125.realism.Body;
+import com.jdj125.realism.Hospital;
 import com.jdj125.realism.BodyEvents;
 import com.jdj125.realism.Realism;
 import com.jdj125.realism.RealismConfig;
@@ -127,6 +128,26 @@ public class BodyGameTests {
             helper.assertTrue(Blood.transfuse(p, "O-"), "O- into A+ works");
             helper.assertTrue(Math.abs(b.blood - 4.3f) < 0.01f, "adds half a liter, got " + b.blood);
             helper.assertFalse(Blood.transfuse(p, "B+"), "B+ into A+ is a reaction");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
+    public static void surgeryFixesSeriousInjuries(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            Body b = BodyEvents.body(p);
+            b.brokenLeg = 99999;
+            b.armTear = 99999;
+            b.badTear = true;
+            b.burn = 99999;
+            b.burnDegree = 3;
+            b.frostbite = 99999;
+            b.bleeding = 3;
+            b.blood = 3.0f;
+            Hospital.operate(p);
+            helper.assertTrue(b.brokenLeg == 0 && b.armTear == 0 && !b.badTear && b.burn == 0 && b.frostbite == 0 && b.bleeding == 0,
+                    "surgery fixes every serious injury");
+            helper.assertTrue(b.blood > 3.0f, "surgery gives some blood back");
             helper.succeed();
         });
     }
