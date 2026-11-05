@@ -91,12 +91,16 @@ Turn it all off with `noReviving = false`. **Back up your world first!**
 | 📱 Phone | Text other online players, see the time, your balance and country. Both of you need a phone and signal. Texts arrive as server messages, so chat filters don't hide them. |
 | 📡 Signal Tower | Phones work within 160 blocks of one. |
 
+## 0.8.1: hospitals in the world 🏥
+
+Hospital buildings now generate in plains, forests, taiga, savanna, meadows and snowy biomes (only in new chunks). Each has a Doctor, an Operating Table, a Medical Station, 2 hospital beds, an AED wall case with a defibrillator, and a supply chest. Find one with `/locate structure realism:hospital`. The Ambulance Radio now rushes patients to these hospitals too.
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 
 **Config** (`serverconfig/realism-server.toml`): days for thirst/sleep, real-life days instead of Minecraft days,
 and on/off for each rule.
 
-Coming next: a drivable ambulance, hospital buildings in the world, radiation and diseases, electricity, eras...
+Coming next: a drivable ambulance, Chromeflesh surgery, radiation and diseases, electricity, eras...
 
 MIT license.

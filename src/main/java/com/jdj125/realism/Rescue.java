@@ -268,6 +268,7 @@ public final class Rescue {
                 return InteractionResultHolder.fail(stack);
             }
             BlockPos table = Tables.get(sl).nearest(player.blockPosition(), 512);
+            if (table == null) table = findHospital(sl, player.blockPosition());
             if (table == null) {
                 say(player, "ambulance.no_hospital");
                 return InteractionResultHolder.fail(stack);
@@ -285,6 +286,27 @@ public final class Rescue {
             player.getCooldowns().addCooldown(this, 20 * 30);
             return InteractionResultHolder.consume(stack);
         }
+    }
+
+    /**
+     * Finds the nearest hospital building that generated in the world (it isn't in {@link Tables}, since no player
+     * placed its Operating Table), and remembers its table for next time.
+     */
+    static BlockPos findHospital(ServerLevel sl, BlockPos from) {
+        var key = net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.STRUCTURE,
+                ResourceLocation.fromNamespaceAndPath(Realism.MODID, "hospital"));
+        var holder = sl.registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.STRUCTURE).getHolder(key);
+        if (holder.isEmpty()) return null;
+        var found = sl.getChunkSource().getGenerator().findNearestMapStructure(sl, net.minecraft.core.HolderSet.direct(holder.get()), from, 32, false);
+        if (found == null) return null;
+        BlockPos center = found.getFirst();
+        for (BlockPos p : BlockPos.betweenClosed(center.offset(-20, -10, -20), center.offset(20, 30, 20)))
+            if (sl.getBlockState(p).is(Hospital.OPERATING_TABLE.get())) {
+                BlockPos table = p.immutable();
+                Tables.get(sl).add(table);
+                return table;
+            }
+        return null;
     }
 
     /** Remembers where Operating Tables are in each world, so the ambulance knows where the hospital is. */

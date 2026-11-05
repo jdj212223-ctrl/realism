@@ -286,6 +286,15 @@ public class BodyGameTests {
         });
     }
 
+    @GameTest(template = "hospital", timeoutTicks = 60)
+    public static void hospitalBuildingHasEverything(GameTestHelper helper) {
+        helper.assertBlockPresent(Hospital.OPERATING_TABLE.get(), 6, 2, 6); // test structures sit 1 block higher
+        helper.assertBlockPresent(Hospital.MEDICAL_STATION.get(), 6, 2, 9);
+        helper.assertBlockPresent(Rescue.AED_HOLDER.get(), 1, 2, 1);
+        helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.CHEST, 10, 2, 8);
+        helper.succeedWhen(() -> helper.assertEntityPresent(net.minecraft.world.entity.EntityType.VILLAGER));
+    }
+
     @GameTest(template = "arena", timeoutTicks = 120)
     public static void exhaustionKillsWhenPushing(GameTestHelper helper) {
         withPlayer(helper, p -> {
