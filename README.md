@@ -95,6 +95,10 @@ Turn it all off with `noReviving = false`. **Back up your world first!**
 
 Hospital buildings now generate in plains, forests, taiga, savanna, meadows and snowy biomes (only in new chunks). Each has a Doctor, an Operating Table, a Medical Station, 2 hospital beds, an AED wall case with a defibrillator, and a supply chest. Find one with `/locate structure realism:hospital`. The Ambulance Radio now rushes patients to these hospitals too.
 
+## 0.8.2: call the ambulance 📱🚑
+
+The phone has a **🚑 Call ambulance** button, and there's an `/ambulance` command (no cheats needed): with a phone and signal, the nearest collapsed player within 256 blocks is rushed to the nearest hospital. The COLLAPSED alarm now includes coordinates. Computers no longer lag on the retro desktops.
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 

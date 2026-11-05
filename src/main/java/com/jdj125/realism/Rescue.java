@@ -286,7 +286,13 @@ public final class Rescue {
             say(caller, "ambulance.nobody");
             return "nobody";
         }
-        BlockPos table = Tables.get(sl).nearest(patient.blockPosition(), 1024);
+        // The nearest remembered table that is really still there (one blown up or /fill-ed away is forgotten).
+        Tables tables = Tables.get(sl);
+        BlockPos table = tables.nearest(patient.blockPosition(), 1024);
+        while (table != null && !sl.getBlockState(table).is(Hospital.OPERATING_TABLE.get())) {
+            tables.remove(table);
+            table = tables.nearest(patient.blockPosition(), 1024);
+        }
         if (table == null) table = findHospital(sl, patient.blockPosition());
         if (table == null) {
             say(caller, "ambulance.no_hospital");
