@@ -234,10 +234,16 @@ public class BodyGameTests {
     }
 
     @GameTest(template = "arena", timeoutTicks = 120)
-    public static void brokenNeckSkipsTheCollapse(GameTestHelper helper) {
+    public static void brokenNeckIsSeriousButSurvivable(GameTestHelper helper) {
         withPlayer(helper, p -> {
-            p.hurt(Realism.source(p, Realism.BROKEN_NECK), Float.MAX_VALUE);
-            helper.assertTrue(p.getHealth() <= 0 && !Rescue.collapsed(p), "a broken neck is instant");
+            Body b = BodyEvents.body(p);
+            b.brokenNeck = true;
+            b.paralysed = true;
+            second(p);
+            helper.assertTrue(p.getHealth() > 0 && !Rescue.collapsed(p), "a broken neck doesn't kill you by itself");
+            helper.assertTrue(p.hasEffect(net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN), "but you can barely move");
+            Hospital.operate(p);
+            helper.assertTrue(!b.brokenNeck && !b.paralysed, "surgery fixes the neck and the spinal cord");
             helper.succeed();
         });
     }

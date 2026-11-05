@@ -42,6 +42,8 @@ public class Body implements INBTSerializable<CompoundTag> {
     /** Defibrillator progress on this patient (0 none, 1 charged, 2 cleared) and the game time of the last step. */
     public int defibStep;
     public long defibTime;
+    /** A broken neck (until surgery), and spinal cord damage on top of it: paralysed until surgery. */
+    public boolean brokenNeck, paralysed;
     /** The last warning stage shown for thirst and sleep, so each warning is said once. */
     public int thirstStage, sleepStage;
 
@@ -68,6 +70,8 @@ public class Body implements INBTSerializable<CompoundTag> {
         t.putInt("moodStage", moodStage);
         t.putInt("funCooldown", funCooldown);
         t.putInt("collapse", collapse);
+        t.putBoolean("brokenNeck", brokenNeck);
+        t.putBoolean("paralysed", paralysed);
         t.putInt("unconscious", unconscious);
         return t;
     }
@@ -94,6 +98,8 @@ public class Body implements INBTSerializable<CompoundTag> {
         moodStage = t.getInt("moodStage");
         funCooldown = t.getInt("funCooldown");
         collapse = t.getInt("collapse");
+        brokenNeck = t.getBoolean("brokenNeck");
+        paralysed = t.getBoolean("paralysed");
         unconscious = t.getInt("unconscious");
     }
 }

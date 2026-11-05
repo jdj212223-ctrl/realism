@@ -70,8 +70,8 @@ import java.util.function.Supplier;
  * <li>an Ambulance Radio: used near the patient, it rushes them to the nearest Operating Table, and if a Doctor is
  * there they get surgery straight away.</li>
  * </ul>
- * If nobody makes it, you're gone for good (spectator, or start over as a new person, per config). A broken neck,
- * the void or /kill skip the collapse. While collapsed you can't be hurt again: the clock decides.
+ * If nobody makes it, you're gone for good (spectator, or start over as a new person, per config). The void and
+ * /kill skip the collapse. While collapsed you can't be hurt again: the clock decides.
  */
 public final class Rescue {
     private static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Realism.MODID);
@@ -114,7 +114,7 @@ public final class Rescue {
     // ---- Collapsing instead of dying ----
 
     private static boolean skipsCollapse(DamageSource src) {
-        return src.is(Realism.BROKEN_NECK) || src.is(DamageTypes.FELL_OUT_OF_WORLD) || src.is(DamageTypes.GENERIC_KILL);
+        return src.is(DamageTypes.FELL_OUT_OF_WORLD) || src.is(DamageTypes.GENERIC_KILL);
     }
 
     @SubscribeEvent

@@ -72,8 +72,8 @@ public final class BodyHud {
                     x, y, color(danger));
             y += 10;
         }
-        String[] keys = {"bleed1", "bleed2", "bleed3", "tourniquet", "leg", "tear", "burn1", "burn2", "burn3", "frostbite", "tear_bad"};
-        int[] bits = {BodySync.BLEED_LIGHT, BodySync.BLEED_HEAVY, BodySync.BLEED_SEVERE, BodySync.TOURNIQUET, BodySync.BROKEN_LEG,
+        String[] keys = {"neck", "paralysed", "bleed1", "bleed2", "bleed3", "tourniquet", "leg", "tear", "burn1", "burn2", "burn3", "frostbite", "tear_bad"};
+        int[] bits = {BodySync.BROKEN_NECK, BodySync.PARALYSED, BodySync.BLEED_LIGHT, BodySync.BLEED_HEAVY, BodySync.BLEED_SEVERE, BodySync.TOURNIQUET, BodySync.BROKEN_LEG,
                 BodySync.ARM_TEAR, BodySync.BURN1, BodySync.BURN2, BodySync.BURN3, BodySync.FROSTBITE, BodySync.BAD_TEAR};
         for (int i = 0; i < bits.length; i++) {
             if ((f & bits[i]) == 0 || (bits[i] == BodySync.ARM_TEAR && (f & BodySync.BAD_TEAR) != 0)) continue;

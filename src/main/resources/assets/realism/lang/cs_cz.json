@@ -64,7 +64,7 @@
   "item.realism.syringe.tip": "Odebere 0,5 l krve do krevního vaku (sobě nebo hráči).",
   "item.realism.blood_bag.tip": "Dodá 0,5 l krve. Krevní skupina musí sedět!",
   "death.attack.realism.broken_neck": "%1$s si zlomil/a vaz",
-  "realism.neck": "Při dopadu sis zlomil/a vaz.",
+  "realism.neck": "KŘUP! Zlomil/a sis krk. Moc se nehýbej a jdi do nemocnice na operaci!",
   "block.realism.medical_station": "Lékařská stanice",
   "block.realism.operating_table": "Operační stůl",
   "block.realism.fiberglass_insulation": "Skelná vata",
@@ -153,5 +153,8 @@
   "realism.ambulance.no_hospital": "Nemocnice nenalezena (postav operační stůl).",
   "realism.ambulance.sent": "Záchranka veze hráče %s do nemocnice!",
   "realism.ambulance.surgery": "Akutní operace. Zvládl/a jsi to.",
-  "realism.ambulance.no_doctor": "Jsi v nemocnici, ale není tu doktor! Někdo tě musí defibrilovat."
+  "realism.ambulance.no_doctor": "Jsi v nemocnici, ale není tu doktor! Někdo tě musí defibrilovat.",
+  "realism.neck.paralysed": "Zlomil/a sis krk a nemůžeš pohnout tělem! Někdo tě musí dostat k chirurgovi.",
+  "realism.hud.neck": "Zlomený krk (nutná operace)",
+  "realism.hud.paralysed": "Ochrnutí (poranění míchy)"
 }

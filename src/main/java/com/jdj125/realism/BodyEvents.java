@@ -41,7 +41,8 @@ import java.lang.reflect.Method;
  * <li>Sleep: sleep through a night or die after sleepDays awake, with hallucinations near the end.</li>
  * <li>Stamina: sprinting and hard work drain it; pushing on with none left blacks you out, then kills.</li>
  * <li>Muscle tears: mining or hitting too fast tears your arm (weaker, slower) for days.</li>
- * <li>Broken legs: big falls break them, worse on rock. A fall of 23+ blocks onto rock breaks your neck.</li>
+ * <li>Broken legs: big falls break them, worse on rock. A fall of 23+ blocks onto rock can break your neck (and
+ * sometimes paralyse you) until surgery.</li>
  * <li>Burns: punching a working furnace bare-handed is a 1st-3rd degree burn; a Cold Sweat boiler is 3rd degree.</li>
  * <li>Frostbite: freezing too long in Cold Sweat.</li>
  * </ul>
@@ -101,7 +102,8 @@ public final class BodyEvents {
                 | (b.burn > 0 ? (b.burnDegree == 1 ? BodySync.BURN1 : b.burnDegree == 2 ? BodySync.BURN2 : BodySync.BURN3) : 0)
                 | (b.bleeding == 1 ? BodySync.BLEED_LIGHT : b.bleeding == 2 ? BodySync.BLEED_HEAVY : b.bleeding == 3 ? BodySync.BLEED_SEVERE : 0)
                 | (b.tourniquet > 0 ? BodySync.TOURNIQUET : 0) | (b.collapse > 0 ? BodySync.COLLAPSED : 0)
-                | (b.unconscious > 0 ? BodySync.UNCONSCIOUS : 0) | (Math.round(b.mood) << 16);
+                | (b.unconscious > 0 ? BodySync.UNCONSCIOUS : 0) | (b.brokenNeck ? BodySync.BROKEN_NECK : 0)
+                | (b.paralysed ? BodySync.PARALYSED : 0) | (Math.round(b.mood) << 16);
         return new BodySync(Math.min(1f, b.thirst / (float) limitT), Math.min(1f, b.awake / (float) limitS), b.stamina, flags,
                 b.blood, p.getData(Realism.BLOOD_TYPE));
     }
@@ -257,11 +259,13 @@ public final class BodyEvents {
         BlockState landed = p.level().getBlockState(BlockPos.containing(p.getX(), p.getY() - 0.2, p.getZ()));
         boolean rock = !soft(landed);
         float d = event.getDistance();
-        // A huge fall onto something hard breaks your neck: no surviving that.
+        // A huge fall onto something hard can break your neck. Like in real life that's serious but not always fatal:
+        // you need surgery, and sometimes the spinal cord is hurt too and you can't move until then.
         if (d >= 23 && rock) {
-            say(p, "neck");
-            die(p, Realism.BROKEN_NECK);
-            return;
+            Body b = body(p);
+            b.brokenNeck = true;
+            if (p.getRandom().nextFloat() < 0.3f) b.paralysed = true;
+            say(p, b.paralysed ? "neck.paralysed" : "neck");
         }
         if (rock) event.setDamageMultiplier(event.getDamageMultiplier() * 1.5f);
         float chance = d >= 12 ? 1 : (d - 6) / 6f * (rock ? 1.5f : 1);
@@ -342,6 +346,12 @@ public final class BodyEvents {
     // ---- Injury effects and healing ----
 
     private static void injuries(ServerPlayer p, Body b) {
+        if (b.brokenNeck) {
+            keep(p, MobEffects.MOVEMENT_SLOWDOWN, b.paralysed ? 10 : 1);
+            keep(p, MobEffects.JUMP, 250);
+            keep(p, MobEffects.DIG_SLOWDOWN, 1);
+            p.setSprinting(false);
+        }
         if (b.brokenLeg > 0) {
             b.brokenLeg = Math.max(0, b.brokenLeg - SECOND);
             keep(p, MobEffects.MOVEMENT_SLOWDOWN, 2);

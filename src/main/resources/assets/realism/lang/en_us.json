@@ -64,7 +64,7 @@
   "item.realism.syringe.tip": "Draws 0.5 l of blood into a blood bag (yourself or a player).",
   "item.realism.blood_bag.tip": "Gives 0.5 l of blood. The blood type must match!",
   "death.attack.realism.broken_neck": "%1$s broke their neck",
-  "realism.neck": "Your neck broke on impact.",
+  "realism.neck": "CRACK! You broke your neck. Don't move much and get to a hospital for surgery!",
   "block.realism.medical_station": "Medical Station",
   "block.realism.operating_table": "Operating Table",
   "block.realism.fiberglass_insulation": "Fiberglass Insulation",
@@ -153,5 +153,8 @@
   "realism.ambulance.no_hospital": "No hospital found (place an Operating Table).",
   "realism.ambulance.sent": "The ambulance rushes %s to the hospital!",
   "realism.ambulance.surgery": "Emergency surgery. You made it.",
-  "realism.ambulance.no_doctor": "You're at the hospital, but there's no Doctor! Someone has to defib you."
+  "realism.ambulance.no_doctor": "You're at the hospital, but there's no Doctor! Someone has to defib you.",
+  "realism.neck.paralysed": "You broke your neck and can't move your body! Someone needs to get you to a surgeon.",
+  "realism.hud.neck": "Broken neck (needs surgery)",
+  "realism.hud.paralysed": "Paralysed (spinal cord injury)"
 }

@@ -35,7 +35,7 @@ Blocky pixel blood particles while bleeding: turn them off with `bloodParticles 
 | 🛏️ Operating Table | Right-click it with a **Doctor within 8 blocks** and **3 emeralds**: surgery fixes broken legs, torn muscles, burns and frostbite, stops bleeding and gives back half a liter of blood. You wake up groggy. |
 | 🧴 Burn cream | Heals 1st and 2nd degree burns; a 3rd degree burn heals twice as fast. Honey bottle + slime ball. |
 | 🪵 Splint | A broken leg heals 3x faster. Stick, bandage, stick. |
-| 🦴 Broken neck | Falling 23+ blocks onto rock breaks your neck. No surviving that. |
+| 🦴 Broken neck | Falling 23+ blocks onto rock can break your neck: very slow, no sprinting or jumping, until surgery. Sometimes the spinal cord is hurt too and you're paralysed until surgery. (Like in real life, a broken neck isn't always fatal.) |
 | 🩷 Fiberglass insulation | Pink wall fluff (glass + 2 pink wool = 4). Touch it bare-handed and you itch; break it with no helmet and you cough. It looks like cotton candy. **It is not cotton candy.** |
 
 ## Phase 4: the mind 🧠
@@ -67,7 +67,7 @@ Blocky pixel blood particles while bleeding: turn them off with `bloodParticles 
 | ⚡ Defibrillator | Hold it, look at the collapsed player (within 3 blocks), press **charge → clear → shock** (Z, X, C by default; rebind in Controls). Copper, redstone, iron and a lightning rod. |
 | 🗄️ AED Wall Case | Keep a defibrillator on the wall: right-click with it to store it, empty hand to grab it. |
 | 🚑 Ambulance Radio | Use it near a collapsed player: they're rushed to the nearest Operating Table, and if a Doctor is there they get emergency surgery. |
-| 💀 Gone for good | Nobody saved you in time? You really die and become a **spectator** (or start over as a new person with `permaDeathSpectator = false`). A broken neck, the void and /kill skip the collapse. |
+| 💀 Gone for good | Nobody saved you in time? You really die and become a **spectator** (or start over as a new person with `permaDeathSpectator = false`). The void and /kill skip the collapse. |
 | ⚫ Black screen | Your screen is pitch black while collapsed, asleep, or under surgery. |
 
 Turn it all off with `noReviving = false`. **Back up your world first!**

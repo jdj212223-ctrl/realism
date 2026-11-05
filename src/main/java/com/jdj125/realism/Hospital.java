@@ -152,6 +152,8 @@ public final class Hospital {
     public static void operate(Player p) {
         Body b = BodyEvents.body(p);
         b.brokenLeg = 0;
+        b.brokenNeck = false;
+        b.paralysed = false;
         b.armTear = 0;
         b.badTear = false;
         b.burn = 0;
@@ -168,7 +170,7 @@ public final class Hospital {
     }
 
     static boolean needsSurgery(Body b) {
-        return b.brokenLeg > 0 || b.armTear > 0 || b.burn > 0 || b.frostbite > 0 || b.bleeding > 0 || b.blood < Blood.PALE;
+        return b.brokenNeck || b.brokenLeg > 0 || b.armTear > 0 || b.burn > 0 || b.frostbite > 0 || b.bleeding > 0 || b.blood < Blood.PALE;
     }
 
     static class OperatingTable extends Block {
