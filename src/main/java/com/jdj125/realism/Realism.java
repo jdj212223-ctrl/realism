@@ -26,6 +26,7 @@ import java.util.function.Supplier;
  * Phase 4 is the mind: mood and depression, games, TV, therapy and a real-date calendar ({@link Mind}). Phase 5 is
  * tech: build your own PC from parts, operating systems, laptops and the AI data center ({@link Tech}). Phase 6 is
  * no reviving: you collapse instead of dying, and someone must defib you or call an ambulance in time ({@link Rescue}).
+ * Phase 7 is real computers with apps ({@link Tech}). Phase 8 is the world: countries, money and phones ({@link World}).
  */
 @Mod(Realism.MODID)
 public class Realism {
@@ -37,6 +38,9 @@ public class Realism {
     /** Your blood type ("" until picked): kept for good, even after death. */
     public static final Supplier<AttachmentType<String>> BLOOD_TYPE = ATTACHMENTS.register("blood_type",
             () -> AttachmentType.builder(() -> "").serialize(com.mojang.serialization.Codec.STRING).copyOnDeath().build());
+    /** Your bank balance (phase 8): kept after death, like a real bank account. */
+    public static final Supplier<AttachmentType<Long>> MONEY = ATTACHMENTS.register("money",
+            () -> AttachmentType.builder(() -> 0L).serialize(com.mojang.serialization.Codec.LONG).copyOnDeath().build());
     /** Set when a player died for good (no reviving); read once on respawn. */
     public static final Supplier<AttachmentType<Boolean>> GONE = ATTACHMENTS.register("gone",
             () -> AttachmentType.builder(() -> false).serialize(com.mojang.serialization.Codec.BOOL).copyOnDeath().build());
@@ -51,6 +55,7 @@ public class Realism {
         Hospital.register(modBus);
         Tech.register(modBus);
         Rescue.register(modBus);
+        World.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
         modBus.addListener(Realism::registerPayloads);
         NeoForge.EVENT_BUS.register(BodyEvents.class);
@@ -59,6 +64,8 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Mind.class);
         NeoForge.EVENT_BUS.register(Tech.class);
         NeoForge.EVENT_BUS.register(Rescue.class);
+        NeoForge.EVENT_BUS.register(World.class);
+        NeoForge.EVENT_BUS.addListener(World::commands);
         NeoForge.EVENT_BUS.addListener(RealismCommand::register);
     }
 
@@ -79,6 +86,13 @@ public class Realism {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Tech.save(sp, payload);
         }));
         r.playToServer(Tech.PlayGame.TYPE, Tech.PlayGame.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> Tech.playGame(ctx.player())));
+        r.playToClient(World.OpenPhone.TYPE, World.OpenPhone.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.PhoneScreen.open(payload)));
+        r.playToServer(World.SendText.TYPE, World.SendText.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) {
+                String result = World.text(sp, payload.to(), payload.text());
+                if (!result.equals("phone.ok")) sp.displayClientMessage(net.minecraft.network.chat.Component.translatable("realism." + result), true);
+            }
+        }));
         r.playToServer(Rescue.DefibStep.TYPE, Rescue.DefibStep.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp)
                 Rescue.defib(sp, payload.step(), sp.level().getEntity(payload.target()));

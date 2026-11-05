@@ -80,12 +80,23 @@ Turn it all off with `noReviving = false`. **Back up your world first!**
 | 💿 Software Discs | Buy them from the Tech Dealer and right-click a computer to install: **Paint** (16x16 pixel art, saved), **Snake** (a score of 3+ lifts your mood), **Music** (a little keyboard). |
 | 🍎 Ready-built lineup | 13 look-alikes of Macs through the years, with original pixel art and no Apple logo: Compact (1984), Color Compact (1993), Colorful All-in-One (1998), Cube (2000), Lamp (2002), Pro Tower (2006), Slim All-in-One (2012) and Mini Desktops M1 to M6 (the M6 is a "future" model). Every part is already inside; just give it redstone power. They face you when placed. |
 
+## Phase 8: the world 🗺️
+
+| Thing | What it does |
+|---|---|
+| 🏛️ Countries | `/country create <name>` founds a country and makes you its leader. `/country join`, `leave`, `info`, `list`. The leader sets the tax (`/country tax <0-50>`) and can take money from the treasury (`/country withdraw`). |
+| 🚩 Country Flag | Only the leader can place it. It claims the land around it (5x5 chunks). Walking in shows "Welcome to <country>!" |
+| 🏧 ATM | Right-click with emeralds: each one becomes 10 money (minus your country's tax). Deposit banknotes, sneak-right-click to take out a 100 banknote, empty hand to see your balance. Your bank account stays after death. |
+| 💸 /pay | `/pay <player> <amount>` |
+| 📱 Phone | Text other online players, see the time, your balance and country. Both of you need a phone and signal. Texts arrive as server messages, so chat filters don't hide them. |
+| 📡 Signal Tower | Phones work within 160 blocks of one. |
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 
 **Config** (`serverconfig/realism-server.toml`): days for thirst/sleep, real-life days instead of Minecraft days,
 and on/off for each rule.
 
-Coming next: a drivable ambulance, hospital buildings in the world, radiation and diseases, phones, countries and government...
+Coming next: a drivable ambulance, hospital buildings in the world, radiation and diseases, electricity, eras...
 
 MIT license.

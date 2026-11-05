@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "realism:block/signal_tower"
+  },
+  "render_type": "minecraft:cutout"
+}

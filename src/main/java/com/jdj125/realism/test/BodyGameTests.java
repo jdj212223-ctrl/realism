@@ -6,6 +6,7 @@ import com.jdj125.realism.Hospital;
 import com.jdj125.realism.Mind;
 import com.jdj125.realism.Tech;
 import com.jdj125.realism.Rescue;
+import com.jdj125.realism.World;
 import com.jdj125.realism.BodyEvents;
 import com.jdj125.realism.Realism;
 import com.jdj125.realism.RealismConfig;
@@ -258,6 +259,31 @@ public class BodyGameTests {
         helper.assertFalse(pc.hasApp(Tech.App.SNAKE), "Snake needs its disc");
         helper.assertTrue(Tech.MODEL_BLOCKS.size() == 13, "13 computers from 1984 to the M6");
         helper.succeed();
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
+    public static void countriesTaxMoneyAndPhonesNeedSignal(GameTestHelper helper) {
+        withPlayer(helper, leader -> {
+            @SuppressWarnings("removal") ServerPlayer friend = helper.makeMockServerPlayerInLevel();
+            World.Data data = World.Data.get(leader.serverLevel());
+            String name = "Testland" + leader.getId();
+            World.Country c = new World.Country(name, leader.getUUID());
+            c.tax = 20;
+            c.flags.add(leader.blockPosition());
+            data.countries.put(name.toLowerCase(), c);
+            helper.assertTrue(data.countryAt(leader.blockPosition()) == c, "the flag claims the land around it");
+            helper.assertTrue(data.countryAt(leader.blockPosition().offset(200, 0, 200)) != c, "but not far away");
+            long kept = World.earn(leader, 100);
+            helper.assertTrue(kept == 80 && c.treasury == 20 && World.balance(leader) == 80, "20% tax goes to the treasury");
+            helper.assertTrue(World.pay(leader, friend, 30) && World.balance(friend) == 30 && World.balance(leader) == 50, "paying moves money");
+            helper.assertFalse(World.pay(leader, friend, 999), "you can't pay more than you have");
+            helper.assertFalse(data.signal(leader.blockPosition().offset(5000, 0, 5000)), "no tower = no signal");
+            data.towers.add(leader.blockPosition());
+            helper.assertTrue(data.signal(leader.blockPosition()), "near a tower = signal");
+            data.towers.remove(leader.blockPosition());
+            data.countries.remove(name.toLowerCase());
+            helper.succeed();
+        });
     }
 
     @GameTest(template = "arena", timeoutTicks = 120)

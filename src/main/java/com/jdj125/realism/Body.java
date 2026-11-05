@@ -44,6 +44,8 @@ public class Body implements INBTSerializable<CompoundTag> {
     public long defibTime;
     /** A broken neck (until surgery), and spinal cord damage on top of it: paralysed until surgery. */
     public boolean brokenNeck, paralysed;
+    /** The country whose land you were last standing in ("" = none), for the "Welcome to..." message. Not saved. */
+    public String lastCountry = "";
     /** The last warning stage shown for thirst and sleep, so each warning is said once. */
     public int thirstStage, sleepStage;
 
