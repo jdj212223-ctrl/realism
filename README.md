@@ -72,6 +72,14 @@ Blocky pixel blood particles while bleeding: turn them off with `bloodParticles 
 
 Turn it all off with `noReviving = false`. **Back up your world first!**
 
+## Phase 7: real computers 🖥️
+
+| Thing | What it does |
+|---|---|
+| 🗂️ Apps | Every computer (PC, laptop, ready-built models) has a desktop with app icons: **Notes** (saved in the computer), **Calculator**, **Terminal** (`help`, `ls`, `date`, `whoami`, `echo`, `apps`, `neofetch`, `clear`). |
+| 💿 Software Discs | Buy them from the Tech Dealer and right-click a computer to install: **Paint** (16x16 pixel art, saved), **Snake** (a score of 3+ lifts your mood), **Music** (a little keyboard). |
+| 🍎 Ready-built lineup | 13 look-alikes of Macs through the years, with original pixel art and no Apple logo: Compact (1984), Color Compact (1993), Colorful All-in-One (1998), Cube (2000), Lamp (2002), Pro Tower (2006), Slim All-in-One (2012) and Mini Desktops M1 to M6 (the M6 is a "future" model). Every part is already inside; just give it redstone power. They face you when placed. |
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 

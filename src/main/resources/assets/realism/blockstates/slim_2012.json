@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "realism:block/slim_2012",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "realism:block/slim_2012",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "realism:block/slim_2012",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "realism:block/slim_2012",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "realism:block/mini_m2",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "realism:block/mini_m2",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "realism:block/mini_m2",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "realism:block/mini_m2",
+      "y": 270
+    }
+  }
+}

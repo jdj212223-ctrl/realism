@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "realism:block/lamp_2002",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "realism:block/lamp_2002",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "realism:block/lamp_2002",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "realism:block/lamp_2002",
+      "y": 270
+    }
+  }
+}

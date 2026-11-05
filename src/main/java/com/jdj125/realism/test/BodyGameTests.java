@@ -248,6 +248,18 @@ public class BodyGameTests {
         });
     }
 
+    @GameTest(template = "arena")
+    public static void readyBuiltMacsBootAndDiscsInstallApps(GameTestHelper helper) {
+        net.minecraft.core.BlockPos pos = new net.minecraft.core.BlockPos(3, 1, 3);
+        helper.setBlock(pos, Tech.MODEL_BLOCKS.get(0).get());
+        Tech.PcCaseEntity pc = (Tech.PcCaseEntity) helper.getBlockEntity(pos);
+        helper.assertTrue(pc.complete() && pc.has(Tech.Part.GPU_BRACKET), "a ready-built computer has every part");
+        helper.assertTrue(pc.hasApp(Tech.App.NOTES) && pc.hasApp(Tech.App.CALC) && pc.hasApp(Tech.App.TERMINAL), "it comes with Notes, Calculator, Terminal");
+        helper.assertFalse(pc.hasApp(Tech.App.SNAKE), "Snake needs its disc");
+        helper.assertTrue(Tech.MODEL_BLOCKS.size() == 13, "13 computers from 1984 to the M6");
+        helper.succeed();
+    }
+
     @GameTest(template = "arena", timeoutTicks = 120)
     public static void exhaustionKillsWhenPushing(GameTestHelper helper) {
         withPlayer(helper, p -> {

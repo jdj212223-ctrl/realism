@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "realism:block/slim_2012_front",
+    "side": "realism:block/slim_2012_side",
+    "top": "realism:block/slim_2012_side"
+  }
+}

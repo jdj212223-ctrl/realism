@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "realism:block/lamp_2002_front",
+    "side": "realism:block/lamp_2002_side",
+    "top": "realism:block/lamp_2002_side"
+  }
+}

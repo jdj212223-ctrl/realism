@@ -56,7 +56,9 @@ import java.util.function.Supplier;
  * Phase 5: tech. Buy parts from the Tech Dealer villager (job block: Tech Counter), install them one by one in a PC
  * Case by right-clicking it with each part, give it redstone power, and it boots into an operating system (sneak +
  * right-click with an empty hand switches OS). A GPU with no support bracket sags, and after a few boots it cracks.
- * The PC and the Laptop can play games for a mood boost. The AI Data Center eats RAM, GPUs and CPUs, and always wants
+ * Every computer has apps (Notes, Calculator, Terminal; Paint, Snake and Music from Software Discs) and saves your
+ * notes and drawings. Ready-built look-alikes of Macs through the years (1984 to the Mini Desktop M6) just need power.
+ * Games lift your mood. The AI Data Center eats RAM, GPUs and CPUs, and always wants
  * more (that's why GPUs and RAM cost so much).
  */
 public final class Tech {
@@ -69,6 +71,21 @@ public final class Tech {
     /** The parts a PC needs, in install order (the bracket is optional but saves your GPU). */
     public enum Part { MOTHERBOARD, CPU, RAM, GPU, STORAGE, POWER_SUPPLY, GPU_BRACKET }
 
+    /** Apps a computer can run. The first three come with every computer; the rest are installed from Software Discs. */
+    public enum App { NOTES, CALC, TERMINAL, PAINT, SNAKE, MUSIC }
+    public static final int DEFAULT_APPS = (1 << App.NOTES.ordinal()) | (1 << App.CALC.ordinal()) | (1 << App.TERMINAL.ordinal());
+    public static final int ALL_APPS = (1 << App.values().length) - 1;
+
+    /**
+     * Ready-built computers, look-alikes of real Macs through the years (original pixel art, no Apple logo, and named
+     * by what they are; the tooltip says which real Mac inspired each). Each boots its era's OS style.
+     */
+    public record Model(String id, int os) {}
+    public static final List<Model> MODELS = List.of(new Model("compact_1984", 0), new Model("color_classic_1993", 0),
+            new Model("colorful_1998", 0), new Model("cube_2000", 1), new Model("lamp_2002", 1), new Model("tower_2006", 1),
+            new Model("slim_2012", 1), new Model("mini_m1", 1), new Model("mini_m2", 1), new Model("mini_m3", 1),
+            new Model("mini_m4", 1), new Model("mini_m5", 1), new Model("mini_m6", 1));
+
     /** The operating systems a PC can run: original look-alikes (no real logos or artwork). */
     public static final String[] OSES = {"classic_mac", "mac_x", "be", "next", "windows", "linux"};
 
@@ -80,6 +97,9 @@ public final class Tech {
     public static final DeferredItem<Item> POWER_SUPPLY = part("power_supply", Part.POWER_SUPPLY);
     public static final DeferredItem<Item> GPU_BRACKET = part("gpu_bracket", Part.GPU_BRACKET);
     public static final DeferredItem<Item> LAPTOP = ITEMS.register("laptop", () -> new Laptop(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DISC_PAINT = disc("software_paint", App.PAINT);
+    public static final DeferredItem<Item> DISC_SNAKE = disc("software_snake", App.SNAKE);
+    public static final DeferredItem<Item> DISC_MUSIC = disc("software_music", App.MUSIC);
 
     public static final DeferredBlock<Block> PC_CASE = BLOCKS.register("pc_case",
             () -> new PcCase(BlockBehaviour.Properties.of().strength(2.0f).sound(SoundType.METAL).noOcclusion().requiresCorrectToolForDrops()));
@@ -87,12 +107,17 @@ public final class Tech {
             () -> new Block(BlockBehaviour.Properties.of().strength(2.0f).sound(SoundType.WOOD)));
     public static final DeferredBlock<Block> DATA_CENTER = BLOCKS.register("data_center",
             () -> new DataCenter(BlockBehaviour.Properties.of().strength(4.0f).sound(SoundType.METAL).lightLevel(s -> 9).requiresCorrectToolForDrops()));
+    public static final List<DeferredBlock<Block>> MODEL_BLOCKS = MODELS.stream().map(m -> BLOCKS.register(m.id(),
+            () -> (Block) new Prebuilt(BlockBehaviour.Properties.of().strength(2.0f).sound(SoundType.METAL).noOcclusion(), m.os()))).toList();
+    public static final List<DeferredItem<BlockItem>> MODEL_ITEMS = MODEL_BLOCKS.stream().map(b -> ITEMS.register(b.getId().getPath(),
+            () -> (BlockItem) new ModelItem(b.get(), new Item.Properties().stacksTo(1)))).toList();
     public static final DeferredItem<BlockItem> PC_CASE_ITEM = ITEMS.registerSimpleBlockItem(PC_CASE);
     public static final DeferredItem<BlockItem> TECH_COUNTER_ITEM = ITEMS.registerSimpleBlockItem(TECH_COUNTER);
     public static final DeferredItem<BlockItem> DATA_CENTER_ITEM = ITEMS.registerSimpleBlockItem(DATA_CENTER);
 
     public static final Supplier<BlockEntityType<PcCaseEntity>> PC_CASE_ENTITY = BLOCK_ENTITIES.register("pc_case",
-            () -> BlockEntityType.Builder.of(PcCaseEntity::new, PC_CASE.get()).build(null));
+            () -> BlockEntityType.Builder.of(PcCaseEntity::new, java.util.stream.Stream.concat(java.util.stream.Stream.of(PC_CASE.get()),
+                    MODEL_BLOCKS.stream().map(DeferredBlock::get)).toArray(Block[]::new)).build(null));
 
     private static final ResourceKey<PoiType> DEALER_POI = ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE,
             ResourceLocation.fromNamespaceAndPath(Realism.MODID, "tech_dealer"));
@@ -106,6 +131,10 @@ public final class Tech {
     public static final int SAG_LIMIT = 3;
 
     private Tech() {
+    }
+
+    private static DeferredItem<Item> disc(String name, App app) {
+        return ITEMS.register(name, () -> new SoftwareDisc(new Item.Properties().stacksTo(1), app));
     }
 
     private static DeferredItem<Item> part(String name, Part part) {
@@ -129,7 +158,11 @@ public final class Tech {
         }
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
             for (DeferredItem<Item> i : List.of(MOTHERBOARD, CPU, RAM, GPU, STORAGE, POWER_SUPPLY, GPU_BRACKET)) event.accept(i.get());
-        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) event.accept(LAPTOP.get());
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            event.accept(LAPTOP.get());
+            for (DeferredItem<Item> d : List.of(DISC_PAINT, DISC_SNAKE, DISC_MUSIC)) event.accept(d.get());
+        }
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) for (DeferredItem<BlockItem> m : MODEL_ITEMS) event.accept(m.get());
     }
 
     private static void say(Player p, String key, Object... args) {
@@ -150,6 +183,10 @@ public final class Tech {
         t.get(3).add((v, r) -> new MerchantOffer(new ItemCost(Items.EMERALD, 10), new ItemStack(CPU.get()), 6, 10, 0.05f));
         t.get(3).add((v, r) -> new MerchantOffer(new ItemCost(Items.EMERALD, 16), new ItemStack(GPU.get()), 4, 10, 0.05f));
         t.get(4).add((v, r) -> new MerchantOffer(new ItemCost(Items.EMERALD, 20), new ItemStack(LAPTOP.get()), 3, 15, 0.05f));
+        t.get(1).add((v, r) -> new MerchantOffer(new ItemCost(Items.EMERALD, 3), new ItemStack(DISC_PAINT.get()), 8, 2, 0.05f));
+        t.get(2).add((v, r) -> new MerchantOffer(new ItemCost(Items.EMERALD, 4), new ItemStack(DISC_SNAKE.get()), 8, 5, 0.05f));
+        t.get(2).add((v, r) -> new MerchantOffer(new ItemCost(Items.EMERALD, 3), new ItemStack(DISC_MUSIC.get()), 8, 5, 0.05f));
+        t.get(5).add((v, r) -> new MerchantOffer(new ItemCost(Items.EMERALD, 30), new ItemStack(MODEL_ITEMS.get(MODELS.size() - 3).get()), 2, 20, 0.05f));
     }
 
     // ---- Parts ----
@@ -168,12 +205,36 @@ public final class Tech {
         }
     }
 
+    // ---- Software ----
+
+    public static class SoftwareDisc extends Item {
+        public final App app;
+
+        SoftwareDisc(Properties props, App app) {
+            super(props);
+            this.app = app;
+        }
+
+        @Override
+        public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> lines, net.minecraft.world.item.TooltipFlag flag) {
+            lines.add(Component.translatable("item.realism.software.tip"));
+        }
+    }
+
     // ---- The PC ----
 
     public static class PcCaseEntity extends BlockEntity {
         /** Bit i set = Part.values()[i] installed. */
         public int parts;
         public int os, sagBoots;
+        public int apps = DEFAULT_APPS;
+        public String notes = "";
+        /** 16x16 drawing from the Paint app: one palette index (0-7) per pixel. */
+        public byte[] paint = new byte[256];
+
+        public boolean hasApp(App a) {
+            return (apps & (1 << a.ordinal())) != 0;
+        }
 
         public PcCaseEntity(BlockPos pos, BlockState state) {
             super(PC_CASE_ENTITY.get(), pos, state);
@@ -219,6 +280,9 @@ public final class Tech {
             tag.putInt("parts", parts);
             tag.putInt("os", os);
             tag.putInt("sagBoots", sagBoots);
+            tag.putInt("apps", apps);
+            tag.putString("notes", notes);
+            tag.putByteArray("paint", paint);
         }
 
         @Override
@@ -227,6 +291,10 @@ public final class Tech {
             parts = tag.getInt("parts");
             os = tag.getInt("os");
             sagBoots = tag.getInt("sagBoots");
+            apps = tag.contains("apps") ? tag.getInt("apps") : DEFAULT_APPS;
+            notes = tag.getString("notes");
+            byte[] px = tag.getByteArray("paint");
+            paint = px.length == 256 ? px : new byte[256];
         }
     }
 
@@ -252,10 +320,24 @@ public final class Tech {
             return RenderShape.MODEL;
         }
 
-        // Right-click with a part: install it.
+        // Right-click with a part: install it. With a Software Disc: install that app.
         @Override
         protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
                                                   InteractionHand hand, BlockHitResult hit) {
+            if (stack.getItem() instanceof SoftwareDisc disc) {
+                if (level.isClientSide) return ItemInteractionResult.SUCCESS;
+                if (!(level.getBlockEntity(pos) instanceof PcCaseEntity pc)) return ItemInteractionResult.FAIL;
+                if (pc.hasApp(disc.app)) {
+                    say(player, "app.already");
+                    return ItemInteractionResult.CONSUME;
+                }
+                pc.apps |= 1 << disc.app.ordinal();
+                pc.setChanged();
+                stack.consume(1, player);
+                level.playSound(null, pos, SoundEvents.NOTE_BLOCK_PLING.value(), SoundSource.BLOCKS, 0.7f, 1.5f);
+                say(player, "app.installed", Component.translatable("realism.app." + disc.app.name().toLowerCase()));
+                return ItemInteractionResult.CONSUME;
+            }
             if (!(stack.getItem() instanceof PartItem part)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             if (level.isClientSide) return ItemInteractionResult.SUCCESS;
             if (!(level.getBlockEntity(pos) instanceof PcCaseEntity pc)) return ItemInteractionResult.FAIL;
@@ -298,8 +380,52 @@ public final class Tech {
             }
             if (result.equals("sag")) player.displayClientMessage(Component.translatable("realism.pc.sag", SAG_LIMIT - pc.sagBoots), false);
             level.playSound(null, pos, SoundEvents.NOTE_BLOCK_CHIME.value(), SoundSource.BLOCKS, 0.7f, 1.6f);
-            PacketDistributor.sendToPlayer(sp, new OpenOs(pc.os));
+            PacketDistributor.sendToPlayer(sp, new OpenComputer(pos, pc.os, pc.apps, pc.notes, pc.paint));
             return InteractionResult.CONSUME;
+        }
+    }
+
+    /** A ready-built computer: every part already inside, it faces you, and it boots its era's OS. */
+    static class Prebuilt extends PcCase {
+        static final net.minecraft.world.level.block.state.properties.DirectionProperty FACING =
+                net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
+        private final int defaultOs;
+
+        Prebuilt(Properties props, int defaultOs) {
+            super(props);
+            this.defaultOs = defaultOs;
+            registerDefaultState(stateDefinition.any().setValue(FACING, net.minecraft.core.Direction.NORTH));
+        }
+
+        @Override
+        protected void createBlockStateDefinition(net.minecraft.world.level.block.state.StateDefinition.Builder<Block, BlockState> b) {
+            b.add(FACING);
+        }
+
+        @Override
+        public BlockState getStateForPlacement(net.minecraft.world.item.context.BlockPlaceContext ctx) {
+            return defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
+        }
+
+        @Override
+        public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+            PcCaseEntity pc = new PcCaseEntity(pos, state);
+            pc.parts = (1 << Part.values().length) - 1;
+            pc.os = defaultOs;
+            return pc;
+        }
+    }
+
+    /** Tooltip: the year and which real Mac inspired this look-alike. */
+    static class ModelItem extends BlockItem {
+        ModelItem(Block block, Properties props) {
+            super(block, props);
+        }
+
+        @Override
+        public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> lines, net.minecraft.world.item.TooltipFlag flag) {
+            lines.add(Component.translatable(getDescriptionId() + ".tip"));
+            lines.add(Component.translatable("item.realism.model.tip"));
         }
     }
 
@@ -313,7 +439,9 @@ public final class Tech {
         @Override
         public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
             ItemStack stack = player.getItemInHand(hand);
-            if (!level.isClientSide && player instanceof ServerPlayer sp) PacketDistributor.sendToPlayer(sp, new OpenOs(1));
+            // A laptop has every app, but keeps nothing (no saved notes or drawings): its position is "none".
+            if (!level.isClientSide && player instanceof ServerPlayer sp)
+                PacketDistributor.sendToPlayer(sp, new OpenComputer(NO_POS, 1, ALL_APPS, "", new byte[256]));
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
         }
     }
@@ -342,13 +470,41 @@ public final class Tech {
 
     // ---- Network: server tells a client to open the OS screen; the client asks to play a game ----
 
-    public record OpenOs(int os) implements CustomPacketPayload {
-        public static final Type<OpenOs> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Realism.MODID, "open_os"));
-        public static final StreamCodec<ByteBuf, OpenOs> CODEC = ByteBufCodecs.VAR_INT.map(OpenOs::new, OpenOs::os);
+    /** Laptops have no block: this position means "don't save". */
+    public static final BlockPos NO_POS = new BlockPos(0, -10000, 0);
+
+    /** Server → client: open this computer's screen with its OS, installed apps, notes and drawing. */
+    public record OpenComputer(BlockPos pos, int os, int apps, String notes, byte[] paint) implements CustomPacketPayload {
+        public static final Type<OpenComputer> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Realism.MODID, "open_computer"));
+        public static final StreamCodec<ByteBuf, OpenComputer> CODEC = StreamCodec.composite(
+                BlockPos.STREAM_CODEC, OpenComputer::pos, ByteBufCodecs.VAR_INT, OpenComputer::os, ByteBufCodecs.VAR_INT, OpenComputer::apps,
+                ByteBufCodecs.stringUtf8(4096), OpenComputer::notes, ByteBufCodecs.byteArray(256), OpenComputer::paint, OpenComputer::new);
 
         @Override
         public Type<? extends CustomPacketPayload> type() {
             return TYPE;
+        }
+    }
+
+    /** Client → server: save the notes and drawing back into the computer. */
+    public record SaveComputer(BlockPos pos, String notes, byte[] paint) implements CustomPacketPayload {
+        public static final Type<SaveComputer> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Realism.MODID, "save_computer"));
+        public static final StreamCodec<ByteBuf, SaveComputer> CODEC = StreamCodec.composite(
+                BlockPos.STREAM_CODEC, SaveComputer::pos, ByteBufCodecs.stringUtf8(4096), SaveComputer::notes,
+                ByteBufCodecs.byteArray(256), SaveComputer::paint, SaveComputer::new);
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
+    }
+
+    static void save(ServerPlayer p, SaveComputer msg) {
+        if (msg.pos().equals(NO_POS) || p.distanceToSqr(msg.pos().getCenter()) > 64) return;
+        if (p.level().getBlockEntity(msg.pos()) instanceof PcCaseEntity pc && msg.paint().length == 256) {
+            pc.notes = msg.notes().length() > 4000 ? msg.notes().substring(0, 4000) : msg.notes();
+            pc.paint = msg.paint();
+            pc.setChanged();
         }
     }
 

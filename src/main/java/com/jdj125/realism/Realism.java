@@ -74,7 +74,10 @@ public class Realism {
         var r = event.registrar("1");
         r.playToClient(BodySync.TYPE, BodySync.CODEC, (payload, ctx) -> BodySync.latest = payload);
         // Only ever runs on a client, so the client-only screen class is never loaded on a server.
-        r.playToClient(Tech.OpenOs.TYPE, Tech.OpenOs.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.OsScreen.open(payload.os())));
+        r.playToClient(Tech.OpenComputer.TYPE, Tech.OpenComputer.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.OsScreen.open(payload)));
+        r.playToServer(Tech.SaveComputer.TYPE, Tech.SaveComputer.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Tech.save(sp, payload);
+        }));
         r.playToServer(Tech.PlayGame.TYPE, Tech.PlayGame.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> Tech.playGame(ctx.player())));
         r.playToServer(Rescue.DefibStep.TYPE, Rescue.DefibStep.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp)
