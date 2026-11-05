@@ -59,12 +59,25 @@ Blocky pixel blood particles while bleeding: turn them off with `bloodParticles 
 | 💻 Laptop | A computer in your pocket. |
 | 🤖 AI Data Center | Feed it RAM, GPUs and CPUs. It eats them all and always wants more. |
 
+## Phase 6: no reviving 💀
+
+| Thing | What it does |
+|---|---|
+| ⚫ Collapse | Instead of dying you **collapse**: you lie on the ground and your screen goes black. Nothing can hurt you while you're down: the clock decides. You have **60 seconds** (`collapseSeconds`). |
+| ⚡ Defibrillator | Hold it, look at the collapsed player (within 3 blocks), press **charge → clear → shock** (Z, X, C by default; rebind in Controls). Copper, redstone, iron and a lightning rod. |
+| 🗄️ AED Wall Case | Keep a defibrillator on the wall: right-click with it to store it, empty hand to grab it. |
+| 🚑 Ambulance Radio | Use it near a collapsed player: they're rushed to the nearest Operating Table, and if a Doctor is there they get emergency surgery. |
+| 💀 Gone for good | Nobody saved you in time? You really die and become a **spectator** (or start over as a new person with `permaDeathSpectator = false`). A broken neck, the void and /kill skip the collapse. |
+| ⚫ Black screen | Your screen is pitch black while collapsed, asleep, or under surgery. |
+
+Turn it all off with `noReviving = false`. **Back up your world first!**
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 
 **Config** (`serverconfig/realism-server.toml`): days for thirst/sleep, real-life days instead of Minecraft days,
 and on/off for each rule.
 
-Coming next: 0.6.0 (no reviving, defibrillator, ambulance, black screen when you collapse), then radiation and diseases, phones, countries and government...
+Coming next: a drivable ambulance, hospital buildings in the world, radiation and diseases, phones, countries and government...
 
 MIT license.

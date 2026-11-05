@@ -37,6 +37,11 @@ public class Body implements INBTSerializable<CompoundTag> {
     public float mood = Mind.START;
     /** The last mood warning shown (0 fine, 1 low, 2 depressed), and ticks until games/TV cheer you up again. */
     public int moodStage, funCooldown;
+    /** Phase 6: ticks left while collapsed (0 = not collapsed), and ticks of black screen after waking from surgery. */
+    public int collapse, unconscious;
+    /** Defibrillator progress on this patient (0 none, 1 charged, 2 cleared) and the game time of the last step. */
+    public int defibStep;
+    public long defibTime;
     /** The last warning stage shown for thirst and sleep, so each warning is said once. */
     public int thirstStage, sleepStage;
 
@@ -62,6 +67,8 @@ public class Body implements INBTSerializable<CompoundTag> {
         t.putFloat("mood", mood);
         t.putInt("moodStage", moodStage);
         t.putInt("funCooldown", funCooldown);
+        t.putInt("collapse", collapse);
+        t.putInt("unconscious", unconscious);
         return t;
     }
 
@@ -86,5 +93,7 @@ public class Body implements INBTSerializable<CompoundTag> {
         mood = t.contains("mood") ? t.getFloat("mood") : Mind.START;
         moodStage = t.getInt("moodStage");
         funCooldown = t.getInt("funCooldown");
+        collapse = t.getInt("collapse");
+        unconscious = t.getInt("unconscious");
     }
 }

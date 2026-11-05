@@ -16,7 +16,8 @@ import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 
 /**
  * A small body panel in the top-left corner: water and sleep (how close you are to dying of each), a stamina bar,
- * blood (liters and type) and any injuries or bleeding. Stays out of the way: water/sleep only show once they matter.
+ * blood (liters and type) and any injuries or bleeding. While collapsed, asleep or under surgery the whole screen is
+ * black instead. Stays out of the way: water/sleep only show once they matter.
  */
 @EventBusSubscriber(modid = Realism.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class BodyHud {
@@ -34,8 +35,14 @@ public final class BodyHud {
 
     private static void render(GuiGraphics g, DeltaTracker delta) {
         Minecraft mc = Minecraft.getInstance();
-        if (mc.options.hideGui || mc.player == null || mc.player.isCreative() || mc.player.isSpectator()) return;
+        if (mc.player == null) return;
         BodySync s = BodySync.latest;
+        // Collapsed, asleep or under surgery: nothing but black.
+        if ((s.injuries() & (BodySync.COLLAPSED | BodySync.UNCONSCIOUS)) != 0 || mc.player.isSleeping()) {
+            g.fill(0, 0, g.guiWidth(), g.guiHeight(), 0xFF000000);
+            return;
+        }
+        if (mc.options.hideGui || mc.player.isCreative() || mc.player.isSpectator()) return;
         Font font = mc.font;
         int x = 4, y = 4;
         if (s.thirst() >= 0.2f) {

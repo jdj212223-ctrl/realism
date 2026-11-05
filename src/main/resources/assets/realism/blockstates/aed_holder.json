@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "loaded=false": {
+      "model": "realism:block/aed_holder"
+    },
+    "loaded=true": {
+      "model": "realism:block/aed_holder_loaded"
+    }
+  }
+}

@@ -160,7 +160,8 @@ public final class Hospital {
         b.bleeding = 0;
         b.tourniquet = 0;
         b.blood = Math.min(Blood.FULL, b.blood + 0.5f);
-        // Waking up from the anesthetic.
+        // Under anesthetic (a black screen for a few seconds), then waking up groggy.
+        b.unconscious = 3 * 20;
         p.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0, true, false));
         p.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 120, 0, true, false));
         p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 400, 0, true, false));

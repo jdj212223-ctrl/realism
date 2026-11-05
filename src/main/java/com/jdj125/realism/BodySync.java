@@ -13,7 +13,8 @@ import net.minecraft.resources.ResourceLocation;
  */
 public record BodySync(float thirst, float awake, float stamina, int injuries, float blood, String bloodType) implements CustomPacketPayload {
     public static final int BROKEN_LEG = 1, ARM_TEAR = 2, BURN1 = 4, BURN2 = 8, BURN3 = 16, FROSTBITE = 32, BAD_TEAR = 64,
-            BLEED_LIGHT = 128, BLEED_HEAVY = 256, BLEED_SEVERE = 512, TOURNIQUET = 1024;
+            BLEED_LIGHT = 128, BLEED_HEAVY = 256, BLEED_SEVERE = 512, TOURNIQUET = 1024,
+            COLLAPSED = 2048, UNCONSCIOUS = 4096;
     public static final Type<BodySync> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Realism.MODID, "body"));
     public static final StreamCodec<ByteBuf, BodySync> CODEC = StreamCodec.composite(
             ByteBufCodecs.FLOAT, BodySync::thirst,

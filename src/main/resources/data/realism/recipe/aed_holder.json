@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DGD",
+    "DID",
+    "DDD"
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:red_concrete"
+    },
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "id": "realism:aed_holder",
+    "count": 1
+  }
+}

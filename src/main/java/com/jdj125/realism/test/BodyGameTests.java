@@ -5,6 +5,7 @@ import com.jdj125.realism.Body;
 import com.jdj125.realism.Hospital;
 import com.jdj125.realism.Mind;
 import com.jdj125.realism.Tech;
+import com.jdj125.realism.Rescue;
 import com.jdj125.realism.BodyEvents;
 import com.jdj125.realism.Realism;
 import com.jdj125.realism.RealismConfig;
@@ -43,7 +44,7 @@ public class BodyGameTests {
         withPlayer(helper, p -> {
             BodyEvents.body(p).thirst = RealismConfig.THIRST_DAYS.get() * RealismConfig.dayTicks() - 10;
             second(p);
-            helper.assertTrue(p.getHealth() <= 0, "3 days without water should kill");
+            helper.assertTrue((p.getHealth() <= 0 || Rescue.collapsed(p)), "3 days without water should kill");
             helper.succeed();
         });
     }
@@ -65,7 +66,7 @@ public class BodyGameTests {
         withPlayer(helper, p -> {
             BodyEvents.body(p).awake = RealismConfig.SLEEP_DAYS.get() * RealismConfig.dayTicks();
             second(p);
-            helper.assertTrue(p.getHealth() <= 0, "11 days without sleep should kill");
+            helper.assertTrue((p.getHealth() <= 0 || Rescue.collapsed(p)), "11 days without sleep should kill");
             helper.succeed();
         });
     }
@@ -105,7 +106,7 @@ public class BodyGameTests {
             b.blood = Blood.DEAD + 0.01f;
             Blood.bleed(p, 3);
             second(p);
-            helper.assertTrue(p.getHealth() <= 0, "under 2 liters you bleed out");
+            helper.assertTrue((p.getHealth() <= 0 || Rescue.collapsed(p)), "under 2 liters you bleed out");
             helper.succeed();
         });
     }
@@ -191,6 +192,57 @@ public class BodyGameTests {
     }
 
     @GameTest(template = "arena", timeoutTicks = 120)
+    public static void youCollapseInsteadOfDying(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            p.hurt(p.damageSources().generic(), 1000);
+            helper.assertTrue(p.isAlive() && Rescue.collapsed(p), "a deadly hit makes you collapse, not die");
+            helper.assertTrue(p.getForcedPose() == net.minecraft.world.entity.Pose.SLEEPING, "collapsed players lie down");
+            p.hurt(p.damageSources().generic(), 1000);
+            helper.assertTrue(p.isAlive(), "nothing hurts you while collapsed: the clock decides");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
+    public static void defibInTheRightOrderSavesYou(GameTestHelper helper) {
+        withPlayer(helper, patient -> {
+            @SuppressWarnings("removal") ServerPlayer medic = helper.makeMockServerPlayerInLevel();
+            medic.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new net.minecraft.world.item.ItemStack(Rescue.DEFIBRILLATOR.get()));
+            medic.teleportTo(patient.getX() + 1, patient.getY(), patient.getZ());
+            Rescue.collapse(patient);
+            Rescue.defib(medic, 3, patient);
+            helper.assertTrue(Rescue.collapsed(patient), "shock before charging does nothing");
+            Rescue.defib(medic, 1, patient);
+            Rescue.defib(medic, 2, patient);
+            Rescue.defib(medic, 3, patient);
+            helper.assertFalse(Rescue.collapsed(patient), "charge, clear, shock brings them back");
+            helper.assertTrue(patient.getHealth() > 1 && patient.getForcedPose() == null, "revived and standing");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
+    public static void runningOutOfTimeIsForGood(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            Rescue.collapse(p);
+            BodyEvents.body(p).collapse = 20;
+            second(p);
+            helper.assertTrue(p.getHealth() <= 0, "when the clock runs out you really die");
+            helper.assertTrue(p.getData(Realism.GONE), "and you're marked gone for good");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
+    public static void brokenNeckSkipsTheCollapse(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            p.hurt(Realism.source(p, Realism.BROKEN_NECK), Float.MAX_VALUE);
+            helper.assertTrue(p.getHealth() <= 0 && !Rescue.collapsed(p), "a broken neck is instant");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
     public static void exhaustionKillsWhenPushing(GameTestHelper helper) {
         withPlayer(helper, p -> {
             Body b = BodyEvents.body(p);
@@ -199,7 +251,7 @@ public class BodyGameTests {
             p.setSprinting(true);
             b.handStrain = 5; // still working hard
             second(p);
-            helper.assertTrue(p.getHealth() <= 0, "pushing on with no stamina should end in exhaustion");
+            helper.assertTrue((p.getHealth() <= 0 || Rescue.collapsed(p)), "pushing on with no stamina should end in exhaustion");
             helper.succeed();
         });
     }

@@ -88,6 +88,8 @@ public final class BodyEvents {
         if (RealismConfig.FROSTBITE.get()) frostbite(p, b);
         if (RealismConfig.BLEEDING.get()) Blood.second(p, b);
         if (RealismConfig.MOOD.get()) Mind.second(p, b);
+        Rescue.second(p, b);
+        if (b.unconscious > 0) b.unconscious = Math.max(0, b.unconscious - 20);
     }
 
     public static BodySync sync(Player p) {
@@ -98,7 +100,8 @@ public final class BodyEvents {
                 | (b.badTear ? BodySync.BAD_TEAR : 0) | (b.frostbite > 0 ? BodySync.FROSTBITE : 0)
                 | (b.burn > 0 ? (b.burnDegree == 1 ? BodySync.BURN1 : b.burnDegree == 2 ? BodySync.BURN2 : BodySync.BURN3) : 0)
                 | (b.bleeding == 1 ? BodySync.BLEED_LIGHT : b.bleeding == 2 ? BodySync.BLEED_HEAVY : b.bleeding == 3 ? BodySync.BLEED_SEVERE : 0)
-                | (b.tourniquet > 0 ? BodySync.TOURNIQUET : 0) | (Math.round(b.mood) << 16);
+                | (b.tourniquet > 0 ? BodySync.TOURNIQUET : 0) | (b.collapse > 0 ? BodySync.COLLAPSED : 0)
+                | (b.unconscious > 0 ? BodySync.UNCONSCIOUS : 0) | (Math.round(b.mood) << 16);
         return new BodySync(Math.min(1f, b.thirst / (float) limitT), Math.min(1f, b.awake / (float) limitS), b.stamina, flags,
                 b.blood, p.getData(Realism.BLOOD_TYPE));
     }
