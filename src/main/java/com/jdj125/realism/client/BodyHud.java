@@ -37,9 +37,21 @@ public final class BodyHud {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) return;
         BodySync s = BodySync.latest;
-        // Collapsed, asleep or under surgery: nothing but black.
-        if ((s.injuries() & (BodySync.COLLAPSED | BodySync.UNCONSCIOUS)) != 0 || mc.player.isSleeping()) {
+        // Collapsed, or under surgery: nothing but black. Asleep: black with drifting dreams (or nightmares, when
+        // you're feeling low), unless the server turned that off.
+        if ((s.injuries() & (BodySync.COLLAPSED | BodySync.UNCONSCIOUS)) != 0) {
             g.fill(0, 0, g.guiWidth(), g.guiHeight(), 0xFF000000);
+            return;
+        }
+        if (mc.player.isSleeping() && (s.injuries() & BodySync.SLEEP_BLACK) != 0) {
+            g.fill(0, 0, g.guiWidth(), g.guiHeight(), 0xFF000000);
+            boolean nightmare = s.mood() < 30;
+            long t = mc.player.getSleepTimer();
+            int line = (int) ((t / 40) % 8) + 1;
+            int alpha = (int) (Math.sin((t % 40) / 40.0 * Math.PI) * 200) + 20;
+            Component c = Component.translatable("realism.sleep_drift." + (nightmare ? "bad." : "good.") + line);
+            int x = g.guiWidth() / 2 - mc.font.width(c) / 2 + (int) (Math.sin(t / 15.0) * 20);
+            g.drawString(mc.font, c, x, g.guiHeight() / 2, (alpha << 24) | (nightmare ? 0xC06060 : 0x9090D0), false);
             return;
         }
         if (mc.options.hideGui || mc.player.isCreative() || mc.player.isSpectator()) return;

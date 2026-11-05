@@ -89,6 +89,19 @@ public final class Mind {
         return false;
     }
 
+    /**
+     * What you dreamed about, once you've slept: low mood or a long time awake makes nightmares likely (-5 mood),
+     * otherwise it's usually a nice dream (+5).
+     */
+    static void dream(Player p, Body b) {
+        float tired = b.awake / (float) (RealismConfig.SLEEP_DAYS.get() * RealismConfig.dayTicks());
+        float nightmareChance = b.mood < LOW ? 0.6f : tired > 0.5f ? 0.4f : 0.15f;
+        boolean nightmare = p.getRandom().nextFloat() < nightmareChance;
+        int n = p.getRandom().nextInt(8) + 1;
+        p.displayClientMessage(Component.translatable("realism." + (nightmare ? "nightmare." : "dream.") + n), false);
+        lift(p, nightmare ? -5 : 5);
+    }
+
     // Eating a meal cheers you up a little.
     @SubscribeEvent
     public static void onEat(LivingEntityUseItemEvent.Finish event) {

@@ -7,7 +7,7 @@ public final class RealismConfig {
     public static final ModConfigSpec SPEC;
     public static final ModConfigSpec.IntValue THIRST_DAYS, SLEEP_DAYS;
     public static final ModConfigSpec.BooleanValue REAL_TIME, MUSCLE_TEARS, BROKEN_LEGS, BURNS, FROSTBITE, STAMINA,
-            BLEEDING, BLOOD_PARTICLES, MOOD, NO_REVIVING, PERMA_DEATH_SPECTATOR;
+            BLEEDING, BLOOD_PARTICLES, MOOD, NO_REVIVING, PERMA_DEATH_SPECTATOR, BLACK_SLEEP;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
     static {
@@ -34,6 +34,7 @@ public final class RealismConfig {
         b.pop();
         b.comment("Realism phase 4: the mind").push("mind");
         MOOD = b.comment("Mood and depression: loneliness, hunger and injuries bring it down; friends, pets, music, games, TV and therapy bring it up").define("mood", true);
+        BLACK_SLEEP = b.comment("Black screen with drifting dreams (or nightmares) while you sleep").define("blackScreenWhenSleeping", true);
         b.pop();
         SPEC = b.build();
     }

@@ -103,7 +103,8 @@ public final class BodyEvents {
                 | (b.bleeding == 1 ? BodySync.BLEED_LIGHT : b.bleeding == 2 ? BodySync.BLEED_HEAVY : b.bleeding == 3 ? BodySync.BLEED_SEVERE : 0)
                 | (b.tourniquet > 0 ? BodySync.TOURNIQUET : 0) | (b.collapse > 0 ? BodySync.COLLAPSED : 0)
                 | (b.unconscious > 0 ? BodySync.UNCONSCIOUS : 0) | (b.brokenNeck ? BodySync.BROKEN_NECK : 0)
-                | (b.paralysed ? BodySync.PARALYSED : 0) | (Math.round(b.mood) << 16);
+                | (b.paralysed ? BodySync.PARALYSED : 0) | (RealismConfig.BLACK_SLEEP.get() ? BodySync.SLEEP_BLACK : 0)
+                | (Math.round(b.mood) << 16);
         return new BodySync(Math.min(1f, b.thirst / (float) limitT), Math.min(1f, b.awake / (float) limitS), b.stamina, flags,
                 b.blood, p.getData(Realism.BLOOD_TYPE));
     }
@@ -160,6 +161,7 @@ public final class BodyEvents {
             if (b.awake > 0) {
                 say(p, "sleep.rested");
                 Mind.lift(p, 20);
+                Mind.dream(p, b);
             }
             b.awake = 0;
             b.sleepStage = 0;

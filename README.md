@@ -97,7 +97,7 @@ Hospital buildings now generate in plains, forests, taiga, savanna, meadows and 
 
 ## 0.8.2: call the ambulance 📱🚑
 
-The phone has a **🚑 Call ambulance** button, and there's an `/ambulance` command (no cheats needed): with a phone and signal, the nearest collapsed player within 256 blocks is rushed to the nearest hospital. The COLLAPSED alarm now includes coordinates. Computers no longer lag on the retro desktops.
+The phone has a **🚑 Call ambulance** button, and there's an `/ambulance` command (no cheats needed): with a phone and signal, the nearest collapsed player within 256 blocks is rushed to the nearest hospital. The COLLAPSED alarm now includes coordinates. Computers no longer lag on the retro desktops. **Dreams and nightmares:** while you sleep the black screen shows drifting dreams; you wake up with a dream (+5 mood) or, when you're feeling low or very tired, a nightmare (-5 mood). Turn the sleep screen off with `blackScreenWhenSleeping = false`.
 
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
