@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "realism:doctor"
+    "realism:doctor",
+    "realism:tech_dealer"
   ]
 }

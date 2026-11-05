@@ -4,6 +4,8 @@
     "realism:medical_station",
     "realism:operating_table",
     "realism:game_console",
-    "realism:television"
+    "realism:television",
+    "realism:pc_case",
+    "realism:data_center"
   ]
 }

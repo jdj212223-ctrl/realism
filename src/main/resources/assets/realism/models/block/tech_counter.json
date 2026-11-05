@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "realism:block/tech_counter_top",
+    "bottom": "realism:block/tech_counter_top",
+    "side": "realism:block/tech_counter_side"
+  }
+}

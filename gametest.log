@@ -11,98 +11,97 @@ Daemon will be stopped at the end of the build
 
 > Task :runGameTestServer
 WARN StatusConsoleListener Advanced terminal features are not available in this environment
-[19:59:13] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeserverdev, --gameDir, ., --fml.fmlVersion, 4.0.45, --fml.mcVersion, 1.21.1, --fml.neoForgeVersion, 21.1.265, --fml.neoFormVersion, 20240808.144430]
-[19:59:13] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: JVM identified as Eclipse Adoptium OpenJDK 64-Bit Server VM 21.0.11+10-LTS
-[19:59:13] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher 11.0.5+main.901c6ea8 starting: java version 21.0.11 by Eclipse Adoptium; OS Mac OS X arch aarch64 version 27.2
-[19:59:13] [main/INFO] [ne.ne.fm.lo.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgeserverdev
-[19:59:13] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=union:/Users/jandrobny/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.16.4+mixin.0.8.7/26d01f0567ab46e9ca0d2ed89d0ecc11aadbd433/sponge-mixin-0.16.4+mixin.0.8.7.jar%2394!/ Service=ModLauncher Env=SERVER
-[19:59:13] [main/INFO] [ne.ne.fm.lo.mo.lo.JarInJarDependencyLocator/]: Found 2 dependencies adding them to mods collection
-[19:59:13] [main/INFO] [ne.ne.fm.lo.mo.ModDiscoverer/]: 
+[07:08:56] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeserverdev, --gameDir, ., --fml.fmlVersion, 4.0.45, --fml.mcVersion, 1.21.1, --fml.neoForgeVersion, 21.1.265, --fml.neoFormVersion, 20240808.144430]
+[07:08:56] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: JVM identified as Eclipse Adoptium OpenJDK 64-Bit Server VM 21.0.11+10-LTS
+[07:08:56] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher 11.0.5+main.901c6ea8 starting: java version 21.0.11 by Eclipse Adoptium; OS Mac OS X arch aarch64 version 27.2
+[07:08:56] [main/INFO] [ne.ne.fm.lo.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgeserverdev
+[07:08:56] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=union:/Users/jandrobny/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.16.4+mixin.0.8.7/26d01f0567ab46e9ca0d2ed89d0ecc11aadbd433/sponge-mixin-0.16.4+mixin.0.8.7.jar%2394!/ Service=ModLauncher Env=SERVER
+[07:08:56] [main/INFO] [ne.ne.fm.lo.mo.lo.JarInJarDependencyLocator/]: Found 2 dependencies adding them to mods collection
+[07:08:56] [main/INFO] [ne.ne.fm.lo.mo.ModDiscoverer/]: 
      Mod List:
 		Name Version (Mod Id)
 
 		Minecraft 1.21.1 (minecraft)
 		NeoForge 21.1.265 (neoforge)
-		Realism 0.4.0 (realism)
-[19:59:13] [main/INFO] [cp.mo.mo.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeserverdev' with arguments [--gameDir, .]
-[19:59:14] [main/INFO] [MixinExtras|Service/]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.5).
-[19:59:16] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
-[19:59:16] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
-[19:59:16] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
-[19:59:16] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
-[19:59:16] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
-[19:59:16] [modloading-worker-0/INFO] [ne.ne.ne.co.NeoForgeMod/NEOFORGE-MOD]: NeoForge mod loading, version 21.1.265, for MC 1.21.1
-[19:59:16] [main/INFO] [mojang/YggdrasilAuthenticationService]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
-[19:59:16] [main/WARN] [ne.ne.ne.co.CommonHooks/WP]: The following mods have version differences that were not resolved:
-realism (version 0.3.0 -> 0.4.0)
+		Realism 0.5.0 (realism)
+[07:08:57] [main/INFO] [cp.mo.mo.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeserverdev' with arguments [--gameDir, .]
+[07:08:57] [main/INFO] [MixinExtras|Service/]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.5).
+[07:08:59] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[07:08:59] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
+[07:08:59] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[07:08:59] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[07:08:59] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[07:08:59] [modloading-worker-0/INFO] [ne.ne.ne.co.NeoForgeMod/NEOFORGE-MOD]: NeoForge mod loading, version 21.1.265, for MC 1.21.1
+[07:09:00] [main/INFO] [mojang/YggdrasilAuthenticationService]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[07:09:00] [main/WARN] [ne.ne.ne.co.CommonHooks/WP]: The following mods have version differences that were not resolved:
+realism (version 0.4.0 -> 0.5.0)
 Things may not work well.
-[19:59:16] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/Volumes/important/realism/build/moddev/artifacts/neoforge-21.1.265.jar%23125!/assets/.mcassetsroot' uses unexpected schema
-[19:59:16] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/Volumes/important/realism/build/moddev/artifacts/neoforge-21.1.265.jar%23125!/data/.mcassetsroot' uses unexpected schema
-[19:59:16] [main/INFO] [ne.ne.ne.ga.GameTestHooks/]: Enabled Gametest Namespaces: [realism]
-[19:59:16] [main/INFO] [minecraft/RecipeManager]: Loaded 1302 recipes
-[19:59:16] [main/INFO] [minecraft/AdvancementTree]: Loaded 1400 advancements
-[19:59:16] [Server thread/WARN] [ne.ne.fm.co.ConfigTracker/CONFIG]: Configuration file /Volumes/important/realism/run/config/realism-server.toml is not correct. Correcting
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: Preparing start region for dimension minecraft:overworld
-[19:59:17] [worldgen/INFO] [minecraft/LoggerChunkProgressListener]: Preparing spawn area: 2%
-[19:59:17] [Server thread/INFO] [minecraft/LoggerChunkProgressListener]: Time elapsed: 57 ms
-[19:59:17] [Server thread/INFO] [minecraft/GameTestServer]: Started game test server
-[19:59:17] [Server thread/INFO] [ne.ne.ne.se.pe.PermissionAPI/]: Successfully initialized permission handler neoforge:default_handler
-[19:59:17] [Server thread/INFO] [minecraft/GameTestServer]: 11 tests are now running at position -4434809, -59, -11935528!
-[19:59:17] [Server thread/INFO] [minecraft/GameTestRunner]: Running test batch 'defaultBatch:0' (11 tests)...
-[19:59:17] [Server thread/INFO] [minecraft/GameTestServer]: [           ]
-[19:59:17] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 1 at (-4.5, -60.0, -3.5)
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
-[19:59:17] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 2 at (-1.5, -60.0, 0.5)
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
-[19:59:17] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 3 at (0.5, -60.0, 9.5)
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
-[19:59:17] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 4 at (0.5, -60.0, 10.5)
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
-[19:59:17] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 5 at (2.5, -60.0, 5.5)
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
-[19:59:17] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 6 at (9.5, -60.0, -6.5)
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
-[19:59:17] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 7 at (8.5, -60.0, -5.5)
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
-[19:59:17] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 8 at (6.5, -60.0, 1.5)
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
-[19:59:17] [Server thread/INFO] [minecraft/GameTestServer]: [_____   ___]
-[19:59:17] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 9 at (6.5, -60.0, -6.5)
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
-[19:59:17] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 10 at (2.5, -60.0, 4.5)
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
-[19:59:17] [Server thread/INFO] [minecraft/GameTestServer]: [_______+___]
-[19:59:17] [Server thread/INFO] [minecraft/GameTestServer]: [_______+___]
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player died from not sleeping
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player died of dehydration
-[19:59:17] [Server thread/INFO] [minecraft/GameTestServer]: [++_____++++]
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player bled out
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player collapsed from exhaustion
-[19:59:17] [Server thread/INFO] [minecraft/GameTestServer]: [+++++++++++]
-[19:59:17] [Server thread/INFO] [minecraft/GameTestServer]: ========= 11 GAME TESTS COMPLETE IN 592.8 ms ======================
-[19:59:17] [Server thread/INFO] [minecraft/GameTestServer]: All 11 required tests passed :)
-[19:59:17] [Server thread/INFO] [minecraft/GameTestServer]: ====================================================
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: Saving players
-[19:59:17] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
-[19:59:17] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
-[19:59:17] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
-[19:59:17] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
-[19:59:17] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
-[19:59:17] [Server thread/INFO] [minecraft/MinecraftServer]: Saving worlds
-[19:59:18] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[Test Level]'/minecraft:overworld
-[19:59:18] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[Test Level]'/minecraft:the_end
-[19:59:18] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[Test Level]'/minecraft:the_nether
-[19:59:18] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (world): All chunks are saved
-[19:59:18] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
-[19:59:18] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
-[19:59:18] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
-[19:59:18] [Server thread/INFO] [minecraft/GameTestServer]: Game test server shutting down
+[07:09:00] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/Volumes/important/realism/build/moddev/artifacts/neoforge-21.1.265.jar%23125!/assets/.mcassetsroot' uses unexpected schema
+[07:09:00] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/Volumes/important/realism/build/moddev/artifacts/neoforge-21.1.265.jar%23125!/data/.mcassetsroot' uses unexpected schema
+[07:09:00] [main/INFO] [ne.ne.ne.ga.GameTestHooks/]: Enabled Gametest Namespaces: [realism]
+[07:09:00] [main/INFO] [minecraft/RecipeManager]: Loaded 1305 recipes
+[07:09:00] [main/INFO] [minecraft/AdvancementTree]: Loaded 1400 advancements
+[07:09:00] [Server thread/INFO] [minecraft/MinecraftServer]: Preparing start region for dimension minecraft:overworld
+[07:09:00] [worldgen/INFO] [minecraft/LoggerChunkProgressListener]: Preparing spawn area: 2%
+[07:09:00] [Server thread/INFO] [minecraft/LoggerChunkProgressListener]: Time elapsed: 71 ms
+[07:09:00] [Server thread/INFO] [minecraft/GameTestServer]: Started game test server
+[07:09:00] [Server thread/INFO] [ne.ne.ne.se.pe.PermissionAPI/]: Successfully initialized permission handler neoforge:default_handler
+[07:09:00] [Server thread/INFO] [minecraft/GameTestServer]: 12 tests are now running at position -12525975, -59, -12542152!
+[07:09:01] [Server thread/INFO] [minecraft/GameTestRunner]: Running test batch 'defaultBatch:0' (12 tests)...
+[07:09:01] [Server thread/INFO] [minecraft/GameTestServer]: [            ]
+[07:09:01] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 1 at (-4.5, -60.0, -4.5)
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[07:09:01] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 2 at (-9.5, -60.0, 7.5)
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[07:09:01] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 3 at (8.5, -60.0, 8.5)
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[07:09:01] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 4 at (3.5, -60.0, -0.5)
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[07:09:01] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 5 at (5.5, -60.0, -3.5)
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[07:09:01] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 6 at (8.5, -60.0, -7.5)
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[07:09:01] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 7 at (6.5, -60.0, -0.5)
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[07:09:01] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 8 at (9.5, -60.0, -7.5)
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[07:09:01] [Server thread/INFO] [minecraft/GameTestServer]: [____+_  +___]
+[07:09:01] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 9 at (-4.5, -60.0, 0.5)
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[07:09:01] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 10 at (10.5, -60.0, -2.5)
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[07:09:01] [Server thread/INFO] [minecraft/GameTestServer]: [____+___+___]
+[07:09:01] [Server thread/INFO] [minecraft/GameTestServer]: [____+___+___]
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player died from not sleeping
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player bled out
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player collapsed from exhaustion
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player died of dehydration
+[07:09:01] [Server thread/INFO] [minecraft/GameTestServer]: [+++++___++++]
+[07:09:01] [Server thread/INFO] [minecraft/GameTestServer]: [++++++++++++]
+[07:09:01] [Server thread/INFO] [minecraft/GameTestServer]: ========= 12 GAME TESTS COMPLETE IN 669.0 ms ======================
+[07:09:01] [Server thread/INFO] [minecraft/GameTestServer]: All 12 required tests passed :)
+[07:09:01] [Server thread/INFO] [minecraft/GameTestServer]: ====================================================
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: Saving players
+[07:09:01] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
+[07:09:01] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
+[07:09:01] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
+[07:09:01] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
+[07:09:01] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
+[07:09:01] [Server thread/INFO] [minecraft/MinecraftServer]: Saving worlds
+[07:09:02] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[Test Level]'/minecraft:overworld
+[07:09:02] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[Test Level]'/minecraft:the_end
+[07:09:02] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[Test Level]'/minecraft:the_nether
+[07:09:02] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[07:09:02] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[07:09:02] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[07:09:02] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+[07:09:02] [Server thread/INFO] [minecraft/GameTestServer]: Game test server shutting down
 
-BUILD SUCCESSFUL in 14s
+BUILD SUCCESSFUL in 20s
 8 actionable tasks: 1 executed, 7 up-to-date

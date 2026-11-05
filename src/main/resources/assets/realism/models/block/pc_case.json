@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "realism:block/pc_case_side",
+    "north": "realism:block/pc_case_front",
+    "south": "realism:block/pc_case_side",
+    "east": "realism:block/pc_case_side",
+    "west": "realism:block/pc_case_side",
+    "up": "realism:block/pc_case_side",
+    "down": "realism:block/pc_case_side"
+  }
+}

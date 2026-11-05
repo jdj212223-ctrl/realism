@@ -48,12 +48,23 @@ Blocky pixel blood particles while bleeding: turn them off with `bloodParticles 
 | 🩺 Therapy | The Doctor sells therapy sessions (4 emeralds): +40 mood. In real life too, talking to someone you trust really helps. |
 | 📅 Calendar | Shows the real-life date and the Minecraft day. Paper, paper, red dye, clock. |
 
+## Phase 5: tech 💻
+
+| Thing | What it does |
+|---|---|
+| 🛒 Tech Dealer | A villager job (job block: **Tech Counter**). Sells RAM, SSDs, GPU anti-sag brackets, motherboards, power supplies, CPUs, GPUs and laptops. GPUs and RAM are expensive: blame the AI. |
+| 🖥️ PC Case | Right-click it with each part to install it: motherboard, CPU, RAM, GPU, SSD, power supply. Give it **redstone power** and right-click with an empty hand to boot. Sneak + right-click switches the operating system. |
+| 😬 GPU sag | No anti-sag bracket? The GPU sags, and on the 3rd boot it cracks and is gone. |
+| 💾 Operating systems | Original look-alikes in the style of a retro Mac, a modern Mac, BeOS, NeXT, retro Windows and Linux (no real logos or artwork). Play a game for +15 mood. |
+| 💻 Laptop | A computer in your pocket. |
+| 🤖 AI Data Center | Feed it RAM, GPUs and CPUs. It eats them all and always wants more. |
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 
 **Config** (`serverconfig/realism-server.toml`): days for thirst/sleep, real-life days instead of Minecraft days,
 and on/off for each rule.
 
-Coming next: computers (build your own PC), radiation and diseases, countries and government, Chromeflesh surgery...
+Coming next: 0.6.0 (no reviving, defibrillator, ambulance, black screen when you collapse), then radiation and diseases, phones, countries and government...
 
 MIT license.

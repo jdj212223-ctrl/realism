@@ -23,7 +23,8 @@ import java.util.function.Supplier;
  * muscle tears, broken legs, burns and frostbite ({@link BodyEvents}). Phase 2 is blood: bleeding, blood types,
  * bandages, tourniquets and transfusions ({@link Blood}, {@link RealismItems}). Phase 3 is the hospital: Doctor
  * villagers, surgery on the Operating Table, burn cream, splints and fiberglass insulation ({@link Hospital}).
- * Phase 4 is the mind: mood and depression, games, TV, therapy and a real-date calendar ({@link Mind}).
+ * Phase 4 is the mind: mood and depression, games, TV, therapy and a real-date calendar ({@link Mind}). Phase 5 is
+ * tech: build your own PC from parts, operating systems, laptops and the AI data center ({@link Tech}).
  */
 @Mod(Realism.MODID)
 public class Realism {
@@ -44,12 +45,14 @@ public class Realism {
         ATTACHMENTS.register(modBus);
         RealismItems.register(modBus);
         Hospital.register(modBus);
+        Tech.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
         modBus.addListener(Realism::registerPayloads);
         NeoForge.EVENT_BUS.register(BodyEvents.class);
         NeoForge.EVENT_BUS.register(Blood.class);
         NeoForge.EVENT_BUS.register(Hospital.class);
         NeoForge.EVENT_BUS.register(Mind.class);
+        NeoForge.EVENT_BUS.register(Tech.class);
         NeoForge.EVENT_BUS.addListener(RealismCommand::register);
     }
 
@@ -62,6 +65,10 @@ public class Realism {
     }
 
     private static void registerPayloads(RegisterPayloadHandlersEvent event) {
-        event.registrar("1").playToClient(BodySync.TYPE, BodySync.CODEC, (payload, ctx) -> BodySync.latest = payload);
+        var r = event.registrar("1");
+        r.playToClient(BodySync.TYPE, BodySync.CODEC, (payload, ctx) -> BodySync.latest = payload);
+        // Only ever runs on a client, so the client-only screen class is never loaded on a server.
+        r.playToClient(Tech.OpenOs.TYPE, Tech.OpenOs.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.OsScreen.open(payload.os())));
+        r.playToServer(Tech.PlayGame.TYPE, Tech.PlayGame.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> Tech.playGame(ctx.player())));
     }
 }

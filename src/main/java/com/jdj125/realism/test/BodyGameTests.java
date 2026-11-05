@@ -4,6 +4,7 @@ import com.jdj125.realism.Blood;
 import com.jdj125.realism.Body;
 import com.jdj125.realism.Hospital;
 import com.jdj125.realism.Mind;
+import com.jdj125.realism.Tech;
 import com.jdj125.realism.BodyEvents;
 import com.jdj125.realism.Realism;
 import com.jdj125.realism.RealismConfig;
@@ -169,6 +170,24 @@ public class BodyGameTests {
             helper.assertTrue(b.mood == 100, "mood tops out at 100");
             helper.succeed();
         });
+    }
+
+    @GameTest(template = "arena")
+    public static void pcNeedsEveryPartAndGpuSagsWithoutBracket(GameTestHelper helper) {
+        net.minecraft.core.BlockPos pos = new net.minecraft.core.BlockPos(2, 1, 2);
+        helper.setBlock(pos, Tech.PC_CASE.get());
+        Tech.PcCaseEntity pc = (Tech.PcCaseEntity) helper.getBlockEntity(pos);
+        for (Tech.Part p : Tech.Part.values()) if (p != Tech.Part.GPU_BRACKET && p != Tech.Part.GPU) pc.install(p);
+        helper.assertFalse(pc.complete(), "no GPU = can't boot");
+        pc.install(Tech.Part.GPU);
+        helper.assertTrue(pc.complete(), "all parts in = it boots");
+        helper.assertFalse(pc.install(Tech.Part.GPU), "can't install the same part twice");
+        helper.assertTrue(pc.boot().equals("sag") && pc.boot().equals("sag"), "no bracket: the GPU sags");
+        helper.assertTrue(pc.boot().equals("cracked") && !pc.has(Tech.Part.GPU), "third boot without a bracket cracks the GPU");
+        pc.install(Tech.Part.GPU);
+        pc.install(Tech.Part.GPU_BRACKET);
+        helper.assertTrue(pc.boot().equals("ok") && pc.boot().equals("ok") && pc.boot().equals("ok"), "with a bracket the GPU is safe");
+        helper.succeed();
     }
 
     @GameTest(template = "arena", timeoutTicks = 120)
