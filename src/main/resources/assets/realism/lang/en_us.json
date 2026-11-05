@@ -139,7 +139,7 @@
   "key.realism.defib_shock": "Defibrillator: shock",
   "death.attack.realism.collapsed": "%1$s couldn't be saved in time",
   "realism.collapse.you": "You collapsed. Someone has to save you, fast...",
-  "realism.collapse.other": "%s COLLAPSED! Defibrillator (charge, clear, shock) or call an ambulance, quick!",
+  "realism.collapse.other": "%s COLLAPSED! at %s %s %s. Defibrillator (charge, clear, shock), or call an ambulance (phone or /ambulance), quick!",
   "realism.revived": "You're back! Take it easy for a while.",
   "realism.gone.spectator": "You died for good. You can only watch now.",
   "realism.gone.new_person": "You died for good. You start over as a new person.",
@@ -247,5 +247,7 @@
   "realism.phone.balance": "Balance: %s",
   "realism.phone.no_country": "No country",
   "realism.phone.nobody": "Nobody else online",
-  "realism.phone.text_to": "Text to:"
+  "realism.phone.text_to": "Text to:",
+  "realism.phone.call_ambulance": "🚑 Call ambulance",
+  "realism.phone.ambulance_failed": "The ambulance couldn't help (nobody collapsed nearby, or no hospital)."
 }

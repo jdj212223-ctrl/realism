@@ -329,12 +329,13 @@ public class OsScreen extends Screen {
         int w = width, h = height, cx = w / 2, cy = h / 2;
         switch (Tech.OSES[os]) {
             case "classic_mac" -> {
-                for (int y = 0; y < h; y += 2) for (int x = (y / 2) % 2 * 2; x < w; x += 4) g.fill(x, y, x + 2, y + 2, 0xFF8A8A8A);
+                // A flat grey desktop (a dotted pattern drawn pixel by pixel was tens of thousands of fills per frame: lag).
+                g.fill(0, 0, w, h, 0xFF9A9A9A);
                 g.fill(0, 0, w, 12, 0xFFFFFFFF);
                 g.fill(0, 12, w, 13, 0xFF000000);
             }
             case "mac_x" -> {
-                for (int y = 0; y < h; y++) g.fill(0, y, w, y + 1, 0xFF000000 | lerp(0x1E4FA8, 0x7FB4F0, y / (float) h));
+                g.fillGradient(0, 0, w, h, 0xFF1E4FA8, 0xFF7FB4F0);
                 g.fill(0, 0, w, 11, 0xCCF2F2F2);
                 g.fill(cx - 90, h - 22, cx + 90, h - 4, 0x99FFFFFF);
                 int[] icons = {0xFF3D8BF0, 0xFF46C06A, 0xFFF0B13D, 0xFFE0524F, 0xFF9A6BE0};
@@ -367,12 +368,5 @@ public class OsScreen extends Screen {
         g.fill(x, y, x + 260, y + 14, c[2]);
         Component t = open == null ? title : Component.translatable("realism.app." + open.name().toLowerCase());
         g.drawCenteredString(font, t, x + 130, y + 3, c[3]);
-    }
-
-    private static int lerp(int a, int b, float t) {
-        int r = (int) (((a >> 16) & 255) + (((b >> 16) & 255) - ((a >> 16) & 255)) * t);
-        int gr = (int) (((a >> 8) & 255) + (((b >> 8) & 255) - ((a >> 8) & 255)) * t);
-        int bl = (int) ((a & 255) + ((b & 255) - (a & 255)) * t);
-        return (r << 16) | (gr << 8) | bl;
     }
 }

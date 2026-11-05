@@ -296,6 +296,30 @@ public class BodyGameTests {
     }
 
     @GameTest(template = "arena", timeoutTicks = 120)
+    public static void ambulanceCallNeedsAPhoneAndSignalThenBringsYouToTheTable(GameTestHelper helper) {
+        withPlayer(helper, patient -> {
+            @SuppressWarnings("removal") ServerPlayer caller = helper.makeMockServerPlayerInLevel();
+            caller.teleportTo(patient.getX() + 2, patient.getY(), patient.getZ());
+            Rescue.collapse(patient);
+            helper.assertTrue(World.callAmbulance(caller).equals("phone.none"), "no phone, no call");
+            caller.getInventory().add(new net.minecraft.world.item.ItemStack(World.PHONE.get()));
+            World.Data data = World.Data.get(caller.serverLevel());
+            helper.assertTrue(World.callAmbulance(caller).equals("phone.no_signal") || data.signal(caller.blockPosition()), "no tower, no signal");
+            net.minecraft.core.BlockPos tower = caller.blockPosition();
+            data.towers.add(tower);
+            // Mock players stand at the world's center, not in the test area: put the table next to them.
+            net.minecraft.core.BlockPos table = patient.blockPosition().offset(3, 0, 3);
+            helper.getLevel().setBlock(table, Hospital.OPERATING_TABLE.get().defaultBlockState(), 3);
+            Rescue.Tables.get(helper.getLevel()).add(table);
+            String r = World.callAmbulance(caller);
+            helper.assertTrue(r.equals("phone.ok"), "phone + signal + table = the ambulance comes, got " + r);
+            helper.assertTrue(patient.blockPosition().distSqr(table) <= 4, "the patient is taken to the Operating Table");
+            data.towers.remove(tower);
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
     public static void exhaustionKillsWhenPushing(GameTestHelper helper) {
         withPlayer(helper, p -> {
             Body b = BodyEvents.body(p);

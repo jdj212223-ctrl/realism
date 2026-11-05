@@ -140,7 +140,8 @@ public final class Rescue {
         p.removeAllEffects();
         p.displayClientMessage(Component.translatable("realism.collapse.you"), false);
         for (ServerPlayer other : p.serverLevel().players())
-            if (other != p && other.distanceToSqr(p) < 64 * 64) other.displayClientMessage(Component.translatable("realism.collapse.other", p.getName()), false);
+            if (other != p && other.distanceToSqr(p) < 512 * 512)
+                other.displayClientMessage(Component.translatable("realism.collapse.other", p.getName(), p.getBlockX(), p.getBlockY(), p.getBlockZ()), false);
     }
 
     /** One second of being collapsed (called from {@link BodyEvents#second}). */
@@ -262,30 +263,45 @@ public final class Rescue {
         public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
             ItemStack stack = player.getItemInHand(hand);
             if (level.isClientSide || !(level instanceof ServerLevel sl)) return InteractionResultHolder.success(stack);
-            List<ServerPlayer> down = sl.getEntitiesOfClass(ServerPlayer.class, player.getBoundingBox().inflate(8), Rescue::collapsed);
-            if (down.isEmpty()) {
-                say(player, "ambulance.nobody");
-                return InteractionResultHolder.fail(stack);
-            }
-            BlockPos table = Tables.get(sl).nearest(player.blockPosition(), 512);
-            if (table == null) table = findHospital(sl, player.blockPosition());
-            if (table == null) {
-                say(player, "ambulance.no_hospital");
-                return InteractionResultHolder.fail(stack);
-            }
-            ServerPlayer patient = down.get(0);
-            patient.teleportTo(table.getX() + 0.5, table.getY() + 1, table.getZ() + 0.5);
-            player.displayClientMessage(Component.translatable("realism.ambulance.sent", patient.getName()), false);
-            boolean doctor = !sl.getEntitiesOfClass(Villager.class, new AABB(table).inflate(8),
-                    v -> v.getVillagerData().getProfession() == Hospital.DOCTOR.get()).isEmpty();
-            if (doctor) {
-                revive(patient);
-                Hospital.operate(patient);
-                patient.displayClientMessage(Component.translatable("realism.ambulance.surgery"), false);
-            } else patient.displayClientMessage(Component.translatable("realism.ambulance.no_doctor"), false);
+            if (!(player instanceof ServerPlayer caller) || !dispatch(caller, 8)) return InteractionResultHolder.fail(stack);
             player.getCooldowns().addCooldown(this, 20 * 30);
             return InteractionResultHolder.consume(stack);
         }
+    }
+
+    /**
+     * Sends an ambulance for the nearest collapsed player within {@code range} blocks of the caller: they're rushed
+     * to the nearest Operating Table (placed, or in a hospital building), with surgery if a Doctor is there.
+     */
+    public static boolean dispatch(ServerPlayer caller, int range) {
+        return dispatchWhy(caller, range).equals("ok");
+    }
+
+    /** Like {@link #dispatch}, but says what happened: "ok", "nobody" or "no_hospital". */
+    public static String dispatchWhy(ServerPlayer caller, int range) {
+        ServerLevel sl = caller.serverLevel();
+        ServerPlayer patient = sl.players().stream().filter(o -> collapsed(o) && o.distanceToSqr(caller) <= (double) range * range)
+                .min(java.util.Comparator.comparingDouble(o -> o.distanceToSqr(caller))).orElse(null);
+        if (patient == null) {
+            say(caller, "ambulance.nobody");
+            return "nobody";
+        }
+        BlockPos table = Tables.get(sl).nearest(patient.blockPosition(), 1024);
+        if (table == null) table = findHospital(sl, patient.blockPosition());
+        if (table == null) {
+            say(caller, "ambulance.no_hospital");
+            return "no_hospital";
+        }
+        patient.teleportTo(table.getX() + 0.5, table.getY() + 1, table.getZ() + 0.5);
+        caller.displayClientMessage(Component.translatable("realism.ambulance.sent", patient.getName()), false);
+        boolean doctor = !sl.getEntitiesOfClass(Villager.class, new AABB(table).inflate(8),
+                v -> v.getVillagerData().getProfession() == Hospital.DOCTOR.get()).isEmpty();
+        if (doctor) {
+            revive(patient);
+            Hospital.operate(patient);
+            patient.displayClientMessage(Component.translatable("realism.ambulance.surgery"), false);
+        } else patient.displayClientMessage(Component.translatable("realism.ambulance.no_doctor"), false);
+        return "ok";
     }
 
     /**
@@ -313,7 +329,7 @@ public final class Rescue {
     public static class Tables extends SavedData {
         private final List<BlockPos> tables = new ArrayList<>();
 
-        static Tables get(ServerLevel level) {
+        public static Tables get(ServerLevel level) {
             return level.getDataStorage().computeIfAbsent(new Factory<>(Tables::new, Tables::load), "realism_hospitals");
         }
 
@@ -335,7 +351,7 @@ public final class Rescue {
             return tag;
         }
 
-        void add(BlockPos p) {
+        public void add(BlockPos p) {
             if (!tables.contains(p)) tables.add(p.immutable());
             setDirty();
         }
@@ -345,7 +361,11 @@ public final class Rescue {
             setDirty();
         }
 
-        BlockPos nearest(BlockPos from, int range) {
+        public int size() {
+            return tables.size();
+        }
+
+        public BlockPos nearest(BlockPos from, int range) {
             BlockPos best = null;
             double bestD = (double) range * range;
             for (BlockPos p : tables) {

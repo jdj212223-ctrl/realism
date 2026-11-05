@@ -87,6 +87,12 @@ public class Realism {
         }));
         r.playToServer(Tech.PlayGame.TYPE, Tech.PlayGame.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> Tech.playGame(ctx.player())));
         r.playToClient(World.OpenPhone.TYPE, World.OpenPhone.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.PhoneScreen.open(payload)));
+        r.playToServer(World.CallAmbulance.TYPE, World.CallAmbulance.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) {
+                String result = World.callAmbulance(sp);
+                if (!result.equals("phone.ok")) sp.displayClientMessage(net.minecraft.network.chat.Component.translatable("realism." + result), true);
+            }
+        }));
         r.playToServer(World.SendText.TYPE, World.SendText.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) {
                 String result = World.text(sp, payload.to(), payload.text());

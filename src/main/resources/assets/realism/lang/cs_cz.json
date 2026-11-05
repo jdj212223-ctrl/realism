@@ -139,7 +139,7 @@
   "key.realism.defib_shock": "Defibrilátor: výboj",
   "death.attack.realism.collapsed": "%1$s se nepodařilo zachránit včas",
   "realism.collapse.you": "Zkolaboval/a jsi. Někdo tě musí rychle zachránit...",
-  "realism.collapse.other": "%s ZKOLABOVAL/A! Defibrilátor (nabít, odstoupit, výboj) nebo zavolej záchranku, rychle!",
+  "realism.collapse.other": "%s ZKOLABOVAL/A! na %s %s %s. Defibrilátor (nabít, odstoupit, výboj), nebo zavolej záchranku (telefon nebo /ambulance), rychle!",
   "realism.revived": "Jsi zpátky! Chvíli to ber v klidu.",
   "realism.gone.spectator": "Zemřel/a jsi nadobro. Teď už se můžeš jen dívat.",
   "realism.gone.new_person": "Zemřel/a jsi nadobro. Začínáš znovu jako nový člověk.",
@@ -247,5 +247,7 @@
   "realism.phone.balance": "Zůstatek: %s",
   "realism.phone.no_country": "Bez státu",
   "realism.phone.nobody": "Nikdo jiný není online",
-  "realism.phone.text_to": "Zpráva pro:"
+  "realism.phone.text_to": "Zpráva pro:",
+  "realism.phone.call_ambulance": "🚑 Zavolat záchranku",
+  "realism.phone.ambulance_failed": "Záchranka nemohla pomoct (nikdo poblíž nezkolaboval, nebo není nemocnice)."
 }

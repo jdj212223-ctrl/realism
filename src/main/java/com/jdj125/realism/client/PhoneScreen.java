@@ -46,6 +46,10 @@ public class PhoneScreen extends Screen {
             setInitialFocus(message);
             addRenderableWidget(Button.builder(Component.translatable("realism.phone.send"), b -> send()).bounds(x + 8, y + 138, 104, 18).build());
         }
+        addRenderableWidget(Button.builder(Component.translatable("realism.phone.call_ambulance"), b -> {
+            PacketDistributor.sendToServer(new World.CallAmbulance());
+            onClose();
+        }).bounds(x + 8, y + 62, 104, 14).build());
         addRenderableWidget(Button.builder(Component.translatable("realism.phone.close"), b -> onClose()).bounds(x + 30, y + 176, 60, 16).build());
     }
 

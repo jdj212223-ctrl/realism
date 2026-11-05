@@ -383,10 +383,32 @@ public final class World {
         return "phone.ok";
     }
 
-    // ---- /country and /pay ----
+    /** Calling the ambulance by phone: you need a phone and signal; it goes to the nearest collapsed player within 256 blocks. */
+    public static String callAmbulance(ServerPlayer caller) {
+        if (!caller.getInventory().contains(new ItemStack(PHONE.get()))) return "phone.none";
+        if (!Data.get(caller.serverLevel()).signal(caller.blockPosition())) return "phone.no_signal";
+        return Rescue.dispatch(caller, 256) ? "phone.ok" : "phone.ambulance_failed";
+    }
+
+    public record CallAmbulance() implements CustomPacketPayload {
+        public static final Type<CallAmbulance> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Realism.MODID, "call_ambulance"));
+        public static final StreamCodec<ByteBuf, CallAmbulance> CODEC = StreamCodec.unit(new CallAmbulance());
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
+    }
+
+    // ---- /country, /pay and /ambulance ----
 
     public static void commands(RegisterCommandsEvent event) {
         var d = event.getDispatcher();
+        d.register(Commands.literal("ambulance").executes(ctx -> {
+            String r = callAmbulance(ctx.getSource().getPlayerOrException());
+            if (!r.equals("phone.ok")) ctx.getSource().sendFailure(Component.translatable("realism." + r));
+            return r.equals("phone.ok") ? 1 : 0;
+        }));
         d.register(Commands.literal("pay")
                 .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("amount", IntegerArgumentType.integer(1)).executes(ctx -> {
                     ServerPlayer from = ctx.getSource().getPlayerOrException(), to = EntityArgument.getPlayer(ctx, "player");
