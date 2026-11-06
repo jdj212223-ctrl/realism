@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "realism:block/grandma_stove_front_on",
+    "side": "realism:block/grandma_stove_side",
+    "top": "realism:block/grandma_stove_top"
+  }
+}

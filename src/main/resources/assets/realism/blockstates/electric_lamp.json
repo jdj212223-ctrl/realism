@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "realism:block/electric_lamp"
+    },
+    "powered=true": {
+      "model": "realism:block/electric_lamp_on"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "realism:block/generator_side_lit",
+    "end": "realism:block/generator_top"
+  }
+}

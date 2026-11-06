@@ -7,7 +7,11 @@ public final class RealismConfig {
     public static final ModConfigSpec SPEC;
     public static final ModConfigSpec.IntValue THIRST_DAYS, SLEEP_DAYS;
     public static final ModConfigSpec.BooleanValue REAL_TIME, MUSCLE_TEARS, BROKEN_LEGS, BURNS, FROSTBITE, STAMINA,
-            BLEEDING, BLOOD_PARTICLES, MOOD, NO_REVIVING, PERMA_DEATH_SPECTATOR, BLACK_SLEEP;
+            BLEEDING, BLOOD_PARTICLES, MOOD, NO_REVIVING, PERMA_DEATH_SPECTATOR, BLACK_SLEEP,
+            DISEASES, VOICE_ONLY_CHAT, NO_CRAFTING_TABLE, REMAINS;
+    /** Client settings (realism-client.toml): echo in caves, black and white vision in old times. */
+    public static final ModConfigSpec CLIENT_SPEC;
+    public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
     static {
@@ -36,7 +40,18 @@ public final class RealismConfig {
         MOOD = b.comment("Mood and depression: loneliness, hunger and injuries bring it down; friends, pets, music, games, TV and therapy bring it up").define("mood", true);
         BLACK_SLEEP = b.comment("Black screen with drifting dreams (or nightmares) while you sleep").define("blackScreenWhenSleeping", true);
         b.pop();
+        b.comment("Realism 1.0.0").push("life");
+        DISEASES = b.comment("Radiation, flu, food poisoning, infections and cancer").define("diseases", true);
+        VOICE_ONLY_CHAT = b.comment("With Simple Voice Chat installed, typed chat is off: talk with your voice (commands and phone texts still work). false = typing allowed")
+                .define("voiceOnlyChat", true);
+        NO_CRAFTING_TABLE = b.comment("Crafting tables don't open: craft at a Workbench holding a Hammer").define("noCraftingTable", true);
+        REMAINS = b.comment("Players who are gone for good leave their remains where they fell").define("remains", true);
+        b.pop();
         SPEC = b.build();
+        ModConfigSpec.Builder c = new ModConfigSpec.Builder();
+        ECHO = c.comment("Sounds echo in big caves and halls").define("echo", true);
+        OLD_TIMES_VISION = c.comment("Black and white vision until colour TV is invented (worlds that started in year 0)").define("oldTimesVision", true);
+        CLIENT_SPEC = c.build();
     }
 
     private RealismConfig() {

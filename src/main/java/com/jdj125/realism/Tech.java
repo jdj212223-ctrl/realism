@@ -368,7 +368,7 @@ public final class Tech {
                 say(player, "pc.missing", missing.toString());
                 return InteractionResult.CONSUME;
             }
-            if (!level.hasNeighborSignal(pos)) {
+            if (!level.hasNeighborSignal(pos) && !Power.powered(level, pos)) {
                 say(player, "pc.no_power");
                 return InteractionResult.CONSUME;
             }

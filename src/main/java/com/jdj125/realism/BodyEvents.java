@@ -77,6 +77,7 @@ public final class BodyEvents {
         if (!p.isCreative() && !p.isSpectator()) second(p);
         b.handStrain *= 0.8f;
         if (p.connection != null && p.connection.hasChannel(BodySync.TYPE)) PacketDistributor.sendToPlayer(p, sync(p));
+        if (p.connection != null && p.connection.hasChannel(LifeSync.TYPE)) PacketDistributor.sendToPlayer(p, Health.sync(p));
     }
 
     /** One second of every body rule for this player (also called directly by the GameTests). */
@@ -89,6 +90,8 @@ public final class BodyEvents {
         if (RealismConfig.FROSTBITE.get()) frostbite(p, b);
         if (RealismConfig.BLEEDING.get()) Blood.second(p, b);
         if (RealismConfig.MOOD.get()) Mind.second(p, b);
+        Health.second(p, b);
+        Justice.second(p, b);
         Rescue.second(p, b);
         if (b.unconscious > 0) b.unconscious = Math.max(0, b.unconscious - 20);
     }
@@ -286,16 +289,8 @@ public final class BodyEvents {
         Player p = event.getEntity();
         if (p.level().isClientSide || p.isCreative() || !RealismConfig.BURNS.get() || !p.getMainHandItem().isEmpty()) return;
         if (event.getAction() != PlayerInteractEvent.LeftClickBlock.Action.START) return;
-        BlockState s = event.getLevel().getBlockState(event.getPos());
-        String id = BuiltInRegistries.BLOCK.getKey(s.getBlock()).toString();
-        boolean lit = s.hasProperty(BlockStateProperties.LIT) && s.getValue(BlockStateProperties.LIT);
-        int degree;
-        if (id.equals("cold_sweat:boiler") && (lit || !s.hasProperty(BlockStateProperties.LIT))) degree = 3;
-        else if (s.getBlock() instanceof AbstractFurnaceBlock && lit) {
-            float r = p.getRandom().nextFloat();
-            degree = r < 0.6f ? 1 : r < 0.9f ? 2 : 3;
-        } else return;
-        burn(p, degree);
+        int degree = Home.burnDegree(event.getLevel().getBlockState(event.getPos()), p.getRandom());
+        if (degree > 0) burn(p, degree);
     }
 
     public static void burn(Player p, int degree) {
@@ -314,7 +309,7 @@ public final class BodyEvents {
     private static Object coldBody;
     private static boolean coldTried;
 
-    private static double coldSweatBody(LivingEntity e) {
+    static double coldSweatBody(LivingEntity e) {
         if (!coldTried) {
             coldTried = true;
             try {

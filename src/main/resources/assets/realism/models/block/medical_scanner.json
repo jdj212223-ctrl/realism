@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "realism:block/medical_scanner_side",
+    "end": "realism:block/medical_scanner_top"
+  }
+}

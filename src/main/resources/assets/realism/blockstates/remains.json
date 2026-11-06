@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "bloody=false,facing=north": {
+      "model": "realism:block/remains"
+    },
+    "bloody=true,facing=north": {
+      "model": "realism:block/remains_bloody"
+    },
+    "bloody=false,facing=east": {
+      "model": "realism:block/remains",
+      "y": 90
+    },
+    "bloody=true,facing=east": {
+      "model": "realism:block/remains_bloody",
+      "y": 90
+    },
+    "bloody=false,facing=south": {
+      "model": "realism:block/remains",
+      "y": 180
+    },
+    "bloody=true,facing=south": {
+      "model": "realism:block/remains_bloody",
+      "y": 180
+    },
+    "bloody=false,facing=west": {
+      "model": "realism:block/remains",
+      "y": 270
+    },
+    "bloody=true,facing=west": {
+      "model": "realism:block/remains_bloody",
+      "y": 270
+    }
+  }
+}

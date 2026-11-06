@@ -114,7 +114,7 @@ public final class Rescue {
     // ---- Collapsing instead of dying ----
 
     private static boolean skipsCollapse(DamageSource src) {
-        return src.is(DamageTypes.FELL_OUT_OF_WORLD) || src.is(DamageTypes.GENERIC_KILL);
+        return src.is(DamageTypes.FELL_OUT_OF_WORLD) || src.is(DamageTypes.GENERIC_KILL) || src.is(Realism.EXECUTED);
     }
 
     @SubscribeEvent
@@ -124,6 +124,8 @@ public final class Rescue {
         if (b.collapse > 0 || skipsCollapse(event.getSource())) {
             // The real end: the clock ran out, the neck broke, or it was the void.
             markGone(p);
+            if (event.getSource().is(Realism.EXECUTED) || (RealismConfig.REMAINS.get() && !event.getSource().is(DamageTypes.FELL_OUT_OF_WORLD)))
+                Justice.leaveRemains(p);
             return;
         }
         event.setCanceled(true);
@@ -133,7 +135,7 @@ public final class Rescue {
     public static void collapse(ServerPlayer p) {
         Body b = BodyEvents.body(p);
         p.setHealth(1);
-        b.collapse = RealismConfig.COLLAPSE_SECONDS.get() * 20;
+        b.collapse = Era.collapseSeconds(p) * 20;
         b.defibStep = 0;
         p.setForcedPose(Pose.SLEEPING);
         p.stopRiding();
@@ -147,7 +149,8 @@ public final class Rescue {
     /** One second of being collapsed (called from {@link BodyEvents#second}). */
     static void second(ServerPlayer p, Body b) {
         if (b.collapse <= 0) return;
-        b.collapse -= 20;
+        // In an ambulance the paramedics keep you going: the clock runs 4 times slower.
+        b.collapse -= Ambulance.inAmbulance(p) ? 5 : 20;
         p.setForcedPose(Pose.SLEEPING);
         p.setSprinting(false);
         p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 10, true, false, false));
@@ -222,6 +225,7 @@ public final class Rescue {
     }
 
     public static void defib(ServerPlayer user, int step, Entity target) {
+        if (Era.noMedicineYet(user)) return;
         if (!user.getMainHandItem().is(DEFIBRILLATOR.get())) {
             say(user, "defib.hold");
             return;
@@ -280,6 +284,10 @@ public final class Rescue {
     /** Like {@link #dispatch}, but says what happened: "ok", "nobody" or "no_hospital". */
     public static String dispatchWhy(ServerPlayer caller, int range) {
         ServerLevel sl = caller.serverLevel();
+        if (Era.year(caller) < 1930) {
+            say(caller, "ambulance.not_invented");
+            return "not_invented";
+        }
         ServerPlayer patient = sl.players().stream().filter(o -> collapsed(o) && o.distanceToSqr(caller) <= (double) range * range)
                 .min(java.util.Comparator.comparingDouble(o -> o.distanceToSqr(caller))).orElse(null);
         if (patient == null) {

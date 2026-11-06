@@ -116,6 +116,7 @@ public final class RealismItems {
                     user.displayClientMessage(Component.translatable("realism.syringe.done", type), true);
                 }
                 case BLOOD_BAG -> {
+                    if (Era.noMedicineYet(user)) return false;
                     String type = stack.getOrDefault(BLOOD_TYPE.get(), "");
                     if (b.blood >= Blood.FULL) {
                         user.displayClientMessage(Component.translatable("realism.transfusion.full"), true);

@@ -48,6 +48,18 @@ public class Body implements INBTSerializable<CompoundTag> {
     public String lastCountry = "";
     /** The last warning stage shown for thirst and sleep, so each warning is said once. */
     public int thirstStage, sleepStage;
+    /** 1.0.0: this life already got its period clothes (old times). */
+    public boolean dressed;
+    /** 1.0.0 radiation: the dose so far (sieverts), the rate right now (Sv/s, not saved), ticks of anti-radiation pills left. */
+    public float dose, rate;
+    public int antiRad;
+    /** 1.0.0 illnesses: ticks of flu and food poisoning left, ticks an infection has been growing, ticks bleeding unbandaged. */
+    public int flu, foodPoisoning, infection, untreatedBleed;
+    /** 1.0.0 cancer: stage 0-4, ticks into the current stage, and whether a Medical Scanner found it. */
+    public int cancer, cancerTime;
+    public boolean cancerFound;
+    /** 1.0.0 justice: ticks left of a death sentence being carried out (the screen fading to black). */
+    public int sentenced;
 
     @Override
     public CompoundTag serializeNBT(HolderLookup.Provider provider) {
@@ -75,6 +87,17 @@ public class Body implements INBTSerializable<CompoundTag> {
         t.putBoolean("brokenNeck", brokenNeck);
         t.putBoolean("paralysed", paralysed);
         t.putInt("unconscious", unconscious);
+        t.putBoolean("dressed", dressed);
+        t.putFloat("dose", dose);
+        t.putInt("antiRad", antiRad);
+        t.putInt("flu", flu);
+        t.putInt("foodPoisoning", foodPoisoning);
+        t.putInt("infection", infection);
+        t.putInt("untreatedBleed", untreatedBleed);
+        t.putInt("cancer", cancer);
+        t.putInt("cancerTime", cancerTime);
+        t.putBoolean("cancerFound", cancerFound);
+        t.putInt("sentenced", sentenced);
         return t;
     }
 
@@ -103,5 +126,16 @@ public class Body implements INBTSerializable<CompoundTag> {
         brokenNeck = t.getBoolean("brokenNeck");
         paralysed = t.getBoolean("paralysed");
         unconscious = t.getInt("unconscious");
+        dressed = t.getBoolean("dressed");
+        dose = t.getFloat("dose");
+        antiRad = t.getInt("antiRad");
+        flu = t.getInt("flu");
+        foodPoisoning = t.getInt("foodPoisoning");
+        infection = t.getInt("infection");
+        untreatedBleed = t.getInt("untreatedBleed");
+        cancer = t.getInt("cancer");
+        cancerTime = t.getInt("cancerTime");
+        cancerFound = t.getBoolean("cancerFound");
+        sentenced = t.getInt("sentenced");
     }
 }

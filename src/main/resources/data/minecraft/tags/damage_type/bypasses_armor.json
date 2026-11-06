@@ -8,6 +8,10 @@
     "realism:frostbite",
     "realism:bled_out",
     "realism:broken_neck",
-    "realism:collapsed"
+    "realism:collapsed",
+    "realism:radiation",
+    "realism:infection",
+    "realism:cancer",
+    "realism:executed"
   ]
 }

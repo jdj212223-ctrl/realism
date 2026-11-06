@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "realism:block/generator"
+    },
+    "lit=true": {
+      "model": "realism:block/generator_lit"
+    }
+  }
+}

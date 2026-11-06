@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "G G",
+    "G G"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gray_wool"
+    }
+  },
+  "result": {
+    "id": "realism:fancy_trousers",
+    "count": 1
+  }
+}

@@ -62,6 +62,7 @@ public final class Mind {
         if (friend) d += 0.03f;
         else if (!anyone) d -= 0.02f;
         if (pet) d += 0.03f;
+        if (Era.fullyFancy(p)) d += 0.01f;
         if (music(p)) d += 0.05f;
         boolean sky = level.canSeeSky(p.blockPosition());
         if (sky && level.isDay()) d += 0.01f;
@@ -152,6 +153,10 @@ public final class Mind {
                 player.displayClientMessage(Component.translatable("realism.therapy.done"), false);
                 stack.consume(1, player);
                 return InteractionResultHolder.consume(stack);
+            }
+            if (level.getServer() != null && Era.Data.get(level.getServer()).chosen && Era.year(player) < Era.TODAY) {
+                player.displayClientMessage(Component.translatable("realism.calendar.era", Era.year(player), level.getDayTime() / 24000 + 1), false);
+                return InteractionResultHolder.success(stack);
             }
             String today = LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.ENGLISH));
             player.displayClientMessage(Component.translatable("realism.calendar", today, level.getDayTime() / 24000 + 1), false);

@@ -1,6 +1,6 @@
 # Realism 🌍
 
-Real life in Minecraft (NeoForge 1.21.1), built in phases.
+Real life in Minecraft (NeoForge 1.21.1), built in phases. **1.0.0: everything is in.**
 
 ## Phase 1: your body
 
@@ -99,12 +99,56 @@ Hospital buildings now generate in plains, forests, taiga, savanna, meadows and 
 
 The phone has a **🚑 Call ambulance** button, and there's an `/ambulance` command (no cheats needed): with a phone and signal, the nearest collapsed player within 256 blocks is rushed to the nearest hospital. The COLLAPSED alarm now includes coordinates. Computers no longer lag on the retro desktops. **Dreams and nightmares:** while you sleep the black screen shows drifting dreams; you wake up with a dream (+5 mood) or, when you're feeling low or very tired, a nightmare (-5 mood). Turn the sleep screen off with `blackScreenWhenSleeping = false`.
 
+## 1.0.0: everything 🌍✨
+
+### 📜 Eras
+The first time an operator opens a world with Realism, they choose where history starts:
+- **Year 0**: invent everything yourselves. The first time anyone makes an invention, the year jumps to when it was really invented: a book (printing, 1450), a compass (1600), a clock (1700), a Generator (electricity, 1880), a Medical Station (modern medicine, 1900), an Ambulance (1930), a TV (colour TV, 1950), a PC Case (1980), a Phone (2007) and the AI Data Center (2026). `/era` shows the list.
+  - ⚫⚪ **Black and white** until colour TV is invented (`oldTimesVision` in the client config).
+  - 🎩 **Fancy period clothes**: everyone starts each life in a top hat, tailcoat, fancy trousers and buckled shoes (wearing the full outfit lifts your mood).
+  - 💀 **Brutal**: before modern medicine you take 1.5x damage, have half as long to be saved when you collapse, and surgery, defibrillators, blood bags and antibiotics don't work yet.
+- **2026**: today's world, everything is already invented.
+
+### ☢️ Radiation and diseases 🦠
+| Thing | What happens |
+|---|---|
+| ☢️ Uranium | Uranium Ore (deep underground, glows a little) and Raw Uranium are radioactive. The dose adds up in sieverts: 1 Sv sick, 2 Sv weak, 4 Sv hurting, **8 Sv deadly**. Away from it your body slowly repairs. |
+| 📟 Geiger Counter | Hold it: it clicks faster the more radiation there is, and shows the dose. |
+| 💊 Anti-radiation pills | Halve what you take in for 10 minutes (dried kelp x2 + bottle: iodine comes from seaweed). |
+| 🤧 Flu | Catch it from the freezing cold, rain with no hat, or a coughing friend. Slow and tired for 2 days. Flu medicine (honey bottle + sugar) makes it pass. Never deadly. |
+| 🤢 Food poisoning | Rotten flesh, raw chicken, spider eyes, pufferfish: thirsty and queasy for a day. Water helps. |
+| 🌡️ Infection | A wound left bleeding for 2 minutes, zombie bites, fiberglass cuts. A fever that gets worse for 2 days, then sepsis. **Antibiotics** (bread + brown mushroom + bottle: penicillin comes from mould) or surgery cure it. |
+| 🎗️ Cancer | Rare, much likelier after radiation. 4 slow stages (3 days each), you only feel tired. The **Medical Scanner** finds it: stage 1-2 surgery removes it, later **chemotherapy** (from the Doctor) often pushes it back a stage. No gross pictures, and there's always treatment. |
+| 🩻 Medical Scanner | Needs electricity. A full check-up: blood, radiation, illnesses, cancer. |
+
+### ⚡ Electricity
+**Generator** (100 W, burns coal) and **Solar Panel** (40 W, daylight), joined by **Power Cables**. Devices: **Electric Lamp** (10 W), computers (60 W, redstone still works too), Medical Scanner (50 W), Patient Monitor (20 W). Use too much and the whole grid **blacks out**. Right-click a generator to see the grid.
+
+### 🏠 Home
+| Thing | What it does |
+|---|---|
+| 🍳 Grandma's Stove | The old cast-iron stove from grandparents' houses: cooks food 2x fast, warms the room (Cold Sweat), makes everyone near it cosy, and its food is **made with love** (extra mood). It's hot: touch it and you get burned. |
+| 🔨 No crafting table | Real life has no magic crafting box (`noCraftingTable`). Build a **Workbench** (2 planks over 2 logs) and hold a **Hammer** (2 cobblestone + stick) to craft. Every craft wears the hammer down. The 2x2 inventory grid still works. |
+| 🎙️ Voice-only chat | With Simple Voice Chat installed, typed chat is off: talk with your voice. Commands and phone texts still work (`voiceOnlyChat = false` brings typing back). |
+| 🥽 VR burns | With Vivecraft, your real hand touching a burning furnace or boiler burns you. |
+| 🔊 Echo | Sounds echo in big caves and halls (`echo` in the client config). |
+| 🩷 Fiberglass cuts | Bare-handed fiberglass can cut you: a little bleeding, sometimes an infection. |
+
+### 🚑 The hospital
+| Thing | What it does |
+|---|---|
+| 🚑 Ambulance | A real, drivable van (W/S to drive, A/D to steer). Drive up to a collapsed player and they're loaded in the back by themselves: the siren and lights go on and the paramedics keep them alive 4x longer. Reach an Operating Table with a Doctor and they get emergency surgery. Sneak-punch an empty one to pick it up. The Doctor sells them too. |
+| 💓 Patient Monitor | Shows the nearest patient's heart rate, a moving heart trace (flat when collapsed), blood and oxygen, and beeps with every beat. Needs electricity. |
+| 🦾 Chromeflesh surgery | With the Chromeflesh mod: hold an implant and use the Operating Table with a Doctor (8 emeralds) to have it put in properly, under anesthetic. |
+
+### ⚖️ The law
+Countries' leaders are the government. Murder (players or villagers) and theft (opening someone else's chest in a country you're not a citizen of) go on your record by themselves. Leaders use `/law setjail`, `/law arrest <player>` (5 minutes per crime), `/law release`, `/law pardon` and `/law record`. **In old times only**, a jailed murderer can be sentenced with `/law sentence`: the screen just fades to black, they're gone for good, and their **remains** stay where they fell (blocky pixel blood only, and only with `bloodParticles` on). Modern times have no death penalty, like Czechia since 1990. Players who are gone for good leave remains too (`remains`).
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 
 **Config** (`serverconfig/realism-server.toml`): days for thirst/sleep, real-life days instead of Minecraft days,
 and on/off for each rule.
 
-Coming next: a drivable ambulance, Chromeflesh surgery, radiation and diseases, electricity, eras...
 
 MIT license.

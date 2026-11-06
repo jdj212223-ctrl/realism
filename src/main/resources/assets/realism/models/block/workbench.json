@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "realism:block/workbench_side",
+    "up": "realism:block/workbench_top",
+    "down": "minecraft:block/oak_planks",
+    "north": "realism:block/workbench_front",
+    "south": "realism:block/workbench_front",
+    "east": "realism:block/workbench_side",
+    "west": "realism:block/workbench_side"
+  }
+}

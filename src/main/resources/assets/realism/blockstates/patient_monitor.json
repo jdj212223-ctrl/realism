@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=south": {
+      "model": "realism:block/patient_monitor"
+    },
+    "facing=west": {
+      "model": "realism:block/patient_monitor",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "realism:block/patient_monitor",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "realism:block/patient_monitor",
+      "y": 270
+    }
+  }
+}

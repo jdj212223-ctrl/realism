@@ -22,6 +22,13 @@
     "realism:mini_m5",
     "realism:mini_m6",
     "realism:atm",
-    "realism:signal_tower"
+    "realism:signal_tower",
+    "realism:uranium_ore",
+    "realism:medical_scanner",
+    "realism:generator",
+    "realism:solar_panel",
+    "realism:electric_lamp",
+    "realism:grandma_stove",
+    "realism:patient_monitor"
   ]
 }

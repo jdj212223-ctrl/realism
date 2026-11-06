@@ -47,7 +47,8 @@ public class Realism {
 
     public static final ResourceKey<DamageType> DEHYDRATION = damage("dehydration"), SLEEPLESSNESS = damage("sleeplessness"),
             EXHAUSTION = damage("exhaustion"), BURN = damage("burn"), FROSTBITE = damage("frostbite"),
-            BLED_OUT = damage("bled_out"), BROKEN_NECK = damage("broken_neck"), COLLAPSED = damage("collapsed");
+            BLED_OUT = damage("bled_out"), BROKEN_NECK = damage("broken_neck"), COLLAPSED = damage("collapsed"),
+            RADIATION = damage("radiation"), INFECTION = damage("infection"), CANCER = damage("cancer"), EXECUTED = damage("executed");
 
     public Realism(IEventBus modBus, ModContainer container) {
         ATTACHMENTS.register(modBus);
@@ -56,7 +57,14 @@ public class Realism {
         Tech.register(modBus);
         Rescue.register(modBus);
         World.register(modBus);
+        Era.register(modBus);
+        Health.register(modBus);
+        Power.register(modBus);
+        Justice.register(modBus);
+        Home.register(modBus);
+        Ambulance.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
+        container.registerConfig(ModConfig.Type.CLIENT, RealismConfig.CLIENT_SPEC);
         modBus.addListener(Realism::registerPayloads);
         NeoForge.EVENT_BUS.register(BodyEvents.class);
         NeoForge.EVENT_BUS.register(Blood.class);
@@ -65,6 +73,12 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Tech.class);
         NeoForge.EVENT_BUS.register(Rescue.class);
         NeoForge.EVENT_BUS.register(World.class);
+        NeoForge.EVENT_BUS.register(Era.class);
+        NeoForge.EVENT_BUS.register(Health.class);
+        NeoForge.EVENT_BUS.register(Justice.class);
+        NeoForge.EVENT_BUS.register(Home.class);
+        NeoForge.EVENT_BUS.addListener(Era::commands);
+        NeoForge.EVENT_BUS.addListener(Justice::commands);
         NeoForge.EVENT_BUS.addListener(World::commands);
         NeoForge.EVENT_BUS.addListener(RealismCommand::register);
     }
@@ -80,6 +94,11 @@ public class Realism {
     private static void registerPayloads(RegisterPayloadHandlersEvent event) {
         var r = event.registrar("1");
         r.playToClient(BodySync.TYPE, BodySync.CODEC, (payload, ctx) -> BodySync.latest = payload);
+        r.playToClient(LifeSync.TYPE, LifeSync.CODEC, (payload, ctx) -> LifeSync.latest = payload);
+        r.playToClient(Era.OpenChoice.TYPE, Era.OpenChoice.CODEC, (payload, ctx) -> ctx.enqueueWork(com.jdj125.realism.client.EraScreen::open));
+        r.playToServer(Era.Choose.TYPE, Era.Choose.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Era.handleChoice(sp, payload.year());
+        }));
         // Only ever runs on a client, so the client-only screen class is never loaded on a server.
         r.playToClient(Tech.OpenComputer.TYPE, Tech.OpenComputer.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.OsScreen.open(payload)));
         r.playToServer(Tech.SaveComputer.TYPE, Tech.SaveComputer.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
