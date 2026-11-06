@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "realism:dumpling_dough"
+  },
+  "result": {
+    "id": "realism:bread_dumpling"
+  },
+  "experience": 0.35,
+  "cookingtime": 100
+}

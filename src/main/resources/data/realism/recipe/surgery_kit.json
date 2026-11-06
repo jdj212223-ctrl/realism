@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IS",
+    "BB"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:shears"
+    },
+    "B": {
+      "item": "realism:bandage"
+    }
+  },
+  "result": {
+    "id": "realism:surgery_kit",
+    "count": 1
+  }
+}

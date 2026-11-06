@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "realism:bread_slice"
+    },
+    {
+      "item": "minecraft:cooked_porkchop"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "realism:cheese"
+    }
+  ],
+  "result": {
+    "id": "realism:chlebicek",
+    "count": 2
+  }
+}

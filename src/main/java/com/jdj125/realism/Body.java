@@ -60,6 +60,11 @@ public class Body implements INBTSerializable<CompoundTag> {
     public boolean cancerFound;
     /** 1.0.0 justice: ticks left of a death sentence being carried out (the screen fading to black). */
     public int sentenced;
+    /** 1.2.0 evidence: who last hurt you (UUID and name), with what (item id), and when (game time). */
+    public String attacker = "", attackerName = "", attackerWeapon = "";
+    public long attackerTime;
+    /** 1.2.0: what made you collapse (a damage type message id), for the forensics kit. */
+    public String collapseCause = "";
 
     @Override
     public CompoundTag serializeNBT(HolderLookup.Provider provider) {
@@ -98,6 +103,11 @@ public class Body implements INBTSerializable<CompoundTag> {
         t.putInt("cancerTime", cancerTime);
         t.putBoolean("cancerFound", cancerFound);
         t.putInt("sentenced", sentenced);
+        t.putString("attacker", attacker);
+        t.putString("attackerName", attackerName);
+        t.putString("attackerWeapon", attackerWeapon);
+        t.putLong("attackerTime", attackerTime);
+        t.putString("collapseCause", collapseCause);
         return t;
     }
 
@@ -137,5 +147,10 @@ public class Body implements INBTSerializable<CompoundTag> {
         cancerTime = t.getInt("cancerTime");
         cancerFound = t.getBoolean("cancerFound");
         sentenced = t.getInt("sentenced");
+        attacker = t.getString("attacker");
+        attackerName = t.getString("attackerName");
+        attackerWeapon = t.getString("attackerWeapon");
+        attackerTime = t.getLong("attackerTime");
+        collapseCause = t.getString("collapseCause");
     }
 }

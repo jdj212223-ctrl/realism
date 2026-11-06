@@ -124,11 +124,13 @@ public final class Rescue {
         if (b.collapse > 0 || skipsCollapse(event.getSource())) {
             // The real end: the clock ran out, the neck broke, or it was the void.
             markGone(p);
+            if (b.collapse <= 1 && b.collapseCause.isEmpty() || event.getSource().is(Realism.EXECUTED)) b.collapseCause = event.getSource().getMsgId();
             if (event.getSource().is(Realism.EXECUTED) || (RealismConfig.REMAINS.get() && !event.getSource().is(DamageTypes.FELL_OUT_OF_WORLD)))
                 Justice.leaveRemains(p);
             return;
         }
         event.setCanceled(true);
+        b.collapseCause = event.getSource().getMsgId();
         collapse(p);
     }
 

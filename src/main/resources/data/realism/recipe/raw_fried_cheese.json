@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "realism:cheese"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "realism:bread_slice"
+    }
+  ],
+  "result": {
+    "id": "realism:raw_fried_cheese",
+    "count": 1
+  }
+}

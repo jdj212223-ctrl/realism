@@ -8,7 +8,7 @@ public final class RealismConfig {
     public static final ModConfigSpec.IntValue THIRST_DAYS, SLEEP_DAYS;
     public static final ModConfigSpec.BooleanValue REAL_TIME, MUSCLE_TEARS, BROKEN_LEGS, BURNS, FROSTBITE, STAMINA,
             BLEEDING, BLOOD_PARTICLES, MOOD, NO_REVIVING, PERMA_DEATH_SPECTATOR, BLACK_SLEEP,
-            DISEASES, VOICE_ONLY_CHAT, NO_CRAFTING_TABLE, REMAINS;
+            DISEASES, VOICE_ONLY_CHAT, NO_CRAFTING_TABLE, REMAINS, MODERN_KNIVES;
     /** Client settings (realism-client.toml): echo in caves, black and white vision in old times. */
     public static final ModConfigSpec CLIENT_SPEC;
     public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION;
@@ -46,6 +46,7 @@ public final class RealismConfig {
                 .define("voiceOnlyChat", true);
         NO_CRAFTING_TABLE = b.comment("Crafting tables don't open: craft at a Workbench holding a Hammer").define("noCraftingTable", true);
         REMAINS = b.comment("Players who are gone for good leave their remains where they fell").define("remains", true);
+        MODERN_KNIVES = b.comment("From 1900 (in worlds that picked an era) swords become knives of the same material").define("modernKnives", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

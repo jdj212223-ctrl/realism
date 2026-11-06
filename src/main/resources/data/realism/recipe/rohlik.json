@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "realism:rohlik_dough"
+  },
+  "result": {
+    "id": "realism:rohlik"
+  },
+  "experience": 0.1,
+  "cookingtime": 100
+}

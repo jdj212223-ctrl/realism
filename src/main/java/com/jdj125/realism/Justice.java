@@ -39,6 +39,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -53,6 +54,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 /**
  * 1.0.0: the law (it builds on {@link World}'s countries: the leader is the government).
@@ -70,6 +83,15 @@ import java.util.function.Supplier;
 public final class Justice {
     private static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Realism.MODID);
     private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Realism.MODID);
+    private static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Realism.MODID);
+    private static final DeferredRegister.DataComponents COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, Realism.MODID);
+
+    /** 1.2.0: whose fingerprints are on a weapon (the last player who hurt someone with it). */
+    public static final Supplier<DataComponentType<String>> FINGERPRINTS = COMPONENTS.registerComponentType("fingerprints",
+            b -> b.persistent(com.mojang.serialization.Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
+    public static final DeferredItem<Item> FORENSICS_KIT = ITEMS.register("forensics_kit", () -> new ForensicsKit(new Item.Properties().stacksTo(1)));
+    /** How far away a witness can see a crime, and how long an attacker counts as the killer (10 minutes). */
+    public static final int WITNESS_RANGE = 32, KILLER_TICKS = 10 * 60 * 20;
 
     public static final BooleanProperty BLOODY = BooleanProperty.create("bloody");
     /** No item: remains only appear in the world (and /setblock). */
@@ -86,6 +108,11 @@ public final class Justice {
     static void register(IEventBus modBus) {
         BLOCKS.register(modBus);
         BLOCK_ENTITIES.register(modBus);
+        ITEMS.register(modBus);
+        COMPONENTS.register(modBus);
+        modBus.addListener((BuildCreativeModeTabContentsEvent e) -> {
+            if (e.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) e.accept(FORENSICS_KIT.get());
+        });
     }
 
     // ---- Saved data: records, jails, prisoners ----
@@ -163,19 +190,124 @@ public final class Justice {
 
     /** Puts a crime on someone's record in the country where it happened (if anywhere). */
     public static void crime(ServerPlayer p, String kind, BlockPos where) {
-        World.Country c = World.Data.get(p.serverLevel()).countryAt(where);
-        if (c == null) return;
-        Data d = Data.get(p.serverLevel());
-        d.records.computeIfAbsent(p.getUUID(), k -> new ArrayList<>()).add(new Crime(kind, c.name));
-        d.setDirty();
-        p.displayClientMessage(Component.translatable("realism.law.crime", Component.translatable("realism.crime." + kind), c.name), false);
+        crime(p.serverLevel(), p.getUUID(), p, kind, where, false);
     }
 
+    /** Records a crime (the criminal may be offline). Outside any country it only counts if someone saw it. */
+    static void crime(ServerLevel level, UUID who, ServerPlayer online, String kind, BlockPos where, boolean witnessed) {
+        World.Country c = World.Data.get(level).countryAt(where);
+        if (c == null && !witnessed) return;
+        String country = c == null ? "" : c.name;
+        Data d = Data.get(level);
+        d.records.computeIfAbsent(who, k -> new ArrayList<>()).add(new Crime(kind, country));
+        d.setDirty();
+        if (online != null && c != null)
+            online.displayClientMessage(Component.translatable("realism.law.crime", Component.translatable("realism.crime." + kind), c.name), false);
+    }
+
+    /** Everyone who could see it happen: within 32 blocks, with a clear line of sight to the attacker. */
+    static boolean witnesses(ServerPlayer attacker, ServerPlayer victim, String kind) {
+        boolean any = false;
+        for (ServerPlayer w : attacker.serverLevel().players()) {
+            if (w == attacker || w == victim || w.isSpectator() || w.distanceToSqr(attacker) > WITNESS_RANGE * WITNESS_RANGE || !w.hasLineOfSight(attacker)) continue;
+            w.displayClientMessage(Component.translatable("realism.witness.saw", attacker.getName(), Component.translatable("realism.crime." + kind), victim.getName()), false);
+            any = true;
+        }
+        return any;
+    }
+
+    // Who hurt whom, with what: the victim's body remembers, and the weapon gets the attacker's fingerprints.
     @SubscribeEvent
+    public static void onHurt(LivingDamageEvent.Post event) {
+        if (!(event.getEntity() instanceof ServerPlayer victim) || !(event.getSource().getEntity() instanceof ServerPlayer attacker) || attacker == victim) return;
+        Body b = BodyEvents.body(victim);
+        ItemStack weapon = attacker.getMainHandItem();
+        b.attacker = attacker.getUUID().toString();
+        b.attackerName = attacker.getGameProfile().getName();
+        b.attackerWeapon = weapon.isEmpty() ? "" : net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(weapon.getItem()).toString();
+        b.attackerTime = victim.level().getGameTime();
+        if (!weapon.isEmpty()) weapon.set(FINGERPRINTS.get(), b.attackerName);
+    }
+
+    // HIGHEST: before the collapse rule cancels a player's "death", so attacks that make someone collapse count too.
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onKill(LivingDeathEvent event) {
-        if (!(event.getSource().getEntity() instanceof ServerPlayer killer)) return;
-        if (event.getEntity() == killer) return;
-        if (event.getEntity() instanceof Player || event.getEntity() instanceof Villager) crime(killer, "murder", event.getEntity().blockPosition());
+        if (event.getEntity() instanceof Villager && event.getSource().getEntity() instanceof ServerPlayer killer) {
+            crime(killer, "murder", event.getEntity().blockPosition());
+            return;
+        }
+        if (!(event.getEntity() instanceof ServerPlayer victim)) return;
+        Body b = BodyEvents.body(victim);
+        if (b.collapse == 0 && event.getSource().getEntity() instanceof ServerPlayer attacker && attacker != victim) {
+            // Struck down: an assault (attempted murder) until they die of it.
+            boolean seen = witnesses(attacker, victim, "assault");
+            crime(victim.serverLevel(), attacker.getUUID(), attacker, "assault", victim.blockPosition(), seen);
+        } else if (b.collapse > 0 && !b.attacker.isEmpty() && victim.level().getGameTime() - b.attackerTime < KILLER_TICKS) {
+            // They died of it: murder, on the attacker's record (even if they've logged off).
+            UUID killer = UUID.fromString(b.attacker);
+            ServerPlayer online = victim.server.getPlayerList().getPlayer(killer);
+            boolean seen = online != null && witnesses(online, victim, "murder");
+            crime(victim.serverLevel(), killer, online, "murder", victim.blockPosition(), seen);
+        }
+    }
+
+    // ---- Forensics ----
+
+    /** What the remains show: the cause of death, in plain words. */
+    static String causeKey(String msgId, boolean byPlayer) {
+        if (byPlayer || msgId.equals("player")) return "weapon";
+        return switch (msgId) {
+            case "mob", "arrow", "trident", "sting", "thorns" -> "monster";
+            case "fall", "flyIntoWall", "stalagmite", "fallingBlock", "anvil" -> "fall";
+            case "inFire", "onFire", "lava", "hotFloor", "realism.burn" -> "fire";
+            case "drown" -> "drowning";
+            case "explosion", "explosion.player", "fireworks" -> "explosion";
+            case "realism.bled_out" -> "blood";
+            case "realism.radiation", "realism.infection", "realism.cancer" -> "illness";
+            case "realism.dehydration", "realism.sleeplessness", "realism.exhaustion", "starve", "freeze", "realism.frostbite" -> "body";
+            case "realism.executed" -> "executed";
+            default -> "unknown";
+        };
+    }
+
+    static class ForensicsKit extends Item {
+        ForensicsKit(Properties props) {
+            super(props);
+        }
+
+        // On remains: the cause of death, the weapon, and whose fingerprints are on the body.
+        @Override
+        public InteractionResult useOn(UseOnContext ctx) {
+            Level level = ctx.getLevel();
+            if (!(level.getBlockEntity(ctx.getClickedPos()) instanceof RemainsEntity r)) return InteractionResult.PASS;
+            if (level.isClientSide || ctx.getPlayer() == null) return InteractionResult.SUCCESS;
+            Player p = ctx.getPlayer();
+            p.displayClientMessage(Component.translatable("realism.forensics.title", r.name.isEmpty() ? "?" : r.name), false);
+            p.displayClientMessage(Component.translatable("realism.forensics.cause", Component.translatable("realism.forensics.cause." + r.cause)), false);
+            if (!r.weapon.isEmpty())
+                p.displayClientMessage(Component.translatable("realism.forensics.weapon",
+                        Component.translatable(net.minecraft.core.registries.BuiltInRegistries.ITEM.get(net.minecraft.resources.ResourceLocation.parse(r.weapon)).getDescriptionId())), false);
+            p.displayClientMessage(r.killer.isEmpty() ? Component.translatable("realism.forensics.no_prints") : Component.translatable("realism.forensics.prints", r.killer), false);
+            return InteractionResult.CONSUME;
+        }
+
+        // In the air, with an item in your other hand: whose fingerprints are on it.
+        @Override
+        public InteractionResultHolder<ItemStack> use(Level level, Player p, InteractionHand hand) {
+            ItemStack kit = p.getItemInHand(hand);
+            ItemStack other = p.getItemInHand(hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+            if (level.isClientSide) return InteractionResultHolder.success(kit);
+            String prints = other.get(FINGERPRINTS.get());
+            p.displayClientMessage(other.isEmpty() ? Component.translatable("realism.forensics.hold_item")
+                    : prints == null ? Component.translatable("realism.forensics.item_clean", other.getHoverName())
+                    : Component.translatable("realism.forensics.item_prints", other.getHoverName(), prints), true);
+            return InteractionResultHolder.consume(kit);
+        }
+
+        @Override
+        public void appendHoverText(ItemStack stack, TooltipContext ctx, java.util.List<Component> lines, TooltipFlag flag) {
+            lines.add(Component.translatable("item.realism.forensics_kit.tip"));
+        }
     }
 
     private static final Map<UUID, Long> lastTheft = new HashMap<>();
@@ -228,7 +360,12 @@ public final class Justice {
         level.setBlock(pos, REMAINS.get().defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, p.getDirection())
                 .setValue(BLOODY, RealismConfig.BLOOD_PARTICLES.get()), Block.UPDATE_ALL);
         if (level.getBlockEntity(pos) instanceof RemainsEntity r) {
+            Body b = BodyEvents.body(p);
             r.name = p.getGameProfile().getName();
+            boolean byPlayer = !b.attacker.isEmpty() && level.getGameTime() - b.attackerTime < KILLER_TICKS;
+            r.cause = b.collapseCause.isEmpty() && !byPlayer ? "unknown" : causeKey(b.collapseCause, byPlayer);
+            r.killer = byPlayer ? b.attackerName : "";
+            r.weapon = byPlayer ? b.attackerWeapon : "";
             r.setChanged();
         }
     }
@@ -277,7 +414,7 @@ public final class Justice {
     }
 
     public static class RemainsEntity extends BlockEntity {
-        public String name = "";
+        public String name = "", cause = "unknown", killer = "", weapon = "";
 
         public RemainsEntity(BlockPos pos, BlockState state) {
             super(REMAINS_ENTITY.get(), pos, state);
@@ -287,12 +424,18 @@ public final class Justice {
         protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
             super.saveAdditional(tag, provider);
             tag.putString("name", name);
+            tag.putString("cause", cause);
+            tag.putString("killer", killer);
+            tag.putString("weapon", weapon);
         }
 
         @Override
         protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
             super.loadAdditional(tag, provider);
             name = tag.getString("name");
+            cause = tag.contains("cause") ? tag.getString("cause") : "unknown";
+            killer = tag.getString("killer");
+            weapon = tag.getString("weapon");
         }
     }
 

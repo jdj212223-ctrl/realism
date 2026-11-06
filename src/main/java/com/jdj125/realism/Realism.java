@@ -63,6 +63,8 @@ public class Realism {
         Justice.register(modBus);
         Home.register(modBus);
         Ambulance.register(modBus);
+        Surgeon.register(modBus);
+        Kitchen.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
         container.registerConfig(ModConfig.Type.CLIENT, RealismConfig.CLIENT_SPEC);
         modBus.addListener(Realism::registerPayloads);
@@ -77,6 +79,8 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Health.class);
         NeoForge.EVENT_BUS.register(Justice.class);
         NeoForge.EVENT_BUS.register(Home.class);
+        NeoForge.EVENT_BUS.register(Surgeon.class);
+        NeoForge.EVENT_BUS.register(Kitchen.class);
         NeoForge.EVENT_BUS.addListener(Era::commands);
         NeoForge.EVENT_BUS.addListener(Justice::commands);
         NeoForge.EVENT_BUS.addListener(World::commands);

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "realism:raw_fried_cheese"
+  },
+  "result": {
+    "id": "realism:fried_cheese"
+  },
+  "experience": 0.35,
+  "cookingtime": 100
+}

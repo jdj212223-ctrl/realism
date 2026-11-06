@@ -1,6 +1,6 @@
 # Realism 🌍
 
-Real life in Minecraft (NeoForge 1.21.1), built in phases. **1.0.0: everything is in.**
+Real life in Minecraft (NeoForge 1.21.1), built in phases. **1.0.0: everything is in. 1.2.0: surgeons, knives, Czech food, murder evidence.**
 
 ## Phase 1: your body
 
@@ -143,6 +143,16 @@ The first time an operator opens a world with Realism, they choose where history
 
 ### ⚖️ The law
 Countries' leaders are the government. Murder (players or villagers) and theft (opening someone else's chest in a country you're not a citizen of) go on your record by themselves. Leaders use `/law setjail`, `/law arrest <player>` (5 minutes per crime), `/law release`, `/law pardon` and `/law record`. **In old times only**, a jailed murderer can be sentenced with `/law sentence`: the screen just fades to black, they're gone for good, and their **remains** stay where they fell (blocky pixel blood only, and only with `bloodParticles` on). Modern times have no death penalty, like Czechia since 1990. Players who are gone for good leave remains too (`remains`).
+
+## 1.2.0: surgeons, knives, Czech food and murder evidence 🩺🔪🇨🇿🕵️
+
+| Thing | What it does |
+|---|---|
+| 🫳 Dragging | Sneak + right-click a collapsed player with an empty hand to drag them behind you (again to let go). Right-click an Operating Table while dragging to lay them on it. |
+| 🩺 Be the surgeon | A **Surgery Kit** (iron, shears, 2 bandages): use it on a patient at an Operating Table and stay close for 5 seconds. It fixes what a Doctor's surgery fixes and brings a collapsed patient back. Success starts at 60% and every surgery makes you better (up to 98%); a mistake makes them bleed. Hold a Chromeflesh implant in your other hand to put it in. |
+| 🔪 Knives | Ancient times have swords. **From 1900** (modern medicine) swords turn into knives of the same material, keeping enchantments and wear (`modernKnives`). Knives are quick, often make people bleed, and **cut food**: knife in one hand, food in the other, right-click. Craft them in the 2x2 grid (material + stick, diagonal). |
+| 🇨🇿 Czech food | Cooked on Grandma's Stove: **houskový knedlík** (cut it into slices), **svíčková**, **guláš**, **řízek**, **smažený sýr**, **bramboráky**, **kulajda**, **chlebíčky**, **koláče**, **buchty**, **rohlíky** and **párek v rohlíku**, plus cheese and bread slices. Czech home cooking lifts your mood. Dobrou chuť! |
+| 🕵️ Murder evidence | Attacking a player is **assault**; if they die of it, it's **murder** on the attacker's record, even if they log off. **Witnesses** within 32 blocks who see it are told (and then it counts even outside any country). Weapons carry the **fingerprints** of whoever last hurt someone with them. A **Forensics Kit** on remains shows the cause of death, the weapon and the fingerprints; with a weapon in your other hand it checks it for prints. |
 
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.

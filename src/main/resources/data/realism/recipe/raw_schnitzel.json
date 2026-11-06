@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:porkchop"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "realism:bread_slice"
+    }
+  ],
+  "result": {
+    "id": "realism:raw_schnitzel",
+    "count": 1
+  }
+}

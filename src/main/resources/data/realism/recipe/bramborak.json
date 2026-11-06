@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "realism:potato_batter"
+  },
+  "result": {
+    "id": "realism:bramborak"
+  },
+  "experience": 0.35,
+  "cookingtime": 100
+}
