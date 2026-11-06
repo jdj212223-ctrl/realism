@@ -154,6 +154,10 @@ Countries' leaders are the government. Murder (players or villagers) and theft (
 | 🇨🇿 Czech food | Cooked on Grandma's Stove: **houskový knedlík** (cut it into slices), **svíčková**, **guláš**, **řízek**, **smažený sýr**, **bramboráky**, **kulajda**, **chlebíčky**, **koláče**, **buchty**, **rohlíky** and **párek v rohlíku**, plus cheese and bread slices. Czech home cooking lifts your mood. Dobrou chuť! |
 | 🕵️ Murder evidence | Attacking a player is **assault**; if they die of it, it's **murder** on the attacker's record, even if they log off. **Witnesses** within 32 blocks who see it are told (and then it counts even outside any country). Weapons carry the **fingerprints** of whoever last hurt someone with them. A **Forensics Kit** on remains shows the cause of death, the weapon and the fingerprints; with a weapon in your other hand it checks it for prints. |
 
+## 1.2.1: JEI 🔍
+
+With **JEI** installed, crafting recipes (from every mod) show on a **Workbench** page, with the Workbench and the Hammer as the stations, instead of the crafting table page (which is hidden while `noCraftingTable` is on). JEI's "+" button fills the Workbench grid for you. Other mods' crafting tables (anything in NeoForge's `c:player_workstations/crafting_tables` tag) don't open either.
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 

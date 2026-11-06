@@ -19,6 +19,11 @@ repositories {
         forRepository { maven { url = 'https://api.modrinth.com/maven' } }
         filter { includeGroup 'maven.modrinth' }
     }
+    // JEI (Just Enough Items) API, only to show the Workbench in JEI. Realism runs fine without JEI.
+    exclusiveContent {
+        forRepository { maven { url = 'https://maven.blamejared.com' } }
+        filter { includeGroup 'mezz.jei' }
+    }
 }
 
 configurations {
@@ -27,7 +32,10 @@ configurations {
 }
 
 dependencies {
-
+    compileOnly "mezz.jei:jei-1.21.1-common-api:19.27.0.350"
+    compileOnly "mezz.jei:jei-1.21.1-neoforge-api:19.27.0.350"
+    // Only for testing in the dev client; players install JEI themselves.
+    localRuntime "mezz.jei:jei-1.21.1-neoforge:19.27.0.350"
 
 }
 

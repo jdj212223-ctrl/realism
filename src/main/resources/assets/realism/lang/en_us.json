@@ -484,5 +484,6 @@
   "realism.forensics.cause.illness": "an illness",
   "realism.forensics.cause.body": "thirst, hunger, cold or no sleep",
   "realism.forensics.cause.executed": "sentenced by the law",
-  "realism.forensics.cause.unknown": "unknown"
+  "realism.forensics.cause.unknown": "unknown",
+  "realism.jei.workbench": "Workbench (with a Hammer)"
 }

@@ -251,7 +251,9 @@ public final class Home {
     @SubscribeEvent
     public static void onUseTable(PlayerInteractEvent.RightClickBlock event) {
         if (!RealismConfig.NO_CRAFTING_TABLE.get() || event.getEntity().isShiftKeyDown()) return;
-        if (!event.getLevel().getBlockState(event.getPos()).is(Blocks.CRAFTING_TABLE)) return;
+        // The vanilla crafting table, and other mods' crafting tables (they share NeoForge's common tag).
+        BlockState state = event.getLevel().getBlockState(event.getPos());
+        if (!state.is(Blocks.CRAFTING_TABLE) && !state.is(net.neoforged.neoforge.common.Tags.Blocks.PLAYER_WORKSTATIONS_CRAFTING_TABLES)) return;
         event.setCanceled(true);
         event.setCancellationResult(InteractionResult.FAIL);
         if (!event.getLevel().isClientSide) say(event.getEntity(), "workbench.no_table");

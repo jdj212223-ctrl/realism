@@ -484,5 +484,6 @@
   "realism.forensics.cause.illness": "nemoc",
   "realism.forensics.cause.body": "žízeň, hlad, zima nebo nedostatek spánku",
   "realism.forensics.cause.executed": "odsouzení zákonem",
-  "realism.forensics.cause.unknown": "neznámá"
+  "realism.forensics.cause.unknown": "neznámá",
+  "realism.jei.workbench": "Ponk (s kladivem)"
 }
