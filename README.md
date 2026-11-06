@@ -156,7 +156,7 @@ Countries' leaders are the government. Murder (players or villagers) and theft (
 
 ## 1.2.1: JEI 🔍
 
-With **JEI** installed, crafting recipes (from every mod) show on a **Workbench** page, with the Workbench and the Hammer as the stations, instead of the crafting table page (which is hidden while `noCraftingTable` is on). JEI's "+" button fills the Workbench grid for you. Other mods' crafting tables (anything in NeoForge's `c:player_workstations/crafting_tables` tag) don't open either.
+With **JEI** installed, crafting recipes (from every mod) show on a **Workbench** page, with the Workbench and the Hammer as the stations, instead of the crafting table page (which is hidden while `noCraftingTable` is on). JEI's "+" button fills the Workbench grid for you. Other mods' crafting tables (anything in NeoForge's `c:player_workstations/crafting_tables` tag) don't open either. Realism also has its **own creative tab** with every block and item.
 
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.

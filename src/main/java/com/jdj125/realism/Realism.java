@@ -45,6 +45,17 @@ public class Realism {
     public static final Supplier<AttachmentType<Boolean>> GONE = ATTACHMENTS.register("gone",
             () -> AttachmentType.builder(() -> false).serialize(com.mojang.serialization.Codec.BOOL).copyOnDeath().build());
 
+    /** 1.2.1: Realism's own creative tab with every block and item of the mod. */
+    private static final DeferredRegister<net.minecraft.world.item.CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    public static final Supplier<net.minecraft.world.item.CreativeModeTab> TAB = TABS.register("realism", () -> net.minecraft.world.item.CreativeModeTab.builder()
+            .title(net.minecraft.network.chat.Component.translatable("itemGroup.realism"))
+            .icon(() -> new net.minecraft.world.item.ItemStack(Rescue.DEFIBRILLATOR.get()))
+            .displayItems((params, out) -> net.minecraft.core.registries.BuiltInRegistries.ITEM.entrySet().stream()
+                    .filter(e -> e.getKey().location().getNamespace().equals(MODID))
+                    .sorted(java.util.Comparator.comparingInt(e -> net.minecraft.core.registries.BuiltInRegistries.ITEM.getId(e.getValue())))
+                    .forEach(e -> out.accept(e.getValue())))
+            .build());
+
     public static final ResourceKey<DamageType> DEHYDRATION = damage("dehydration"), SLEEPLESSNESS = damage("sleeplessness"),
             EXHAUSTION = damage("exhaustion"), BURN = damage("burn"), FROSTBITE = damage("frostbite"),
             BLED_OUT = damage("bled_out"), BROKEN_NECK = damage("broken_neck"), COLLAPSED = damage("collapsed"),
@@ -52,6 +63,7 @@ public class Realism {
 
     public Realism(IEventBus modBus, ModContainer container) {
         ATTACHMENTS.register(modBus);
+        TABS.register(modBus);
         RealismItems.register(modBus);
         Hospital.register(modBus);
         Tech.register(modBus);
