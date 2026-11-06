@@ -35,6 +35,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -241,7 +242,7 @@ public final class Era {
     }
 
     public static void handleChoice(ServerPlayer p, int year) {
-        if (p.getServer() == null || !p.hasPermissions(2) || Data.get(p.getServer()).chosen) return;
+        if (p.getServer() == null || !mayChoose(p) || Data.get(p.getServer()).chosen) return;
         choose(p.getServer(), year <= YEAR_0 ? YEAR_0 : TODAY);
     }
 
@@ -249,9 +250,23 @@ public final class Era {
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer p) || p.getServer() == null) return;
         Data d = Data.get(p.getServer());
-        if (!d.chosen && p.hasPermissions(2) && p.connection.hasChannel(OpenChoice.TYPE)) PacketDistributor.sendToPlayer(p, new OpenChoice());
         dress(p);
         sync(p);
+    }
+
+    /** The world's owner (singleplayer, even without cheats) or an operator picks the era. */
+    static boolean mayChoose(ServerPlayer p) {
+        return p.hasPermissions(2) || p.getServer().isSingleplayerOwner(p.getGameProfile());
+    }
+
+    // Ask for the era a few seconds after joining (not at login: the "loading terrain" screen would close it), and
+    // again every 30 seconds until someone picks, in case the screen was closed some other way.
+    @SubscribeEvent
+    public static void askForEra(PlayerTickEvent.Post event) {
+        if (!(event.getEntity() instanceof ServerPlayer p) || p.getServer() == null) return;
+        if (p.tickCount < 60 || p.tickCount % 600 != 60) return;
+        if (!Data.get(p.getServer()).chosen && mayChoose(p) && p.connection.hasChannel(OpenChoice.TYPE))
+            PacketDistributor.sendToPlayer(p, new OpenChoice());
     }
 
     @SubscribeEvent
