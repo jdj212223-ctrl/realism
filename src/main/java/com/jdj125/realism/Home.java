@@ -265,9 +265,26 @@ public final class Home {
         return RealismConfig.VOICE_ONLY_CHAT.get() && ModList.get().isLoaded("voicechat");
     }
 
+    /**
+     * Is this player connected to voice chat? Someone who can't be heard (voice chat failed to connect, e.g. through
+     * a tunnel like e4mc, or no microphone mod set up) may still type. Unknown = connected (keeps the old behaviour).
+     */
+    static boolean hasVoice(ServerPlayer p) {
+        try {
+            Object events = Class.forName("de.maxhenkel.voicechat.Voicechat").getField("SERVER").get(null);
+            if (events == null) return true;
+            Object server = events.getClass().getMethod("getServer").invoke(events);
+            if (server == null) return false; // the voice server isn't running: nobody can talk
+            Object conn = server.getClass().getMethod("getConnection", UUID.class).invoke(server, p.getUUID());
+            return conn != null;
+        } catch (Throwable t) {
+            return true;
+        }
+    }
+
     @SubscribeEvent
     public static void onChat(ServerChatEvent event) {
-        if (!voiceOnly()) return;
+        if (!voiceOnly() || !hasVoice(event.getPlayer())) return;
         event.setCanceled(true);
         event.getPlayer().displayClientMessage(Component.translatable("realism.chat.voice_only"), true);
     }
