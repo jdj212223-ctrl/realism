@@ -177,7 +177,7 @@ Config section `[afterlife]`: on/off, heaven chance, minutes in each place, burn
 
 ## 2.0.2: daily life, jobs, cars 🚿💼🚗
 
-**Daily life** (`dailyLife`): you get **dirty** over about two Minecraft days (faster when sprinting, rain and water wash you) and start to **stink** (green fumes everyone sees, mood drops): use a **Shower**, or wash your hands at a **Sink**. Your **bladder** fills over about a day: use a **Toilet** or have an accident 💦. Your **teeth** go bad over a few days (faster with sweets): hold right-click with a **Toothbrush** or get toothache.
+**Daily life** (`dailyLife`): you get **dirty** over about two Minecraft days (faster when sprinting, rain and water wash you) and start to **stink** (green fumes everyone sees, mood drops): use a **Shower**, or wash your hands at a **Sink**. Your **bladder** fills over about a day: use a **Toilet** or have an accident. Your **teeth** go bad over a few days (faster with sweets): hold right-click with a **Toothbrush** or get toothache.
 
 **Jobs** (`jobs`): `/job list`, `/job join <job>`, `/job`, `/job quit`. Doctor (surgeries, defib saves), chef (cooking food), farmer (grown crops), miner (ores), builder (placing blocks), police (hitting someone with a crime on their record). **Payday** once a Minecraft day, up to 250, minus your country's tax.
 
