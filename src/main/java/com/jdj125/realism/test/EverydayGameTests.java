@@ -103,4 +103,13 @@ public class EverydayGameTests {
         helper.assertTrue(helper.getLevel().getBlockState(abs).getValue(Cars.TrafficLight.LIGHT) == 2, "then red");
         helper.succeed();
     }
+
+    @GameTest(template = "arena")
+    public static void newThingsAreInTheGame(GameTestHelper helper) {
+        for (String id : new String[]{"toilet", "shower", "sink", "toothbrush", "asphalt", "road_line", "traffic_light", "gas_pump", "gas_can", "car_red"}) {
+            var key = net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Realism.MODID, id);
+            helper.assertTrue(net.minecraft.core.registries.BuiltInRegistries.ITEM.containsKey(key), id + " is an item");
+        }
+        helper.succeed();
+    }
 }
