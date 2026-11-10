@@ -486,5 +486,18 @@
   "realism.forensics.cause.executed": "sentenced by the law",
   "realism.forensics.cause.unknown": "unknown",
   "realism.jei.workbench": "Workbench (with a Hammer)",
-  "itemGroup.realism": "Realism"
+  "itemGroup.realism": "Realism",
+  "realism.afterlife.no_consent": "⚠ %s didn't agree to this surgery (they weren't crouching). It's on your record up there...",
+  "realism.afterlife.arrive.heaven": "☁ You made it to heaven. Rest here for %s minutes before you're born again.",
+  "realism.afterlife.arrive.hell": "🔥 You were judged... and sent to HELL. %s minutes until you're born again.",
+  "realism.afterlife.arrive.dark": "⬛ There's nothing. Only darkness. In %s minutes you'll be born again.",
+  "realism.afterlife.timer.heaven": "☁ Heaven · born again in %s:%s",
+  "realism.afterlife.timer.hell": "🔥 Hell · born again in %s:%s",
+  "realism.afterlife.timer.dark": "⬛ %s:%s",
+  "realism.afterlife.reborn": "👶 You were born again as a new person: a new body, a new blood type and a clean record.",
+  "realism.afterlife.cutscene.died": "You died.",
+  "realism.afterlife.cutscene.judged": "Your life is being judged...",
+  "realism.afterlife.cutscene.heaven": "Heaven",
+  "realism.afterlife.cutscene.hell": "HELL",
+  "realism.afterlife.cutscene.dark": "..."
 }

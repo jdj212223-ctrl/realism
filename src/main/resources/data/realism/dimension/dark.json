@@ -1,0 +1,18 @@
+{
+  "type": "realism:dark",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "realism:dark",
+      "layers": [
+        {
+          "block": "minecraft:barrier",
+          "height": 1
+        }
+      ],
+      "lakes": false,
+      "features": false,
+      "structure_overrides": []
+    }
+  }
+}

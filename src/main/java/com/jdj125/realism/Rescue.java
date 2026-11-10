@@ -203,7 +203,9 @@ public final class Rescue {
     public static void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer p) || event.isEndConquered() || !p.getData(Realism.GONE)) return;
         p.setData(Realism.GONE, false);
-        if (RealismConfig.PERMA_DEATH_SPECTATOR.get()) {
+        if (RealismConfig.AFTERLIFE.get()) {
+            Afterlife.judge(p);
+        } else if (RealismConfig.PERMA_DEATH_SPECTATOR.get()) {
             p.setGameMode(GameType.SPECTATOR);
             p.displayClientMessage(Component.translatable("realism.gone.spectator"), false);
         } else {
@@ -251,6 +253,7 @@ public final class Rescue {
         } else if (step == 3 && b.defibStep == 2 && inTime) {
             user.level().playSound(null, patient.blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS, 0.6f, 2.0f);
             revive(patient);
+            Afterlife.saved(user);
             say(user, "defib.saved", patient.getName());
         } else {
             b.defibStep = 0;

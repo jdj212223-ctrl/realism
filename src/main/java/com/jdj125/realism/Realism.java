@@ -93,6 +93,7 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Home.class);
         NeoForge.EVENT_BUS.register(Surgeon.class);
         NeoForge.EVENT_BUS.register(Kitchen.class);
+        NeoForge.EVENT_BUS.register(Afterlife.class);
         NeoForge.EVENT_BUS.addListener(Era::commands);
         NeoForge.EVENT_BUS.addListener(Justice::commands);
         NeoForge.EVENT_BUS.addListener(World::commands);
@@ -111,6 +112,7 @@ public class Realism {
         var r = event.registrar("1");
         r.playToClient(BodySync.TYPE, BodySync.CODEC, (payload, ctx) -> BodySync.latest = payload);
         r.playToClient(LifeSync.TYPE, LifeSync.CODEC, (payload, ctx) -> LifeSync.latest = payload);
+        r.playToClient(Afterlife.Judgment.TYPE, Afterlife.Judgment.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.AfterlifeClient.start(payload)));
         r.playToClient(Era.OpenChoice.TYPE, Era.OpenChoice.CODEC, (payload, ctx) -> ctx.enqueueWork(com.jdj125.realism.client.EraScreen::open));
         r.playToServer(Era.Choose.TYPE, Era.Choose.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Era.handleChoice(sp, payload.year());

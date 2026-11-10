@@ -74,7 +74,7 @@ public final class BodyEvents {
     public static void onTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer p) || p.tickCount % SECOND != 0 || !p.isAlive()) return;
         Body b = body(p);
-        if (!p.isCreative() && !p.isSpectator()) second(p);
+        if (!p.isCreative() && !p.isSpectator() && !Afterlife.inAfterlife(p)) second(p);
         b.handStrain *= 0.8f;
         if (p.connection != null && p.connection.hasChannel(BodySync.TYPE)) PacketDistributor.sendToPlayer(p, sync(p));
         if (p.connection != null && p.connection.hasChannel(LifeSync.TYPE)) PacketDistributor.sendToPlayer(p, Health.sync(p));

@@ -8,7 +8,9 @@ public final class RealismConfig {
     public static final ModConfigSpec.IntValue THIRST_DAYS, SLEEP_DAYS;
     public static final ModConfigSpec.BooleanValue REAL_TIME, MUSCLE_TEARS, BROKEN_LEGS, BURNS, FROSTBITE, STAMINA,
             BLEEDING, BLOOD_PARTICLES, MOOD, NO_REVIVING, PERMA_DEATH_SPECTATOR, BLACK_SLEEP,
-            DISEASES, VOICE_ONLY_CHAT, NO_CRAFTING_TABLE, REMAINS, MODERN_KNIVES;
+            DISEASES, VOICE_ONLY_CHAT, NO_CRAFTING_TABLE, REMAINS, MODERN_KNIVES, AFTERLIFE, HELL_BURNS;
+    public static final ModConfigSpec.DoubleValue HEAVEN_CHANCE;
+    public static final ModConfigSpec.IntValue HEAVEN_MINUTES, HELL_MINUTES, DARK_MINUTES;
     /** Client settings (realism-client.toml): echo in caves, black and white vision in old times. */
     public static final ModConfigSpec CLIENT_SPEC;
     public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION;
@@ -47,6 +49,15 @@ public final class RealismConfig {
         NO_CRAFTING_TABLE = b.comment("Crafting tables don't open: craft at a Workbench holding a Hammer").define("noCraftingTable", true);
         REMAINS = b.comment("Players who are gone for good leave their remains where they fell").define("remains", true);
         MODERN_KNIVES = b.comment("From 1900 (in worlds that picked an era) swords become knives of the same material").define("modernKnives", true);
+        b.pop();
+        b.comment("Realism 2.0: the afterlife (replaces the spectator ghost when you're gone for good)").push("afterlife");
+        AFTERLIFE = b.comment("Judgment, heaven, hell and the dark. false = the old behaviour (permaDeathSpectator)").define("afterlife", true);
+        HEAVEN_CHANCE = b.comment("Chance that someone with no good deeds and no sins still goes to heaven (the rest see only darkness)")
+                .defineInRange("heavenChance", 0.10, 0.0, 1.0);
+        HEAVEN_MINUTES = b.comment("Minutes in heaven before you're born again").defineInRange("heavenMinutes", 10, 1, 1440);
+        HELL_MINUTES = b.comment("Minutes in hell before you're born again").defineInRange("hellMinutes", 30, 1, 1440);
+        DARK_MINUTES = b.comment("Minutes in the dark before you're born again").defineInRange("darkMinutes", 15, 1, 1440);
+        HELL_BURNS = b.comment("You keep burning in hell (it can't kill you)").define("hellBurns", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

@@ -165,6 +165,7 @@ public final class Surgeon {
         Body b = BodyEvents.body(patient);
         boolean implant = Chrome.isImplant(surgeon.getOffhandItem());
         if (!implant && !Hospital.needsSurgery(b) && b.collapse == 0) return "surgeon.healthy";
+        Afterlife.surgery(surgeon, patient); // no consent (conscious and not crouching) goes on the record God reads
         OPERATIONS.put(surgeon.getUUID(), new Operation(patient.getUUID(), surgeon.level().getGameTime()));
         b.unconscious = Math.max(b.unconscious, SURGERY_TICKS + 40); // under anesthetic for the whole thing
         say(surgeon, "surgeon.started", patient.getName());
@@ -204,7 +205,10 @@ public final class Surgeon {
             if (!surgeon.isCreative()) implant.shrink(1);
             surgeon.displayClientMessage(Component.translatable("realism.surgeon.implant", patient.getName()), false);
         } else {
-            if (b.collapse > 0) Rescue.revive(patient);
+            if (b.collapse > 0) {
+                Rescue.revive(patient);
+                Afterlife.saved(surgeon);
+            }
             Hospital.operate(patient);
             surgeon.displayClientMessage(Component.translatable("realism.surgeon.done", patient.getName(), surgeon.getData(SURGERIES),
                     Math.round(successChance(surgeon) * 100)), false);

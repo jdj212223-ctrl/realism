@@ -1,0 +1,26 @@
+{
+  "type": "realism:hell",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "realism:hell",
+      "layers": [
+        {
+          "block": "minecraft:bedrock",
+          "height": 1
+        },
+        {
+          "block": "minecraft:magma_block",
+          "height": 1
+        },
+        {
+          "block": "minecraft:netherrack",
+          "height": 2
+        }
+      ],
+      "lakes": false,
+      "features": false,
+      "structure_overrides": []
+    }
+  }
+}

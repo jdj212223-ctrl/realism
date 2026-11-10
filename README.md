@@ -158,6 +158,18 @@ Countries' leaders are the government. Murder (players or villagers) and theft (
 
 With **JEI** installed, crafting recipes (from every mod) show on a **Workbench** page, with the Workbench and the Hammer as the stations, instead of the crafting table page (which is hidden while `noCraftingTable` is on). JEI's "+" button fills the Workbench grid for you. Other mods' crafting tables (anything in NeoForge's `c:player_workstations/crafting_tables` tag) don't open either. Realism also has its **own creative tab** with every block and item.
 
+## 2.0.0: the afterlife ☁️🔥⬛
+
+No more floating ghost when you're gone for good (that isn't real). Instead:
+- **Judgment**: the screen fades to black and your life is judged, while the camera is stuck in third person (F5 does nothing).
+- **Hell** 🔥 for murderers and for anyone who did surgery on a patient who didn't agree. A conscious patient says yes by **crouching**; collapsed patients are emergencies and always fine. Killing someone who attacked you first is **self-defense** and doesn't count.
+- **Heaven** ☁️ for anyone who saved a life (defibrillator, surgery on a collapsed patient) or only killed in self-defense, plus a **10% chance** for everyone else.
+- **The dark** ⬛ for everyone else: you see nothing at all, like real death.
+- The record up there sees **everything**, even crimes outside countries that nobody witnessed.
+- After a while (heaven 10 min, hell 30 min, the dark 15 min) you're **born again** as a new person at the world spawn: new body, new blood type, clean record.
+
+Config section `[afterlife]`: on/off, heaven chance, minutes in each place, burning in hell. `afterlife = false` brings back the old spectator ghost.
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 

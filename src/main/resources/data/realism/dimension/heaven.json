@@ -1,0 +1,26 @@
+{
+  "type": "realism:heaven",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "realism:heaven",
+      "layers": [
+        {
+          "block": "minecraft:bedrock",
+          "height": 1
+        },
+        {
+          "block": "minecraft:white_wool",
+          "height": 1
+        },
+        {
+          "block": "minecraft:snow_block",
+          "height": 2
+        }
+      ],
+      "lakes": false,
+      "features": false,
+      "structure_overrides": []
+    }
+  }
+}

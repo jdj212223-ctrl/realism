@@ -234,6 +234,7 @@ public final class Justice {
     public static void onKill(LivingDeathEvent event) {
         if (event.getEntity() instanceof Villager && event.getSource().getEntity() instanceof ServerPlayer killer) {
             crime(killer, "murder", event.getEntity().blockPosition());
+            Afterlife.killed(killer.server, killer.getUUID(), (Villager) event.getEntity());
             return;
         }
         if (!(event.getEntity() instanceof ServerPlayer victim)) return;
@@ -248,6 +249,7 @@ public final class Justice {
             ServerPlayer online = victim.server.getPlayerList().getPlayer(killer);
             boolean seen = online != null && witnesses(online, victim, "murder");
             crime(victim.serverLevel(), killer, online, "murder", victim.blockPosition(), seen);
+            Afterlife.killed(victim.server, killer, victim);
         }
     }
 
