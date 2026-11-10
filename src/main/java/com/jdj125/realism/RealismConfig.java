@@ -54,7 +54,7 @@ public final class RealismConfig {
         AFTERLIFE = b.comment("Judgment, heaven, hell and the dark. false = the old behaviour (permaDeathSpectator)").define("afterlife", true);
         HEAVEN_CHANCE = b.comment("Chance that someone with no good deeds and no sins still goes to heaven (the rest see only darkness)")
                 .defineInRange("heavenChance", 0.10, 0.0, 1.0);
-        REBORN = b.comment("Coming back to life isn't real: false = you stay in the afterlife for good (an op can use /realism reborn <player>). true = born again after the minutes below")
+        REBORN = b.comment("Coming back to life isn't real: false = you stay in the afterlife for good. true = born again after the minutes below")
                 .define("bornAgain", false);
         HEAVEN_MINUTES = b.comment("Minutes in heaven before you're born again").defineInRange("heavenMinutes", 10, 1, 1440);
         HELL_MINUTES = b.comment("Minutes in hell before you're born again").defineInRange("hellMinutes", 30, 1, 1440);
