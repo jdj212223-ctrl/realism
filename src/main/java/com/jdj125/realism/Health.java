@@ -257,7 +257,8 @@ public final class Health {
                 | (b.infection > 0 ? LifeSync.INFECTION : 0) | (b.cancer > 0 && b.cancerFound ? LifeSync.CANCER_FOUND | (b.cancer << 8) : 0)
                 | (Justice.jailed(p) ? LifeSync.JAILED : 0) | (b.dose >= SICK ? LifeSync.RADIATION_SICK : 0)
                 | (b.sentenced > 0 ? LifeSync.SENTENCED : 0);
-        return new LifeSync(era.year, flags, b.dose, b.rate);
+        int daily = Math.round(b.hygiene) | Math.round(b.bladder) << 8 | Math.round(b.teeth) << 16;
+        return new LifeSync(era.year, flags, b.dose, b.rate, daily);
     }
 
     // ---- Items and the scanner ----

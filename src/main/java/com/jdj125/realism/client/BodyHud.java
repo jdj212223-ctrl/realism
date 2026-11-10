@@ -93,6 +93,21 @@ public final class BodyHud {
                     x, y, color(danger));
             y += 10;
         }
+        // 2.0.2: daily life, only once it matters.
+        {
+            if (life.hygiene() < 50) {
+                g.drawString(font, Component.translatable("realism.hud.hygiene", life.hygiene()), x, y, color(life.hygiene() < 30 ? 1 : 0.5f));
+                y += 10;
+            }
+            if (life.bladder() >= 60) {
+                g.drawString(font, Component.translatable("realism.hud.bladder", life.bladder()), x, y, color(life.bladder() >= 80 ? 1 : 0.5f));
+                y += 10;
+            }
+            if (life.teeth() < 40) {
+                g.drawString(font, Component.translatable("realism.hud.teeth", life.teeth()), x, y, color(life.teeth() < 25 ? 1 : 0.5f));
+                y += 10;
+            }
+        }
         // 1.0.0: illnesses, radiation, jail, and the year in old times.
         int lf = life.flags();
         if ((lf & LifeSync.CHOSEN) != 0 && life.year() < com.jdj125.realism.Era.TODAY) {

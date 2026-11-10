@@ -554,5 +554,8 @@
   "realism.car.empty": "⛽ Došel benzín! Naplň kanystr u stojanu.",
   "realism.car.crash": "💥 BOURAČKA!",
   "realism.car.no_money": "⛽ Benzín stojí %s peněz",
-  "realism.car.filled": "⛽ Kanystr naplněn (-%s peněz)"
+  "realism.car.filled": "⛽ Kanystr naplněn (-%s peněz)",
+  "realism.hud.hygiene": "🧼 Čistota %s%%",
+  "realism.hud.bladder": "🚽 Močový měchýř %s%%",
+  "realism.hud.teeth": "🦷 Zuby %s%%"
 }

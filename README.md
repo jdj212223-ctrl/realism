@@ -158,6 +158,10 @@ Countries' leaders are the government. Murder (players or villagers) and theft (
 
 With **JEI** installed, crafting recipes (from every mod) show on a **Workbench** page, with the Workbench and the Hammer as the stations, instead of the crafting table page (which is hidden while `noCraftingTable` is on). JEI's "+" button fills the Workbench grid for you. Other mods' crafting tables (anything in NeoForge's `c:player_workstations/crafting_tables` tag) don't open either. Realism also has its **own creative tab** with every block and item.
 
+## 3.0.0: Realism 3 🏆
+
+Everything from the 2.0 series in one polished release: the **afterlife** (judgment, heaven, hell, the dark, lies count, no coming back), **daily life** (hygiene, bladder, teeth), **jobs** with paydays, and **cars**, roads and traffic lights. New in 3.0: the HUD shows **🧼 clean**, **🚽 bladder** and **🦷 teeth** once they matter.
+
 ## 2.0.0: the afterlife ☁️🔥⬛
 
 No more floating ghost when you're gone for good (that isn't real). Instead:

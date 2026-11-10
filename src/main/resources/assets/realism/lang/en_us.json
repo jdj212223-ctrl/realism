@@ -554,5 +554,8 @@
   "realism.car.empty": "⛽ Out of fuel! Fill a gas can at a gas pump.",
   "realism.car.crash": "💥 CRASH!",
   "realism.car.no_money": "⛽ Fuel costs %s money",
-  "realism.car.filled": "⛽ Gas can filled (-%s money)"
+  "realism.car.filled": "⛽ Gas can filled (-%s money)",
+  "realism.hud.hygiene": "🧼 Clean %s%%",
+  "realism.hud.bladder": "🚽 Bladder %s%%",
+  "realism.hud.teeth": "🦷 Teeth %s%%"
 }
