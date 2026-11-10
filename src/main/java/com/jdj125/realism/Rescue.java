@@ -254,6 +254,7 @@ public final class Rescue {
             user.level().playSound(null, patient.blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS, 0.6f, 2.0f);
             revive(patient);
             Afterlife.saved(user);
+            Jobs.work(user, "doctor", 1);
             say(user, "defib.saved", patient.getName());
         } else {
             b.defibStep = 0;

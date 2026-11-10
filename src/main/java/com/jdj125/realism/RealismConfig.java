@@ -8,7 +8,7 @@ public final class RealismConfig {
     public static final ModConfigSpec.IntValue THIRST_DAYS, SLEEP_DAYS;
     public static final ModConfigSpec.BooleanValue REAL_TIME, MUSCLE_TEARS, BROKEN_LEGS, BURNS, FROSTBITE, STAMINA,
             BLEEDING, BLOOD_PARTICLES, MOOD, NO_REVIVING, PERMA_DEATH_SPECTATOR, BLACK_SLEEP,
-            DISEASES, VOICE_ONLY_CHAT, NO_CRAFTING_TABLE, REMAINS, MODERN_KNIVES, AFTERLIFE, HELL_BURNS, REBORN;
+            DISEASES, VOICE_ONLY_CHAT, NO_CRAFTING_TABLE, REMAINS, MODERN_KNIVES, AFTERLIFE, HELL_BURNS, REBORN, DAILY_LIFE, JOBS, CARS;
     public static final ModConfigSpec.DoubleValue HEAVEN_CHANCE;
     public static final ModConfigSpec.IntValue HEAVEN_MINUTES, HELL_MINUTES, DARK_MINUTES;
     /** Client settings (realism-client.toml): echo in caves, black and white vision in old times. */
@@ -60,6 +60,11 @@ public final class RealismConfig {
         HELL_MINUTES = b.comment("Minutes in hell before you're born again").defineInRange("hellMinutes", 30, 1, 1440);
         DARK_MINUTES = b.comment("Minutes in the dark before you're born again").defineInRange("darkMinutes", 15, 1, 1440);
         HELL_BURNS = b.comment("You keep burning in hell (it can't kill you)").define("hellBurns", true);
+        b.pop();
+        b.comment("Realism 2.0.2: daily life, jobs, cars").push("everyday");
+        DAILY_LIFE = b.comment("Hygiene (stink), bladder (toilet) and teeth (toothbrush)").define("dailyLife", true);
+        JOBS = b.comment("Jobs with a daily paycheck (/job)").define("jobs", true);
+        CARS = b.comment("Cars need fuel, and crashes hurt").define("cars", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

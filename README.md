@@ -171,6 +171,14 @@ No more floating ghost when you're gone for good (that isn't real). Instead:
 
 Config section `[afterlife]`: on/off, heaven chance, minutes in each place, burning in hell. `afterlife = false` brings back the old spectator ghost.
 
+## 2.0.2: daily life, jobs, cars 🚿💼🚗
+
+**Daily life** (`dailyLife`): you get **dirty** over about two Minecraft days (faster when sprinting, rain and water wash you) and start to **stink** (green fumes everyone sees, mood drops): use a **Shower**, or wash your hands at a **Sink**. Your **bladder** fills over about a day: use a **Toilet** or have an accident 💦. Your **teeth** go bad over a few days (faster with sweets): hold right-click with a **Toothbrush** or get toothache.
+
+**Jobs** (`jobs`): `/job list`, `/job join <job>`, `/job`, `/job quit`. Doctor (surgeries, defib saves), chef (cooking food), farmer (grown crops), miner (ores), builder (placing blocks), police (hitting someone with a crime on their record). **Payday** once a Minecraft day, up to 250, minus your country's tax.
+
+**Cars** (`cars`): red, blue, black or white. W/S drive, A/D steer while moving, 2 seats, faster on **asphalt**. A full tank lasts about 10 minutes: fill a **Gas Can** at a **Gas Pump** (20 money) and right-click the car. Crashing into walls fast hurts everyone inside, and running people over hurts them (it's on the driver's record). Sneak-punch an empty car to pick it up. Roads: **Asphalt**, **Road Line**, and **Traffic Lights** (green 8 s, yellow 2 s, red 8 s).
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 

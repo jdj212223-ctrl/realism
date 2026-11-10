@@ -93,6 +93,7 @@ public final class BodyEvents {
         Health.second(p, b);
         Justice.second(p, b);
         Rescue.second(p, b);
+        Life.second(p, b);
         if (b.unconscious > 0) b.unconscious = Math.max(0, b.unconscious - 20);
     }
 

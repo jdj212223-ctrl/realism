@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "facing=north,light=0": {
+      "model": "realism:block/traffic_light_green",
+      "y": 0
+    },
+    "facing=north,light=1": {
+      "model": "realism:block/traffic_light_yellow",
+      "y": 0
+    },
+    "facing=north,light=2": {
+      "model": "realism:block/traffic_light_red",
+      "y": 0
+    },
+    "facing=east,light=0": {
+      "model": "realism:block/traffic_light_green",
+      "y": 90
+    },
+    "facing=east,light=1": {
+      "model": "realism:block/traffic_light_yellow",
+      "y": 90
+    },
+    "facing=east,light=2": {
+      "model": "realism:block/traffic_light_red",
+      "y": 90
+    },
+    "facing=south,light=0": {
+      "model": "realism:block/traffic_light_green",
+      "y": 180
+    },
+    "facing=south,light=1": {
+      "model": "realism:block/traffic_light_yellow",
+      "y": 180
+    },
+    "facing=south,light=2": {
+      "model": "realism:block/traffic_light_red",
+      "y": 180
+    },
+    "facing=west,light=0": {
+      "model": "realism:block/traffic_light_green",
+      "y": 270
+    },
+    "facing=west,light=1": {
+      "model": "realism:block/traffic_light_yellow",
+      "y": 270
+    },
+    "facing=west,light=2": {
+      "model": "realism:block/traffic_light_red",
+      "y": 270
+    }
+  }
+}

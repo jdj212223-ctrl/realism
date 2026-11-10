@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GCG",
+    "CGC",
+    "GCG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gravel"
+    },
+    "C": {
+      "item": "minecraft:coal"
+    }
+  },
+  "result": {
+    "id": "realism:asphalt",
+    "count": 8
+  }
+}

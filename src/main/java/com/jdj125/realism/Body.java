@@ -65,6 +65,9 @@ public class Body implements INBTSerializable<CompoundTag> {
     public long attackerTime;
     /** 1.2.0: what made you collapse (a damage type message id), for the forensics kit. */
     public String collapseCause = "";
+    /** 2.0.2 daily life: how clean you are (100 = just showered), how full your bladder is, how healthy your teeth are. */
+    public float hygiene = 100, bladder, teeth = 100;
+    public int lifeStage;
 
     @Override
     public CompoundTag serializeNBT(HolderLookup.Provider provider) {
@@ -108,6 +111,10 @@ public class Body implements INBTSerializable<CompoundTag> {
         t.putString("attackerWeapon", attackerWeapon);
         t.putLong("attackerTime", attackerTime);
         t.putString("collapseCause", collapseCause);
+        t.putFloat("hygiene", hygiene);
+        t.putFloat("bladder", bladder);
+        t.putFloat("teeth", teeth);
+        t.putInt("lifeStage", lifeStage);
         return t;
     }
 
@@ -152,5 +159,9 @@ public class Body implements INBTSerializable<CompoundTag> {
         attackerWeapon = t.getString("attackerWeapon");
         attackerTime = t.getLong("attackerTime");
         collapseCause = t.getString("collapseCause");
+        hygiene = t.contains("hygiene") ? t.getFloat("hygiene") : 100;
+        bladder = t.getFloat("bladder");
+        teeth = t.contains("teeth") ? t.getFloat("teeth") : 100;
+        lifeStage = t.getInt("lifeStage");
     }
 }

@@ -29,6 +29,13 @@
     "realism:solar_panel",
     "realism:electric_lamp",
     "realism:grandma_stove",
-    "realism:patient_monitor"
+    "realism:patient_monitor",
+    "realism:asphalt",
+    "realism:road_line",
+    "realism:toilet",
+    "realism:sink",
+    "realism:shower",
+    "realism:gas_pump",
+    "realism:traffic_light"
   ]
 }

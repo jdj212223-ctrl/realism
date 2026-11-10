@@ -213,6 +213,7 @@ public final class Surgeon {
             surgeon.displayClientMessage(Component.translatable("realism.surgeon.done", patient.getName(), surgeon.getData(SURGERIES),
                     Math.round(successChance(surgeon) * 100)), false);
         }
+        Jobs.work(surgeon, "doctor", 1);
         patient.displayClientMessage(Component.translatable("realism.surgeon.patient", surgeon.getName()), false);
         surgeon.level().playSound(null, patient.blockPosition(), SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, 0.4f, 1.6f);
         return true;

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "W",
+    "A"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:white_dye"
+    },
+    "A": {
+      "item": "realism:asphalt"
+    }
+  },
+  "result": {
+    "id": "realism:road_line",
+    "count": 1
+  }
+}

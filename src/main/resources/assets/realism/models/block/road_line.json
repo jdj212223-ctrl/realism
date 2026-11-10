@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "realism:block/road_line",
+    "bottom": "realism:block/asphalt",
+    "side": "realism:block/asphalt"
+  }
+}

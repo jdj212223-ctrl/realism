@@ -17,11 +17,13 @@ public final class LifeRenderers {
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(Ambulance.TYPE.get(), AmbulanceRenderer::new);
+        event.registerEntityRenderer(com.jdj125.realism.Cars.CAR.get(), CarRenderer::new);
         event.registerBlockEntityRenderer(Hospital.MONITOR_ENTITY.get(), MonitorRenderer::new);
     }
 
     @SubscribeEvent
     public static void layers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(AmbulanceRenderer.LAYER, AmbulanceRenderer.VanModel::create);
+        event.registerLayerDefinition(CarRenderer.LAYER, CarRenderer.CarModel::create);
     }
 }
