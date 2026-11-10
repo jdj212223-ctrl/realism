@@ -499,5 +499,11 @@
   "realism.afterlife.cutscene.judged": "Your life is being judged...",
   "realism.afterlife.cutscene.heaven": "Heaven",
   "realism.afterlife.cutscene.hell": "HELL",
-  "realism.afterlife.cutscene.dark": "..."
+  "realism.afterlife.cutscene.dark": "...",
+  "realism.afterlife.forever.heaven": "☁ You made it to heaven. Coming back to life isn't real: this is where you stay.",
+  "realism.afterlife.forever.hell": "🔥 You were judged... and sent to HELL. Forever.",
+  "realism.afterlife.forever.dark": "⬛ There's nothing. Only darkness. Forever.",
+  "realism.afterlife.place.heaven": "☁ Heaven",
+  "realism.afterlife.place.hell": "🔥 Hell",
+  "realism.afterlife.place.dark": "⬛"
 }

@@ -60,7 +60,7 @@ public final class Afterlife {
     // ---- The record of a life (survives death, works for offline players too) ----
 
     public static final class Soul {
-        public int murders, defense, noConsent, saves;
+        public int murders, defense, noConsent, saves, lies;
         /** "" = alive; "judgment", "heaven", "hell" or "dark". */
         public String place = "";
         public long until;
@@ -71,6 +71,7 @@ public final class Afterlife {
             t.putInt("defense", defense);
             t.putInt("noConsent", noConsent);
             t.putInt("saves", saves);
+            t.putInt("lies", lies);
             t.putString("place", place);
             t.putLong("until", until);
             return t;
@@ -82,6 +83,7 @@ public final class Afterlife {
             s.defense = t.getInt("defense");
             s.noConsent = t.getInt("noConsent");
             s.saves = t.getInt("saves");
+            s.lies = t.getInt("lies");
             s.place = t.getString("place");
             s.until = t.getLong("until");
             return s;
@@ -144,11 +146,40 @@ public final class Afterlife {
         soul(saver.server, saver.getUUID()).saves++;
     }
 
-    /** Where this soul goes: hell for sinners, heaven for the good (or 10% luck), the dark for the rest. */
+    /**
+     * Where this soul goes. Hell: murder, surgery without consent, or 3+ lies. Heaven: saved a life, self-defense only,
+     * or 10% luck, but never for a liar. Everyone else: the dark.
+     */
     public static String verdict(Soul s, float roll) {
-        if (s.murders > 0 || s.noConsent > 0) return "hell";
-        if (s.saves > 0 || s.defense > 0 || roll < RealismConfig.HEAVEN_CHANCE.get()) return "heaven";
+        if (s.murders > 0 || s.noConsent > 0 || s.lies >= 3) return "hell";
+        if (s.lies == 0 && (s.saves > 0 || s.defense > 0 || roll < RealismConfig.HEAVEN_CHANCE.get())) return "heaven";
         return "dark";
+    }
+
+    // ---- Lies ----
+
+    /** "It wasn't me", "I'm innocent", "nebyl jsem to"... */
+    private static final java.util.regex.Pattern DENIAL = java.util.regex.Pattern.compile(
+            "(wasn'?t me|was not me|not me|i didn'?t do|i did not do|i'?m innocent|i am innocent|i didn'?t kill|i did not kill"
+                    + "|i didn'?t steal|i never|nebyl jsem to|nebyla jsem to|to jsem nebyl|to jsem nebyla|já ne\\b|jsem nevinn|nezabil jsem|nezabila jsem|neukradl|neukradla)",
+            java.util.regex.Pattern.CASE_INSENSITIVE | java.util.regex.Pattern.UNICODE_CASE);
+
+    /** Did this player commit something they could lie about? Murder, no-consent surgery, or any crime on record. */
+    static boolean guilty(ServerPlayer p) {
+        Soul s = soul(p.server, p.getUUID());
+        return s.murders > 0 || s.noConsent > 0 || !Justice.Data.get(p.serverLevel()).records.getOrDefault(p.getUUID(), java.util.List.of()).isEmpty();
+    }
+
+    /** Someone said (chat) or texted (phone) something. Denying what you did is a lie, and it's written down up there. */
+    public static boolean said(ServerPlayer p, String text) {
+        if (!DENIAL.matcher(text).find() || !guilty(p)) return false;
+        soul(p.server, p.getUUID()).lies++;
+        return true;
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onChat(net.neoforged.neoforge.event.ServerChatEvent event) {
+        said(event.getPlayer(), event.getRawText());
     }
 
     public static boolean inAfterlife(ServerPlayer p) {
@@ -190,7 +221,7 @@ public final class Afterlife {
             case "hell" -> RealismConfig.HELL_MINUTES.get();
             default -> RealismConfig.DARK_MINUTES.get();
         };
-        s.until = p.server.overworld().getGameTime() + minutes * 60L * 20;
+        s.until = RealismConfig.REBORN.get() ? p.server.overworld().getGameTime() + minutes * 60L * 20 : Long.MAX_VALUE;
         ServerLevel to = p.server.getLevel(v.equals("heaven") ? HEAVEN : v.equals("hell") ? HELL : DARK);
         if (to == null) {
             reborn(p, s);
@@ -206,7 +237,8 @@ public final class Afterlife {
         p.removeAllEffects();
         p.teleportTo(to, spot.getX() + 0.5, spot.getY(), spot.getZ() + 0.5, p.getYRot(), 0);
         p.setGameMode(GameType.ADVENTURE);
-        p.displayClientMessage(Component.translatable("realism.afterlife.arrive." + v, minutes), false);
+        p.displayClientMessage(RealismConfig.REBORN.get() ? Component.translatable("realism.afterlife.arrive." + v, minutes)
+                : Component.translatable("realism.afterlife.forever." + v), false);
     }
 
     static int groundY(String v) {
@@ -260,8 +292,11 @@ public final class Afterlife {
             arrive(p, s, s.place);
             return;
         }
-        long left = (s.until - now) / 20;
-        p.displayClientMessage(Component.translatable("realism.afterlife.timer." + s.place, left / 60, String.format("%02d", left % 60)), true);
+        if (s.until == Long.MAX_VALUE) p.displayClientMessage(Component.translatable("realism.afterlife.place." + s.place), true);
+        else {
+            long left = (s.until - now) / 20;
+            p.displayClientMessage(Component.translatable("realism.afterlife.timer." + s.place, left / 60, String.format("%02d", left % 60)), true);
+        }
         switch (s.place) {
             case "dark" -> {
                 p.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0, false, false));

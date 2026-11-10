@@ -24,6 +24,12 @@ public final class RealismCommand {
                             String.format(java.util.Locale.ROOT, "%.1f", s.blood()), Blood.type(p)), false);
                     return 1;
                 })
+                .then(Commands.literal("reborn").requires(src -> src.hasPermission(2))
+                        .then(Commands.argument("player", net.minecraft.commands.arguments.EntityArgument.player()).executes(ctx -> {
+                            ServerPlayer t = net.minecraft.commands.arguments.EntityArgument.getPlayer(ctx, "player");
+                            Afterlife.reborn(t, Afterlife.soul(t.server, t.getUUID()));
+                            return 1;
+                        })))
                 .then(Commands.literal("set").requires(src -> src.hasPermission(2))
                         .then(Commands.argument("stat", com.mojang.brigadier.arguments.StringArgumentType.word())
                                 .suggests((ctx, b) -> { b.suggest("thirst"); b.suggest("sleep"); b.suggest("stamina"); b.suggest("blood"); return b.buildFuture(); })

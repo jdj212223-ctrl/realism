@@ -47,6 +47,12 @@ public class AfterlifeGameTests {
         Afterlife.Soul nobody = new Afterlife.Soul();
         helper.assertTrue(Afterlife.verdict(nobody, 0.05f).equals("heaven"), "10% luck: heaven");
         helper.assertTrue(Afterlife.verdict(nobody, 0.5f).equals("dark"), "otherwise only darkness");
+        Afterlife.Soul liar = new Afterlife.Soul();
+        liar.saves = 3;
+        liar.lies = 1;
+        helper.assertTrue(Afterlife.verdict(liar, 0f).equals("dark"), "a liar never gets into heaven, even after saving lives");
+        liar.lies = 3;
+        helper.assertTrue(Afterlife.verdict(liar, 0f).equals("hell"), "three lies and it's hell");
         helper.succeed();
     }
 
@@ -116,6 +122,19 @@ public class AfterlifeGameTests {
             helper.assertTrue(b.level().dimension() == Afterlife.DARK, "so is the dark");
             Afterlife.reborn(a, Afterlife.soul(a.server, a.getUUID()));
             Afterlife.reborn(b, Afterlife.soul(b.server, b.getUUID()));
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 140)
+    public static void denyingWhatYouDidIsALie(GameTestHelper helper) {
+        withTwo(helper, (a, b) -> {
+            helper.assertFalse(Afterlife.said(a, "it wasn't me!"), "an innocent person isn't lying");
+            Afterlife.soul(a.server, a.getUUID()).murders = 1;
+            helper.assertFalse(Afterlife.said(a, "nice weather today"), "small talk isn't a lie");
+            helper.assertTrue(Afterlife.said(a, "It wasn't me, I'm innocent"), "a murderer saying it wasn't them is lying");
+            helper.assertTrue(Afterlife.said(a, "nebyl jsem to"), "in Czech too");
+            helper.assertTrue(Afterlife.soul(a.server, a.getUUID()).lies == 2, "both lies are written down");
             helper.succeed();
         });
     }

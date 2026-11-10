@@ -499,5 +499,11 @@
   "realism.afterlife.cutscene.judged": "Tvůj život se soudí...",
   "realism.afterlife.cutscene.heaven": "Nebe",
   "realism.afterlife.cutscene.hell": "PEKLO",
-  "realism.afterlife.cutscene.dark": "..."
+  "realism.afterlife.cutscene.dark": "...",
+  "realism.afterlife.forever.heaven": "☁ Dostal/a ses do nebe. Vrátit se do života není skutečné: tady zůstaneš.",
+  "realism.afterlife.forever.hell": "🔥 Byl/a jsi souzen/a... a poslán/a do PEKLA. Navždy.",
+  "realism.afterlife.forever.dark": "⬛ Nic tu není. Jen tma. Navždy.",
+  "realism.afterlife.place.heaven": "☁ Nebe",
+  "realism.afterlife.place.hell": "🔥 Peklo",
+  "realism.afterlife.place.dark": "⬛"
 }

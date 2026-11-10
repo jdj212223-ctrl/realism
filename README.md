@@ -166,7 +166,8 @@ No more floating ghost when you're gone for good (that isn't real). Instead:
 - **Heaven** ☁️ for anyone who saved a life (defibrillator, surgery on a collapsed patient) or only killed in self-defense, plus a **10% chance** for everyone else.
 - **The dark** ⬛ for everyone else: you see nothing at all, like real death.
 - The record up there sees **everything**, even crimes outside countries that nobody witnessed.
-- After a while (heaven 10 min, hell 30 min, the dark 15 min) you're **born again** as a new person at the world spawn: new body, new blood type, clean record.
+- **Lying** counts too (2.0.1): saying "it wasn't me", "I'm innocent", "nebyl jsem to"... in chat or by phone while you're guilty of something is written down. One lie and heaven is closed to you; three lies and it's hell.
+- Coming back to life isn't real (2.0.1): you **stay** in the afterlife for good. An op can bring someone back with `/realism reborn <player>`, and `bornAgain = true` in the config turns rebirth back on (heaven 10 min, hell 30 min, the dark 15 min, as a new person at the world spawn).
 
 Config section `[afterlife]`: on/off, heaven chance, minutes in each place, burning in hell. `afterlife = false` brings back the old spectator ghost.
 
