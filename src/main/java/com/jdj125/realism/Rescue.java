@@ -156,7 +156,7 @@ public final class Rescue {
         p.setForcedPose(Pose.SLEEPING);
         p.setSprinting(false);
         p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 10, true, false, false));
-        p.addEffect(new MobEffectInstance(MobEffects.JUMP, 40, 250, true, false, false));
+        BodyEvents.jumpLock(p, true);
         if (b.collapse <= 0) {
             b.collapse = 1; // still "collapsed" for onDeath, so this death is the final one
             p.hurt(Realism.source(p, Realism.COLLAPSED), Float.MAX_VALUE);

@@ -62,6 +62,21 @@ public final class BodyEvents {
     }
 
     /** Refreshes an effect for a little over a second, so it lasts exactly as long as the condition does. */
+    static final net.minecraft.resources.ResourceLocation NO_JUMP = net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Realism.MODID, "no_jump");
+
+    /**
+     * Stops (or allows) jumping. Done with the jump-strength attribute: since 1.20.5 Jump Boost is an attribute
+     * modifier too, so the old "Jump Boost 250 = can't jump" trick became a huge jump boost that launched injured
+     * players into the air.
+     */
+    static void jumpLock(Player p, boolean on) {
+        var a = p.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.JUMP_STRENGTH);
+        if (a == null) return;
+        if (on) a.addOrUpdateTransientModifier(new net.minecraft.world.entity.ai.attributes.AttributeModifier(NO_JUMP, -1.0,
+                net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+        else a.removeModifier(NO_JUMP);
+    }
+
     private static void keep(Player p, Holder<MobEffect> effect, int amplifier) {
         p.addEffect(new MobEffectInstance(effect, 50, amplifier, true, false, true));
     }
@@ -344,16 +359,15 @@ public final class BodyEvents {
     // ---- Injury effects and healing ----
 
     private static void injuries(ServerPlayer p, Body b) {
+        jumpLock(p, b.brokenNeck || b.brokenLeg > 0 || b.collapse > 0);
         if (b.brokenNeck) {
             keep(p, MobEffects.MOVEMENT_SLOWDOWN, b.paralysed ? 10 : 1);
-            keep(p, MobEffects.JUMP, 250);
             keep(p, MobEffects.DIG_SLOWDOWN, 1);
             p.setSprinting(false);
         }
         if (b.brokenLeg > 0) {
             b.brokenLeg = Math.max(0, b.brokenLeg - SECOND);
             keep(p, MobEffects.MOVEMENT_SLOWDOWN, 2);
-            keep(p, MobEffects.JUMP, 250); // amplifier 250 = can't jump
             p.setSprinting(false);
             if (b.brokenLeg == 0) say(p, "leg.healed");
         }

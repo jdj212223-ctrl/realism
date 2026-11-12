@@ -157,6 +157,24 @@ public class BodyGameTests {
     }
 
     @GameTest(template = "arena", timeoutTicks = 120)
+    public static void brokenLegStopsJumpingInsteadOfLaunching(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            Body b = BodyEvents.body(p);
+            double normal = p.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.JUMP_STRENGTH);
+            b.brokenLeg = 99999;
+            BodyEvents.second(p);
+            double hurt = p.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.JUMP_STRENGTH);
+            helper.assertTrue(hurt <= 0.0001, "a broken leg means no jumping at all, got jump strength " + hurt);
+            helper.assertTrue(p.getEffect(net.minecraft.world.effect.MobEffects.JUMP) == null, "no Jump Boost effect (it launched players)");
+            b.brokenLeg = 0;
+            BodyEvents.second(p);
+            double healed = p.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.JUMP_STRENGTH);
+            helper.assertTrue(Math.abs(healed - normal) < 0.0001, "jumping comes back when the leg heals, got " + healed);
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
     public static void lowMoodSlowsButNeverHurts(GameTestHelper helper) {
         withPlayer(helper, p -> {
             Body b = BodyEvents.body(p);
