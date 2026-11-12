@@ -1,0 +1,18 @@
+{
+  "required_mods": [
+    "cold_sweat"
+  ],
+  "block": {
+    "blocks": [
+      "realism:panel_radiator"
+    ],
+    "state": {
+      "powered": "true"
+    }
+  },
+  "temperature": 20,
+  "max_effect": 30,
+  "units": "F",
+  "range": 6,
+  "fade": true
+}

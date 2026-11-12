@@ -151,6 +151,8 @@ public final class Home {
                 furnace.tick(l, p, s, be);
                 if (l.getGameTime() % 40 == 0 && s.getValue(LIT))
                     for (Player pl : l.getEntitiesOfClass(Player.class, new AABB(p).inflate(6))) Mind.lift(pl, 0.08f);
+                // Left alone while it burns, a stove can start a kitchen fire.
+                if (l.getGameTime() % 600 == 0 && s.getValue(LIT) && l instanceof net.minecraft.server.level.ServerLevel sl) Fire.kitchenFire(sl, p);
             };
         }
 

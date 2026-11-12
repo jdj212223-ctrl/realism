@@ -49,7 +49,11 @@ public class PhoneScreen extends Screen {
         addRenderableWidget(Button.builder(Component.translatable("realism.phone.call_ambulance"), b -> {
             PacketDistributor.sendToServer(new World.CallAmbulance());
             onClose();
-        }).bounds(x + 8, y + 62, 104, 14).build());
+        }).bounds(x + 8, y + 62, 51, 14).build());
+        addRenderableWidget(Button.builder(Component.translatable("realism.phone.call_fire"), b -> {
+            PacketDistributor.sendToServer(new World.CallFire());
+            onClose();
+        }).bounds(x + 61, y + 62, 51, 14).build());
         addRenderableWidget(Button.builder(Component.translatable("realism.phone.close"), b -> onClose()).bounds(x + 30, y + 176, 60, 16).build());
     }
 

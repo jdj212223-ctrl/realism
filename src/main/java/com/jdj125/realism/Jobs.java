@@ -36,8 +36,8 @@ public final class Jobs {
     private Jobs() {}
 
     /** Pay per piece of work, and the most one day can pay. */
-    public static final Map<String, Integer> PAY = Map.of("doctor", 30, "chef", 4, "farmer", 2, "miner", 3, "builder", 1, "police", 10);
-    public static final List<String> NAMES = List.of("doctor", "chef", "farmer", "miner", "builder", "police");
+    public static final Map<String, Integer> PAY = Map.of("doctor", 30, "chef", 4, "farmer", 2, "miner", 3, "builder", 1, "police", 10, "firefighter", 5);
+    public static final List<String> NAMES = List.of("doctor", "chef", "farmer", "miner", "builder", "police", "firefighter");
     public static final int DAILY_CAP = 250;
 
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Realism.MODID);

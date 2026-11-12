@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "realism:block/chimney_side",
+    "end": "realism:block/chimney_top"
+  }
+}

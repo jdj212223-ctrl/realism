@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "realism:block/fireplace_front_on",
+    "side": "realism:block/fireplace_side",
+    "top": "realism:block/fireplace_top"
+  }
+}

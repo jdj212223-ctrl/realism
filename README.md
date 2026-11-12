@@ -183,6 +183,25 @@ Config section `[afterlife]`: on/off, heaven chance, minutes in each place, burn
 
 **Cars** (`cars`): red, blue, black or white. W/S drive, A/D steer while moving, 2 seats, faster on **asphalt**. A full tank lasts about 10 minutes: fill a **Gas Can** at a **Gas Pump** (20 money) and right-click the car. Crashing into walls fast hurts everyone inside, and running people over hurts them (it's on the driver's record). Sneak-punch an empty car to pick it up. Roads: **Asphalt**, **Road Line**, and **Traffic Lights** (green 8 s, yellow 2 s, red 8 s).
 
+## 3.1.0: no cheating in real life 🚫
+
+No commands for players (not even ops): no /give, /gamemode or /tp. Realism's own commands still work (/pay, /country, /job, /law, /ambulance, /fire, /era, /realism) and the server console too (`noCommands`, `allowedCommands`). Creative mode switches back to survival by itself (`survivalOnly`). No HUD bars (hearts, hunger, armor, air, XP) and no status panel: listen to your body (client `noHud`). Create World only shows the Game tab, with creative and cheats locked off (client `lockWorldCreation`).
+
+## 3.2.0: fire and heating 🔥🏠
+
+| Thing | What it does |
+|---|---|
+| ⚫ Coal Heater | Right-click with coal or charcoal (a coal block lasts much longer). Burns 30 seconds per step of fuel and warms the room (Cold Sweat). Iron around a furnace. |
+| ⚡ Panel Radiator | A flat electric radiator for the wall: warm while the grid has power (80 W). |
+| 🧱 Fireplace + Chimney | Burns logs, planks, coal. It needs a **Chimney** on top: with none, the smoke pours into the room. Stack chimneys up through the roof. Sparks can set fire to anything that burns right in front of it. |
+| 😷 Smoke | Fire indoors (or a fireplace with no chimney) fills the room with smoke: you cough, can't see, and get hurt. **Crouch** to stay under the smoke, like in real life, and get out. |
+| 🚨 Smoke Detector | On the ceiling: beeps when there's smoke or fire within 8 blocks. Right-click to test it. |
+| 🧯 Fire Extinguisher | Right-click to spray: puts out fires and burning people (32 sprays). Iron, red dye and a water bucket. |
+| 🍳 Kitchen fires | A burning Grandma's Stove left alone (nobody within 8 blocks) can start a fire. |
+| 🚒 Firefighters | New job: `/job join firefighter`, paid for every fire you put out. Call the fire department with the phone's 🚒 button or `/fire`: every firefighter online hears where. |
+
+Config section `[fire]`: `smoke`, `kitchenFires`.
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 

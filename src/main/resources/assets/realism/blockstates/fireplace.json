@@ -1,0 +1,484 @@
+{
+  "variants": {
+    "facing=north,fuel=0,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=0,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=1,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=1,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=2,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=2,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=3,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=3,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=4,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=4,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=5,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=5,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=6,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=6,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=7,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=7,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=8,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=8,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=9,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=9,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=10,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=10,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=11,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=11,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=12,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=12,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=13,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=13,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=14,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=14,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=north,fuel=15,lit=false": {
+      "model": "realism:block/fireplace"
+    },
+    "facing=north,fuel=15,lit=true": {
+      "model": "realism:block/fireplace_on"
+    },
+    "facing=east,fuel=0,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=0,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=1,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=1,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=2,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=2,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=3,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=3,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=4,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=4,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=5,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=5,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=6,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=6,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=7,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=7,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=8,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=8,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=9,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=9,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=10,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=10,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=11,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=11,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=12,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=12,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=13,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=13,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=14,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=14,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=east,fuel=15,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 90
+    },
+    "facing=east,fuel=15,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 90
+    },
+    "facing=south,fuel=0,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=0,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=1,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=1,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=2,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=2,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=3,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=3,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=4,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=4,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=5,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=5,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=6,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=6,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=7,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=7,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=8,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=8,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=9,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=9,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=10,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=10,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=11,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=11,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=12,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=12,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=13,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=13,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=14,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=14,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=south,fuel=15,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 180
+    },
+    "facing=south,fuel=15,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 180
+    },
+    "facing=west,fuel=0,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=0,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=1,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=1,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=2,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=2,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=3,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=3,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=4,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=4,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=5,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=5,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=6,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=6,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=7,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=7,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=8,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=8,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=9,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=9,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=10,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=10,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=11,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=11,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=12,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=12,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=13,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=13,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=14,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=14,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    },
+    "facing=west,fuel=15,lit=false": {
+      "model": "realism:block/fireplace",
+      "y": 270
+    },
+    "facing=west,fuel=15,lit=true": {
+      "model": "realism:block/fireplace_on",
+      "y": 270
+    }
+  }
+}

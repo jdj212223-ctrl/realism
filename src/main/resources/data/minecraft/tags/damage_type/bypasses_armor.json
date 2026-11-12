@@ -12,6 +12,7 @@
     "realism:radiation",
     "realism:infection",
     "realism:cancer",
-    "realism:executed"
+    "realism:executed",
+    "realism:smoke"
   ]
 }

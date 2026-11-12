@@ -391,6 +391,16 @@ public final class World {
         return Rescue.dispatch(caller, 256) ? "phone.ok" : "phone.ambulance_failed";
     }
 
+    public record CallFire() implements CustomPacketPayload {
+        public static final Type<CallFire> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Realism.MODID, "call_fire"));
+        public static final StreamCodec<ByteBuf, CallFire> CODEC = StreamCodec.unit(new CallFire());
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
+    }
+
     public record CallAmbulance() implements CustomPacketPayload {
         public static final Type<CallAmbulance> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Realism.MODID, "call_ambulance"));
         public static final StreamCodec<ByteBuf, CallAmbulance> CODEC = StreamCodec.unit(new CallAmbulance());

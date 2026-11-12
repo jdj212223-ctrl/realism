@@ -36,6 +36,10 @@
     "realism:sink",
     "realism:shower",
     "realism:gas_pump",
-    "realism:traffic_light"
+    "realism:traffic_light",
+    "realism:coal_heater",
+    "realism:fireplace",
+    "realism:chimney",
+    "realism:panel_radiator"
   ]
 }

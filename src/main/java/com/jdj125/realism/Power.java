@@ -112,6 +112,7 @@ public final class Power {
         if (b == GENERATOR.get()) return s.getValue(BlockStateProperties.LIT) ? GENERATOR_W : 0;
         if (b == SOLAR_PANEL.get()) return level.isDay() && !level.isRaining() && level.canSeeSky(pos.above()) ? SOLAR_W : 0;
         if (b == LAMP.get()) return -LAMP_W;
+        if (b == Fire.RADIATOR.get()) return -Fire.RADIATOR_W;
         if (b == Health.MEDICAL_SCANNER.get()) return -SCANNER_W;
         if (b == Hospital.MONITOR.get()) return -MONITOR_W;
         if (b == Tech.PC_CASE.get() || Tech.MODEL_BLOCKS.stream().anyMatch(m -> m.get() == b)) return -COMPUTER_W;
@@ -120,7 +121,7 @@ public final class Power {
 
     static boolean electrical(Level level, BlockPos pos, BlockState s) {
         Block b = s.getBlock();
-        return b == CABLE.get() || b == GENERATOR.get() || b == SOLAR_PANEL.get() || b == LAMP.get() || b == Health.MEDICAL_SCANNER.get()
+        return b == CABLE.get() || b == Fire.RADIATOR.get() || b == GENERATOR.get() || b == SOLAR_PANEL.get() || b == LAMP.get() || b == Health.MEDICAL_SCANNER.get()
                 || b == Hospital.MONITOR.get() || b == Tech.PC_CASE.get() || Tech.MODEL_BLOCKS.stream().anyMatch(m -> m.get() == b);
     }
 

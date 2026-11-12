@@ -1,0 +1,18 @@
+{
+  "required_mods": [
+    "cold_sweat"
+  ],
+  "block": {
+    "blocks": [
+      "realism:coal_heater"
+    ],
+    "state": {
+      "lit": "true"
+    }
+  },
+  "temperature": 35,
+  "max_effect": 45,
+  "units": "F",
+  "range": 8,
+  "fade": true
+}

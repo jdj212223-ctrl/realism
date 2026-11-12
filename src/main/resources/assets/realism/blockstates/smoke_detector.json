@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "alarm=false": {
+      "model": "realism:block/smoke_detector"
+    },
+    "alarm=true": {
+      "model": "realism:block/smoke_detector_alarm"
+    }
+  }
+}

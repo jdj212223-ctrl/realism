@@ -30,6 +30,53 @@ public class EverydayGameTests {
         helper.runAfterDelay(70, () -> check.accept(p));
     }
 
+    @GameTest(template = "arena", timeoutTicks = 100)
+    public static void fireAndHeating(GameTestHelper helper) {
+        var level = helper.getLevel();
+        // A fireplace with no chimney smokes up the room; a chimney fixes it.
+        BlockPos fp = helper.absolutePos(new BlockPos(2, 2, 2));
+        level.setBlockAndUpdate(fp, com.jdj125.realism.Fire.FIREPLACE.get().defaultBlockState());
+        com.jdj125.realism.Fire.Burner.addFuel(level, fp, level.getBlockState(fp), 3);
+        var lit = level.getBlockState(fp);
+        helper.assertTrue(lit.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT)
+                && lit.getValue(com.jdj125.realism.Fire.FUEL) == 3, "fuel lights the fireplace");
+        helper.assertTrue(com.jdj125.realism.Fire.smokyFireplace(level, fp, lit), "no chimney = smoke");
+        level.setBlockAndUpdate(fp.above(), com.jdj125.realism.Fire.CHIMNEY.get().defaultBlockState());
+        helper.assertFalse(com.jdj125.realism.Fire.smokyFireplace(level, fp, lit), "a chimney takes the smoke out");
+        // The extinguisher's spray puts fire out.
+        BlockPos f = helper.absolutePos(new BlockPos(5, 2, 5));
+        level.setBlockAndUpdate(f.below(), net.minecraft.world.level.block.Blocks.NETHERRACK.defaultBlockState());
+        level.setBlockAndUpdate(f, net.minecraft.world.level.block.Blocks.FIRE.defaultBlockState());
+        helper.assertTrue(com.jdj125.realism.Fire.smokeAt(level, f, 3) > 0, "fire makes smoke");
+        helper.assertTrue(com.jdj125.realism.Fire.extinguish(level, f, null) == 1, "one fire put out");
+        helper.assertFalse(level.getBlockState(f).is(net.minecraft.world.level.block.Blocks.FIRE), "the fire is gone");
+        helper.assertTrue(com.jdj125.realism.NoCheats.allowed("/fire"), "calling the fire department isn't cheating");
+        helper.succeed();
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 140)
+    public static void smokeHurtsUnlessYouCrouch(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var level = helper.getLevel();
+            BlockPos at = p.blockPosition();
+            // A roof over the player, and a fire next to them.
+            for (int x = -2; x <= 2; x++)
+                for (int z = -2; z <= 2; z++) level.setBlockAndUpdate(at.offset(x, 3, z), net.minecraft.world.level.block.Blocks.STONE.defaultBlockState());
+            level.setBlockAndUpdate(at.offset(2, -1, 0), net.minecraft.world.level.block.Blocks.NETHERRACK.defaultBlockState());
+            level.setBlockAndUpdate(at.offset(2, 0, 0), net.minecraft.world.level.block.Blocks.FIRE.defaultBlockState());
+            helper.assertTrue(com.jdj125.realism.Fire.breathe(p), "standing indoors near fire = breathing smoke (indoors="
+                    + com.jdj125.realism.Fire.indoors(level, p.blockPosition()) + " smoke=" + com.jdj125.realism.Fire.smokeAt(level, p.blockPosition(), 6)
+                    + " fire=" + level.getBlockState(at.offset(2, 0, 0)) + " mode=" + p.gameMode.getGameModeForPlayer() + ")");
+            helper.assertTrue(p.hasEffect(net.minecraft.world.effect.MobEffects.BLINDNESS), "smoke stings your eyes");
+            p.removeAllEffects();
+            p.setShiftKeyDown(true);
+            p.setPose(net.minecraft.world.entity.Pose.CROUCHING);
+            helper.assertTrue(com.jdj125.realism.Fire.breathe(p), "still in the smoke when crouching");
+            helper.assertFalse(p.hasEffect(net.minecraft.world.effect.MobEffects.BLINDNESS), "but crouching keeps you under it");
+            helper.succeed();
+        });
+    }
+
     @GameTest(template = "arena", timeoutTicks = 140)
     public static void noCommandsForPlayers(GameTestHelper helper) {
         withPlayer(helper, p -> {

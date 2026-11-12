@@ -59,7 +59,8 @@ public class Realism {
     public static final ResourceKey<DamageType> DEHYDRATION = damage("dehydration"), SLEEPLESSNESS = damage("sleeplessness"),
             EXHAUSTION = damage("exhaustion"), BURN = damage("burn"), FROSTBITE = damage("frostbite"),
             BLED_OUT = damage("bled_out"), BROKEN_NECK = damage("broken_neck"), COLLAPSED = damage("collapsed"),
-            RADIATION = damage("radiation"), INFECTION = damage("infection"), CANCER = damage("cancer"), EXECUTED = damage("executed");
+            RADIATION = damage("radiation"), INFECTION = damage("infection"), CANCER = damage("cancer"), EXECUTED = damage("executed"),
+            SMOKE = damage("smoke");
 
     public Realism(IEventBus modBus, ModContainer container) {
         ATTACHMENTS.register(modBus);
@@ -78,6 +79,7 @@ public class Realism {
         Surgeon.register(modBus);
         Kitchen.register(modBus);
         Life.register(modBus);
+        Fire.register(modBus);
         Jobs.register(modBus);
         Cars.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
@@ -100,6 +102,8 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Life.class);
         NeoForge.EVENT_BUS.register(Jobs.class);
         NeoForge.EVENT_BUS.register(NoCheats.class);
+        NeoForge.EVENT_BUS.register(Fire.class);
+        NeoForge.EVENT_BUS.addListener(Fire::commands);
         NeoForge.EVENT_BUS.addListener(Jobs::commands);
         NeoForge.EVENT_BUS.addListener(Era::commands);
         NeoForge.EVENT_BUS.addListener(Justice::commands);
@@ -134,6 +138,12 @@ public class Realism {
         r.playToServer(World.CallAmbulance.TYPE, World.CallAmbulance.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) {
                 String result = World.callAmbulance(sp);
+                if (!result.equals("phone.ok")) sp.displayClientMessage(net.minecraft.network.chat.Component.translatable("realism." + result), true);
+            }
+        }));
+        r.playToServer(World.CallFire.TYPE, World.CallFire.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) {
+                String result = Fire.callFireDepartment(sp);
                 if (!result.equals("phone.ok")) sp.displayClientMessage(net.minecraft.network.chat.Component.translatable("realism." + result), true);
             }
         }));

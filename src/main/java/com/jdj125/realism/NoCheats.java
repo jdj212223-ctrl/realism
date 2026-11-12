@@ -19,6 +19,9 @@ public final class NoCheats {
     private NoCheats() {
     }
 
+    /** Realism's own commands always work: they're part of the game, not cheats. */
+    static final java.util.Set<String> REALISM = java.util.Set.of("pay", "country", "job", "law", "ambulance", "era", "realism", "fire");
+
     /** The command's name without the slash, e.g. "give" for "/give @s dirt". */
     public static String root(String input) {
         String s = input.strip();
@@ -32,6 +35,7 @@ public final class NoCheats {
     public static boolean allowed(String input) {
         if (!RealismConfig.NO_COMMANDS.get()) return true;
         String name = root(input);
+        if (REALISM.contains(name)) return true;
         return RealismConfig.ALLOWED_COMMANDS.get().stream().anyMatch(a -> a.equalsIgnoreCase(name));
     }
 

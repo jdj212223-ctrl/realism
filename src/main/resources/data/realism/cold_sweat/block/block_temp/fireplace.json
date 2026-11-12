@@ -1,0 +1,18 @@
+{
+  "required_mods": [
+    "cold_sweat"
+  ],
+  "block": {
+    "blocks": [
+      "realism:fireplace"
+    ],
+    "state": {
+      "lit": "true"
+    }
+  },
+  "temperature": 30,
+  "max_effect": 40,
+  "units": "F",
+  "range": 8,
+  "fade": true
+}

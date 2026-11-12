@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "realism:block/coal_heater_front",
+    "side": "realism:block/coal_heater_side",
+    "top": "realism:block/coal_heater_top"
+  }
+}
