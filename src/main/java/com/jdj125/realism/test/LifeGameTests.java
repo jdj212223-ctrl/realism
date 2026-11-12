@@ -177,6 +177,9 @@ public class LifeGameTests {
     @GameTest(template = "arena", timeoutTicks = 120)
     public static void remainsStayBehind(GameTestHelper helper) {
         withPlayer(helper, p -> {
+            // Test players all start on the same spot: clear anything an earlier test left there.
+            BlockPos own = helper.absolutePos(new BlockPos(3, 0, 3)); // this test's own spot (test players all start on the same one)
+            p.moveTo(own.getX() + 0.5, own.getY(), own.getZ() + 0.5, 0, 0);
             Justice.leaveRemains(p);
             helper.assertTrue(helper.getLevel().getBlockState(p.blockPosition()).is(Justice.REMAINS.get()), "remains where they fell");
             helper.succeed();

@@ -20,7 +20,7 @@ public final class NoCheats {
     }
 
     /** Realism's own commands always work: they're part of the game, not cheats. */
-    static final java.util.Set<String> REALISM = java.util.Set.of("pay", "country", "job", "law", "ambulance", "era", "realism", "fire", "vote", "tip");
+    static final java.util.Set<String> REALISM = java.util.Set.of("pay", "country", "job", "law", "ambulance", "era", "realism", "fire", "vote", "tip", "911", "loan");
 
     /** The command's name without the slash, e.g. "give" for "/give @s dirt". */
     public static String root(String input) {

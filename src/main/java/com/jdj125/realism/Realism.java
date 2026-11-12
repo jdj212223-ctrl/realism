@@ -86,6 +86,7 @@ public class Realism {
         RealLife.register(modBus);
         Wave3.register(modBus);
         Wave4.register(modBus);
+        Wave5.register(modBus);
         Jobs.register(modBus);
         Cars.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
@@ -117,6 +118,7 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Wave3.class);
         NeoForge.EVENT_BUS.register(Tornadoes.class);
         NeoForge.EVENT_BUS.register(Wave4.class);
+        NeoForge.EVENT_BUS.register(Wave5.class);
         NeoForge.EVENT_BUS.addListener(Fire::commands);
         NeoForge.EVENT_BUS.addListener(Jobs::commands);
         NeoForge.EVENT_BUS.addListener(Era::commands);

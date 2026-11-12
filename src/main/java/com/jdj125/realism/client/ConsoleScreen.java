@@ -29,7 +29,7 @@ import java.util.List;
  * </ul>
  */
 public class ConsoleScreen extends Screen {
-    enum Game { RUNNER, PADDLE, CATCH, PUNCH, DODGE }
+    enum Game { RUNNER, PADDLE, CATCH, BRICKS, BALLOON, PUNCH, DODGE }
 
     static final int GW = 200, GH = 120; // the game's own little screen
 
@@ -52,6 +52,9 @@ public class ConsoleScreen extends Screen {
     // Box Punch
     private int target = -1, targetTime, timeLeft;
     private int punchCooldown;
+    // Brick Bash
+    private final boolean[] bricks = new boolean[40];
+    private float pad;
     // Wall Dodge
     private float wallX;
     private int gap, lane;
@@ -109,6 +112,10 @@ public class ConsoleScreen extends Screen {
         }
         List<Game> games = new ArrayList<>(List.of(Game.RUNNER, Game.PADDLE));
         if (model.year() >= 2000) games.add(Game.CATCH);
+        if (model.year() >= 2005) {
+            games.add(Game.BRICKS);
+            games.add(Game.BALLOON);
+        }
         if (motionGames()) {
             games.add(Game.PUNCH);
             games.add(Game.DODGE);
@@ -178,6 +185,15 @@ public class ConsoleScreen extends Screen {
         targetTime = 0;
         timeLeft = 30 * 20;
         wallX = GW + 20;
+        java.util.Arrays.fill(bricks, true);
+        pad = GW / 2f;
+        if (g == Game.BRICKS) {
+            bx = GW / 2f;
+            by = GH - 30;
+            bvx = 1.6f;
+            bvy = -2.0f;
+        }
+        if (g == Game.BALLOON) y = GH / 2f;
         gap = 1;
         lane = 1;
         if ((g == Game.PUNCH || g == Game.DODGE) && webcamOn()) MotionCam.start();
@@ -221,6 +237,10 @@ public class ConsoleScreen extends Screen {
             vy = 5.2f;
             beep(1.5f);
         }
+        if (game == Game.BALLOON && !over && (key == GLFW.GLFW_KEY_SPACE || key == GLFW.GLFW_KEY_W || key == GLFW.GLFW_KEY_UP)) {
+            vy = -2.8f;
+            beep(1.7f);
+        }
         if (game == Game.PUNCH && !over) {
             if (key == GLFW.GLFW_KEY_LEFT || key == GLFW.GLFW_KEY_A) punch(0);
             if (key == GLFW.GLFW_KEY_RIGHT || key == GLFW.GLFW_KEY_D) punch(1);
@@ -251,6 +271,8 @@ public class ConsoleScreen extends Screen {
             case RUNNER -> tickRunner();
             case PADDLE -> tickPaddle();
             case CATCH -> tickCatch();
+            case BRICKS -> tickBricks();
+            case BALLOON -> tickBalloon();
             case PUNCH -> tickPunch();
             case DODGE -> tickDodge();
         }
@@ -334,6 +356,59 @@ public class ConsoleScreen extends Screen {
                 }
             } else if (t[1] > GH) it.remove();
         }
+    }
+
+    /** Brick Bash: bounce the ball off your paddle and break every brick. */
+    private void tickBricks() {
+        if (down(GLFW.GLFW_KEY_A, GLFW.GLFW_KEY_LEFT)) pad -= 4;
+        if (down(GLFW.GLFW_KEY_D, GLFW.GLFW_KEY_RIGHT)) pad += 4;
+        pad = Math.max(16, Math.min(GW - 16, pad));
+        bx += bvx;
+        by += bvy;
+        if (bx < 2 || bx > GW - 2) bvx = -bvx;
+        if (by < 2) bvy = Math.abs(bvy);
+        if (by > GH - 12 && by < GH - 6 && Math.abs(bx - pad) < 17 && bvy > 0) {
+            bvy = -Math.abs(bvy) * 1.02f;
+            bvx += (bx - pad) / 10;
+            beep(1.2f);
+        }
+        int col = (int) ((bx - 10) / 18), row = (int) ((by - 12) / 8);
+        if (col >= 0 && col < 10 && row >= 0 && row < 4 && bricks[row * 10 + col]) {
+            bricks[row * 10 + col] = false;
+            bvy = -bvy;
+            score++;
+            beep(1.6f + row * 0.1f);
+        }
+        if (by > GH) {
+            lives--;
+            beep(0.5f);
+            bx = pad;
+            by = GH - 30;
+            bvy = -2.0f;
+            if (lives <= 0) finish(score >= 15);
+        }
+        if (score >= 40) finish(true);
+    }
+
+    /** Balloon Drift: tap to puff the balloon up, and float through the gaps between the clouds. */
+    private void tickBalloon() {
+        vy = Math.min(3, vy + 0.18f);
+        y += vy;
+        if (tick % 55 == 0) things.add(new float[]{GW + 6, 25 + random.nextInt(GH - 50)});
+        for (var it = things.iterator(); it.hasNext(); ) {
+            float[] t = it.next();
+            t[0] -= 1.6f + tick / 1500f;
+            if (t[0] < 46 && t[0] + 14 > 34 && Math.abs(y - t[1]) > 18) {
+                finish(score >= 8);
+                return;
+            }
+            if (t[0] < -14) {
+                it.remove();
+                score++;
+                beep(1.8f);
+            }
+        }
+        if (y < 0 || y > GH) finish(score >= 8);
     }
 
     private void punch(int where) {
@@ -431,12 +506,14 @@ public class ConsoleScreen extends Screen {
             case RUNNER -> drawRunner(g);
             case PADDLE -> drawPaddle(g);
             case CATCH -> drawCatch(g);
+            case BRICKS -> drawBricks(g);
+            case BALLOON -> drawBalloon(g);
             case PUNCH -> drawPunch(g);
             case DODGE -> drawDodge(g);
         }
         String hud = game == Game.PADDLE ? score + " : " + cpuScore
                 : Component.translatable("realism.consoles.score", score).getString()
-                + (game == Game.CATCH || game == Game.DODGE ? "   " + "❤".repeat(Math.max(0, lives)) : "")
+                + (game == Game.CATCH || game == Game.DODGE || game == Game.BRICKS ? "   " + "❤".repeat(Math.max(0, lives)) : "")
                 + (game == Game.PUNCH ? "   " + (timeLeft / 20) + "s" : "");
         g.drawString(font, hud, left() + 4, top() + 4, 0xFFFFFF);
         if ((game == Game.PUNCH || game == Game.DODGE)) drawCamera(g);
@@ -476,6 +553,25 @@ public class ConsoleScreen extends Screen {
         }
         box(g, basket - 12, GH - 14, 24, 8, 0xFFA0703C);
         box(g, basket - 10, GH - 12, 20, 2, 0xFF6B4523);
+    }
+
+    private void drawBricks(GuiGraphics g) {
+        int[] colors = {0xFFFF5555, 0xFFFFAA33, 0xFFFFE04D, 0xFF55DD66};
+        for (int r = 0; r < 4; r++)
+            for (int c = 0; c < 10; c++)
+                if (bricks[r * 10 + c]) box(g, 10 + c * 18, 12 + r * 8, 16, 6, colors[r]);
+        box(g, pad - 16, GH - 10, 32, 4, 0xFFFFFFFF);
+        box(g, bx - 2, by - 2, 4, 4, 0xFF9BE7FF);
+    }
+
+    private void drawBalloon(GuiGraphics g) {
+        for (float[] t : things) {
+            box(g, t[0], 0, 14, t[1] - 18, 0xFFE8F0FF);
+            box(g, t[0], t[1] + 18, 14, GH - t[1] - 18, 0xFFE8F0FF);
+        }
+        box(g, 34, y - 6, 12, 12, 0xFFFF5A7A);
+        box(g, 39, y + 6, 2, 5, 0xFFCCCCCC);
+        box(g, 37, y + 10, 6, 3, 0xFFA0703C);
     }
 
     private void drawPunch(GuiGraphics g) {

@@ -19,7 +19,8 @@ public final class RealismConfig {
             FOOD_SPOILS, SUNBURN, ALLERGIES, TREES_FALL, SLIPPERY_ICE, WET_CLOTHES,
             GERMS, AGING, OLD_AGE_DEATH, RINGING_EARS, MOSQUITOES, TORCHES_BURN_OUT, WARM_CLOTHES, HAIR,
             CAR_CRASHES, EARTHQUAKES, DOG_WALKS, WEDDINGS, ELECTIONS, TAX_EVERYTHING, JET_LAG, TORNADO_DANGER,
-            TRANSIT, RESTAURANTS, ADOPTION, TV_NEWS, WILDFIRES, STORM_OUTAGES;
+            TRANSIT, RESTAURANTS, ADOPTION, TV_NEWS, WILDFIRES, STORM_OUTAGES,
+            LOANS, EMERGENCY_911, CHORES, FLOODS, LIBRARIES;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
@@ -128,6 +129,13 @@ public final class RealismConfig {
         TV_NEWS = b.comment("TVs show the news, the weather and live tornado coverage").define("tvNews", true);
         WILDFIRES = b.comment("Wildfires start now and then in hot, dry places").define("wildfires", true);
         STORM_OUTAGES = b.comment("Thunderstorms knock down power cables that are out in the open").define("stormOutages", true);
+        b.pop();
+        b.comment("Realism 4.5: real life, wave 5").push("reallife5");
+        LOANS = b.comment("/loan take|pay: borrow up to 1000 (10% fee, 3% interest a day); half of each payday goes to the debt").define("loans", true);
+        EMERGENCY_911 = b.comment("/911: an operator sends an ambulance, the fire department or the police").define("emergency911", true);
+        CHORES = b.comment("Chores pile up every day: sweep with a Broom, wash bowls at a Sink").define("chores", true);
+        FLOODS = b.comment("Thunderstorms flood low ground near rivers, beaches and swamps (the water drains after)").define("floods", true);
+        LIBRARIES = b.comment("Read at bookshelves to learn (more next to 10+ shelves: a library)").define("libraries", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

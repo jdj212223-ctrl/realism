@@ -213,6 +213,20 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.5.0: real life, wave 5 🌍
+
+| Real life | What happens |
+|---|---|
+| 🏦 Loans and debt | `/loan take <amount>` borrows up to 1000 from the bank (10% fee, then **3% interest a day**). `/loan pay <amount>` pays it back, and every payday half your pay goes to the bank until you're debt-free. Owe more than 1000 and the debt collectors start calling. |
+| 🚨 911 | `/911`: the operator asks what's wrong, with buttons for 🚑 Medical, 🚒 Fire and 🚓 Police. Medical and fire send help (you need a phone with signal); police tells your country's leader where you are. |
+| 🧹 Chores | 3 new chores every day. Sweep the floor with a **Broom** (sticks and wheat) and wash bowls at a **Sink**. Let them pile up and you feel worse. |
+| 🎮 More console games | **Brick Bash** (break every brick with the ball) and **Balloon Drift** (puff your balloon through the gaps between the clouds), on consoles from 2005 on. |
+| 🌊 Floods | Thunderstorms flood low ground next to rivers, beaches and swamps. The water drains away after the storm. |
+| 🦷 Dentist | A **Dentist Chair** (lime wool, iron): 20 money and your teeth are perfect again. Bzzzz. |
+| 📚 Libraries | Right-click a bookshelf with an empty hand to read a real fact and learn a little (counts toward school). Next to 10+ bookshelves it's a library: you learn twice as much. |
+
+Each one can be turned off in the `[reallife5]` config.
+
 ## 4.4.0: real life, wave 4 🌍
 
 | Real life | What happens |

@@ -125,6 +125,8 @@ public class SurgeonGameTests {
             b.attackerWeapon = "realism:iron_knife";
             b.attackerTime = p.level().getGameTime();
             b.collapseCause = "player";
+            BlockPos own = helper.absolutePos(new BlockPos(3, 0, 3)); // this test's own spot (test players all start on the same one)
+            p.moveTo(own.getX() + 0.5, own.getY(), own.getZ() + 0.5, 0, 0);
             Justice.leaveRemains(p);
             BlockPos at = p.blockPosition();
             helper.assertTrue(helper.getLevel().getBlockEntity(at) instanceof Justice.RemainsEntity r && r.killer.equals("Suspect")

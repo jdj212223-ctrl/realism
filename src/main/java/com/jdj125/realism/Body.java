@@ -75,6 +75,9 @@ public class Body implements INBTSerializable<CompoundTag> {
     /** 4.3: school (0-100) and who you're married to (a UUID, or empty). */
     public int education;
     public String spouse = "";
+    /** 4.5: money owed to the bank, the day the loan was taken, and undone chores (0-10). */
+    public long debt, loanDay;
+    public int chores;
 
     @Override
     public CompoundTag serializeNBT(HolderLookup.Provider provider) {
@@ -128,6 +131,9 @@ public class Body implements INBTSerializable<CompoundTag> {
         t.putInt("birthday", birthday);
         t.putInt("education", education);
         t.putString("spouse", spouse);
+        t.putLong("debt", debt);
+        t.putLong("loanDay", loanDay);
+        t.putInt("chores", chores);
         return t;
     }
 
@@ -182,5 +188,8 @@ public class Body implements INBTSerializable<CompoundTag> {
         birthday = t.getInt("birthday");
         education = t.getInt("education");
         spouse = t.getString("spouse");
+        debt = t.getLong("debt");
+        loanDay = t.getLong("loanDay");
+        chores = t.getInt("chores");
     }
 }

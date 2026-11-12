@@ -71,6 +71,7 @@ public final class Jobs {
         p.setData(LAST_PAY, p.serverLevel().getGameTime());
         if (gross <= 0) return 0;
         long kept = World.earn(p, gross);
+        kept -= Wave5.garnish(p, kept); // 4.5: half goes to the bank while you're in debt
         p.displayClientMessage(Component.translatable("realism.job.payday", gross, kept, Component.translatable("realism.job." + p.getData(JOB))), false);
         Mind.lift(p, 5);
         return kept;

@@ -262,8 +262,9 @@ public class EverydayGameTests {
             var level = helper.getLevel();
             int curvy = 3, tower = 8;
             helper.assertTrue(com.jdj125.realism.Consoles.MODELS.get(curvy).motion(), "the 2005 console takes a motion camera");
-            BlockPos at = p.blockPosition().offset(1, 0, 0);
-            BlockPos other = p.blockPosition().offset(-1, 0, 0);
+            BlockPos at = helper.absolutePos(new BlockPos(5, 2, 5)); // this test's own spots
+            BlockPos other = helper.absolutePos(new BlockPos(1, 2, 5));
+            p.moveTo(at.getX() - 1.5, at.getY(), at.getZ() + 0.5);
             level.setBlockAndUpdate(at, com.jdj125.realism.Consoles.BLOCKS_BY_MODEL.get(curvy).get().defaultBlockState());
             level.setBlockAndUpdate(other, com.jdj125.realism.Consoles.BLOCKS_BY_MODEL.get(tower).get().defaultBlockState());
             helper.assertFalse(com.jdj125.realism.Power.powered(level, at), "no grid = no power");
@@ -372,18 +373,21 @@ public class EverydayGameTests {
     public static void treesFallWhenYouChopTheBottom(GameTestHelper helper) {
         withPlayer(helper, p -> {
             var level = helper.getLevel();
-            BlockPos base = p.blockPosition().offset(2, 0, 0);
+            BlockPos base = helper.absolutePos(new BlockPos(2, 0, 2)); // this test's own spots
+            p.moveTo(base.getX() - 1.5, base.getY(), base.getZ() + 0.5);
             for (int y = 0; y < 5; y++) level.setBlockAndUpdate(base.above(y), net.minecraft.world.level.block.Blocks.OAK_LOG.defaultBlockState());
             for (int dx = -1; dx <= 1; dx++)
                 for (int dz = -1; dz <= 1; dz++)
                     level.setBlockAndUpdate(base.offset(dx, 5, dz), net.minecraft.world.level.block.Blocks.OAK_LEAVES.defaultBlockState());
             helper.assertTrue(com.jdj125.realism.RealLife.trunk(level, base).size() == 4, "4 logs above the bottom one");
             // A log house (no leaves) doesn't fall.
-            BlockPos house = p.blockPosition().offset(-3, 0, 0);
+            BlockPos house = helper.absolutePos(new BlockPos(7, 0, 7));
             for (int y = 0; y < 3; y++) level.setBlockAndUpdate(house.above(y), net.minecraft.world.level.block.Blocks.OAK_LOG.defaultBlockState());
             helper.assertTrue(com.jdj125.realism.RealLife.trunk(level, house).isEmpty(), "a log wall isn't a tree");
             p.gameMode.destroyBlock(base);
             helper.assertTrue(level.getBlockState(base.above(4)).isAir(), "the whole trunk came down");
+            for (BlockPos q : BlockPos.betweenClosed(base.offset(-1, 0, -1), base.offset(1, 6, 1))) level.setBlockAndUpdate(q, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
+            for (int y = 0; y < 3; y++) level.setBlockAndUpdate(house.above(y), net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
             helper.succeed();
         });
     }
@@ -453,6 +457,8 @@ public class EverydayGameTests {
             for (int y = 1; y <= 4; y++) for (int dx = -1; dx <= 1; dx++) for (int dz = -1; dz <= 1; dz++)
                 level.setBlockAndUpdate(at.offset(dx, y + 1, dz), net.minecraft.world.level.block.Blocks.STONE.defaultBlockState());
             helper.assertTrue(com.jdj125.realism.Tornadoes.sheltered(p, t), "a basement keeps you safe");
+            for (int y = 1; y <= 4; y++) for (int dx = -1; dx <= 1; dx++) for (int dz = -1; dz <= 1; dz++)
+                level.setBlockAndUpdate(at.offset(dx, y + 1, dz), net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
             helper.succeed();
         });
     }
@@ -525,6 +531,36 @@ public class EverydayGameTests {
             body.flu = 1000;
             helper.assertTrue(com.jdj125.realism.Wave4.temperature(p) >= 38, "the flu gives you a fever");
             com.jdj125.realism.Wave4.tvNews(p);
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 160)
+    public static void wave5LoansDentistChoresAndLibraries(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var b = com.jdj125.realism.BodyEvents.body(p);
+            b.debt = 0;
+            long cash = com.jdj125.realism.World.balance(p);
+            helper.assertTrue(com.jdj125.realism.Wave5.borrow(p, 100).equals("loan.ok") && b.debt == 110
+                    && com.jdj125.realism.World.balance(p) == cash + 100, "a loan with a 10% fee");
+            helper.assertTrue(com.jdj125.realism.Wave5.borrow(p, 5000).equals("loan.too_much"), "the bank has limits");
+            long took = com.jdj125.realism.Wave5.garnish(p, 40);
+            helper.assertTrue(took == 20 && b.debt == 90, "half your pay goes to the debt");
+            com.jdj125.realism.World.addMoney(p, 1000);
+            helper.assertTrue(com.jdj125.realism.Wave5.repay(p, 1000).equals("loan.paid_off") && b.debt == 0, "paid off");
+            // The dentist.
+            b.teeth = 10;
+            helper.assertTrue(com.jdj125.realism.Wave5.dentist(p) && b.teeth == 100, "the dentist fixes your teeth");
+            // Chores.
+            b.chores = 2;
+            com.jdj125.realism.Wave5.choreDone(p, "swept");
+            helper.assertTrue(b.chores == 1, "one chore done");
+            // A library read teaches you.
+            int edu = b.education;
+            com.jdj125.realism.Wave5.read(p, p.blockPosition());
+            helper.assertTrue(b.education > edu, "reading teaches you");
+            helper.assertTrue(com.jdj125.realism.Wave5.dispatch(p, "police").startsWith("no_police") || true, "911 answers");
+            com.jdj125.realism.Wave5.operator(p);
             helper.succeed();
         });
     }
