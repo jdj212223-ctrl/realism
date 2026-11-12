@@ -705,5 +705,17 @@
   "realism.life.soaked": "You're soaked!",
   "realism.life.dry": "Your clothes are dry again.",
   "realism.life.slip": "You slipped on the ice!",
-  "realism.life.timber": "Timber! The tree comes down."
+  "realism.life.timber": "Timber! The tree comes down.",
+  "realism.life2.germs_sick": "You didn't wash your hands... your stomach hurts.",
+  "realism.life2.germs_flu": "Germs from your dirty hands: you caught something.",
+  "realism.life2.germs_lucky": "Eating with dirty hands... lucky this time. Wash them!",
+  "realism.life2.birthday": "🎂 Happy birthday! You're %s years old today!",
+  "realism.life2.getting_old": "You're getting older: a little slower than you used to be.",
+  "realism.life2.old_age_death": "After a long life, you passed away peacefully in your sleep.",
+  "realism.life2.ringing": "Your ears are ringing! You can barely hear anything.",
+  "realism.life2.mosquito": "A mosquito bit you! So itchy...",
+  "realism.life2.mosquito_fever": "That mosquito gave you a fever!",
+  "realism.life2.cold_no_coat": "Out in the freezing cold without warm clothes... you caught the flu.",
+  "realism.life2.messy_hair": "Your hair is a mess (%s days without a haircut).",
+  "realism.life2.haircut": "Fresh haircut! Looking good."
 }

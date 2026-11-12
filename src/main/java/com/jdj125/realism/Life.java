@@ -124,6 +124,7 @@ public final class Life {
     public static void shower(Player p) {
         Body b = BodyEvents.body(p);
         b.hygiene = 100;
+        b.germs = 0;
         b.lifeStage &= ~1;
         p.clearFire();
         Mind.lift(p, 3);
@@ -242,6 +243,7 @@ public final class Life {
         void use(ServerPlayer p, BlockPos pos) {
             Body b = BodyEvents.body(p);
             b.hygiene = Math.min(100, b.hygiene + 20);
+            b.germs = 0;
             p.serverLevel().sendParticles(ParticleTypes.SPLASH, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 15, 0.2, 0.1, 0.2, 0.05);
             p.serverLevel().playSound(null, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 0.6f, 1.3f);
             p.displayClientMessage(Component.translatable("realism.life.washed_hands"), true);

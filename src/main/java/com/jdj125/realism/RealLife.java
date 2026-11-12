@@ -381,7 +381,7 @@ public final class RealLife {
             }
         } else st[0] = Math.max(0, st[0] - 2);
         // Wet and cold: the flu can catch you.
-        if (on(RealismConfig.WET_CLOTHES) && st[1] > 0 && temp < 0.3f && p.tickCount % 400 == 0 && p.getRandom().nextFloat() < 0.15f) {
+        if (on(RealismConfig.WET_CLOTHES) && st[1] > 0 && temp < 0.3f && !Wave2.warmClothes(p) && p.tickCount % 400 == 0 && p.getRandom().nextFloat() < 0.15f) {
             Body b = BodyEvents.body(p);
             if (b.flu <= 0) {
                 b.flu = (int) Math.min(Integer.MAX_VALUE, RealismConfig.dayTicks() * 2);

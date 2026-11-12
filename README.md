@@ -213,6 +213,20 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.2.0: real life, wave 2 🌍
+
+| Real life | What happens |
+|---|---|
+| 🦠 Germs | Raw meat, rotten flesh and punching things bare-handed put germs on your hands for 10 minutes. Eat before washing (sink, shower, swimming) and you may get food poisoning or catch something. |
+| 🎂 Getting older | Every life starts at **18**, with a **birthday** every 7 Minecraft days (fireworks and a good mood). From 65 you're a bit slower, from 80 slower still, and past 95 you can pass away peacefully of old age (`oldAgeDeath`). |
+| 👂 Ringing ears | An explosion close by leaves your ears ringing for up to 30 seconds: a high tone, and most sounds don't get through. |
+| 🦟 Mosquitoes | Swamps from dusk to dawn: itchy bites, and now and then a fever. |
+| 🔦 Torches burn out | A torch you place burns for **3 Minecraft days**, then leaves a stick. Lanterns don't burn out. |
+| 🧥 Warm clothes | A leather tunic and trousers keep you warm: out in the snow at night without them (or soaked in the cold), you can catch the flu. |
+| 💇 Haircuts | Your hair grows: after 10 days it's messy (a little less happy). Sneak + use **shears** for a haircut, or use them on a friend. |
+
+ATMs and bank accounts were already in Realism (1.0). Each new thing can be turned off in the `[reallife2]` config.
+
 ## 4.1.0: real life, wave 1 🌍
 
 | Real life | What happens |

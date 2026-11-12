@@ -398,4 +398,43 @@ public class EverydayGameTests {
             helper.succeed();
         });
     }
+
+    @GameTest(template = "arena", timeoutTicks = 160)
+    public static void wave2GermsAgeHairAndClothes(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var b = com.jdj125.realism.BodyEvents.body(p);
+            // Germs come off with washing.
+            com.jdj125.realism.Wave2.dirtyHands(p);
+            helper.assertTrue(b.germs > 0, "dirty hands");
+            com.jdj125.realism.Life.shower(p);
+            helper.assertTrue(b.germs == 0, "a shower washes the germs off");
+            // Age: every life starts at 18 and a week later you're 19.
+            b.born = p.level().getGameTime() - 24000L * 7;
+            helper.assertTrue(com.jdj125.realism.Wave2.age(p) == 19, "a week later you're 19: " + com.jdj125.realism.Wave2.age(p));
+            b.born = p.level().getGameTime() - 24000L * 7 * 60;
+            helper.assertTrue(com.jdj125.realism.Wave2.age(p) == 78, "60 years later you're 78");
+            // Hair grows; a haircut resets it.
+            b.hairCut = p.level().getGameTime() - 24000L * 12;
+            helper.assertTrue(com.jdj125.realism.Wave2.hairDays(p) == 12, "12 days of hair");
+            p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.SHEARS));
+            com.jdj125.realism.Wave2.haircut(p, p);
+            helper.assertTrue(com.jdj125.realism.Wave2.hairDays(p) == 0, "fresh haircut");
+            // Warm clothes: leather tunic and trousers.
+            helper.assertFalse(com.jdj125.realism.Wave2.warmClothes(p), "no clothes, not warm");
+            p.setItemSlot(net.minecraft.world.entity.EquipmentSlot.CHEST, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.LEATHER_CHESTPLATE));
+            p.setItemSlot(net.minecraft.world.entity.EquipmentSlot.LEGS, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.LEATHER_LEGGINGS));
+            helper.assertTrue(com.jdj125.realism.Wave2.warmClothes(p), "leather clothes are warm");
+            com.jdj125.realism.Wave2.bite(p);
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 300)
+    public static void torchesBurnOut(GameTestHelper helper) {
+        var level = helper.getLevel();
+        BlockPos at = helper.absolutePos(new BlockPos(2, 2, 2));
+        level.setBlockAndUpdate(at, net.minecraft.world.level.block.Blocks.TORCH.defaultBlockState());
+        com.jdj125.realism.Wave2.Torches.get(level).put(at, level.getGameTime() - 24000L * 4); // lit 4 days ago
+        helper.succeedWhen(() -> helper.assertTrue(level.getBlockState(at).isAir(), "the old torch burned out"));
+    }
 }

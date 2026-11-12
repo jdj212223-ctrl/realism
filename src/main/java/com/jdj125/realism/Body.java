@@ -68,6 +68,10 @@ public class Body implements INBTSerializable<CompoundTag> {
     /** 2.0.2 daily life: how clean you are (100 = just showered), how full your bladder is, how healthy your teeth are. */
     public float hygiene = 100, bladder, teeth = 100;
     public int lifeStage;
+    /** 4.2 real life: germs on your hands (ticks), when this life began (game time), last birthday told, last haircut (game time), ringing ears (ticks). */
+    public int germs, ringing;
+    public long born = Long.MIN_VALUE, hairCut = Long.MIN_VALUE;
+    public int birthday;
 
     @Override
     public CompoundTag serializeNBT(HolderLookup.Provider provider) {
@@ -115,6 +119,10 @@ public class Body implements INBTSerializable<CompoundTag> {
         t.putFloat("bladder", bladder);
         t.putFloat("teeth", teeth);
         t.putInt("lifeStage", lifeStage);
+        t.putInt("germs", germs);
+        t.putLong("born", born);
+        t.putLong("hairCut", hairCut);
+        t.putInt("birthday", birthday);
         return t;
     }
 
@@ -163,5 +171,9 @@ public class Body implements INBTSerializable<CompoundTag> {
         bladder = t.getFloat("bladder");
         teeth = t.contains("teeth") ? t.getFloat("teeth") : 100;
         lifeStage = t.getInt("lifeStage");
+        germs = t.getInt("germs");
+        born = t.contains("born") ? t.getLong("born") : Long.MIN_VALUE;
+        hairCut = t.contains("hairCut") ? t.getLong("hairCut") : Long.MIN_VALUE;
+        birthday = t.getInt("birthday");
     }
 }

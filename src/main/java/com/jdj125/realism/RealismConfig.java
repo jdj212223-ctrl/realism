@@ -16,7 +16,8 @@ public final class RealismConfig {
     public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION, NO_HUD, LOCK_WORLD_CREATION, MOTION_WEBCAM;
     /** Realism 3.1: no cheating in real life. */
     public static final ModConfigSpec.BooleanValue NO_COMMANDS, SURVIVAL_ONLY, SMOKE, KITCHEN_FIRES, FRUITS, VOMITING, WEIGHT, CHESTS_KEEP_ITEMS,
-            FOOD_SPOILS, SUNBURN, ALLERGIES, TREES_FALL, SLIPPERY_ICE, WET_CLOTHES;
+            FOOD_SPOILS, SUNBURN, ALLERGIES, TREES_FALL, SLIPPERY_ICE, WET_CLOTHES,
+            GERMS, AGING, OLD_AGE_DEATH, RINGING_EARS, MOSQUITOES, TORCHES_BURN_OUT, WARM_CLOTHES, HAIR;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
@@ -97,6 +98,16 @@ public final class RealismConfig {
         TREES_FALL = b.comment("Chopping the bottom log brings the whole tree down (crouch to chop one log)").define("treesFall", true);
         SLIPPERY_ICE = b.comment("Running on ice can make you slip and fall").define("slipperyIce", true);
         WET_CLOTHES = b.comment("Swimming and rain soak you; soaked in the cold can give you the flu").define("wetClothes", true);
+        b.pop();
+        b.comment("Realism 4.2: real life, wave 2").push("reallife2");
+        GERMS = b.comment("Raw meat, rotten flesh and bare-hand punching put germs on your hands; eating before washing can make you sick").define("germs", true);
+        AGING = b.comment("Every life starts at 18, with a birthday every 7 Minecraft days; old age makes you slower").define("aging", true);
+        OLD_AGE_DEATH = b.comment("Past 95 you can die peacefully of old age").define("oldAgeDeath", true);
+        RINGING_EARS = b.comment("Explosions close by leave your ears ringing (most sounds muffled for a while)").define("ringingEars", true);
+        MOSQUITOES = b.comment("Mosquitoes bite in swamps from dusk to dawn").define("mosquitoes", true);
+        TORCHES_BURN_OUT = b.comment("Torches you place burn out after 3 Minecraft days (lanterns don't)").define("torchesBurnOut", true);
+        WARM_CLOTHES = b.comment("Leather clothes keep you warm; out in the snow at night without them you can catch the flu").define("warmClothes", true);
+        HAIR = b.comment("Hair grows: after 10 days it's messy; sneak-use shears on yourself or use them on a friend for a haircut").define("hair", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

@@ -111,6 +111,7 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Consoles.class);
         NeoForge.EVENT_BUS.register(Weight.class);
         NeoForge.EVENT_BUS.register(RealLife.class);
+        NeoForge.EVENT_BUS.register(Wave2.class);
         NeoForge.EVENT_BUS.addListener(Fire::commands);
         NeoForge.EVENT_BUS.addListener(Jobs::commands);
         NeoForge.EVENT_BUS.addListener(Era::commands);
@@ -142,6 +143,7 @@ public class Realism {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Tech.save(sp, payload);
         }));
         r.playToClient(Consoles.OpenConsole.TYPE, Consoles.OpenConsole.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.ConsoleScreen.open(payload)));
+        r.playToClient(Wave2.Ringing.TYPE, Wave2.Ringing.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.RingingClient.start(payload.ticks())));
         r.playToServer(Tech.PlayGame.TYPE, Tech.PlayGame.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> Tech.playGame(ctx.player())));
         r.playToClient(World.OpenPhone.TYPE, World.OpenPhone.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.PhoneScreen.open(payload)));
         r.playToServer(World.CallAmbulance.TYPE, World.CallAmbulance.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {

@@ -649,5 +649,17 @@
   "realism.life.soaked": "Jsi úplně promočený!",
   "realism.life.dry": "Oblečení už je suché.",
   "realism.life.slip": "Uklouzl jsi na ledu!",
-  "realism.life.timber": "Pozor, padá strom!"
+  "realism.life.timber": "Pozor, padá strom!",
+  "realism.life2.germs_sick": "Neumyl sis ruce... bolí tě břicho.",
+  "realism.life2.germs_flu": "Bacily ze špinavých rukou: něco jsi chytil.",
+  "realism.life2.germs_lucky": "Jíst špinavýma rukama... tentokrát štěstí. Umyj si je!",
+  "realism.life2.birthday": "🎂 Všechno nejlepší! Dnes je ti %s let!",
+  "realism.life2.getting_old": "Stárneš: jsi o trochu pomalejší než dřív.",
+  "realism.life2.old_age_death": "Po dlouhém životě jsi pokojně zemřel ve spánku.",
+  "realism.life2.ringing": "Zvoní ti v uších! Skoro nic neslyšíš.",
+  "realism.life2.mosquito": "Štípl tě komár! Strašně to svědí...",
+  "realism.life2.mosquito_fever": "Ten komár ti dal horečku!",
+  "realism.life2.cold_no_coat": "Venku v mrazu bez teplého oblečení... chytil jsi chřipku.",
+  "realism.life2.messy_hair": "Máš rozcuchané vlasy (%s dní bez stříhání).",
+  "realism.life2.haircut": "Nový sestřih! Sluší ti to."
 }
