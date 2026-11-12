@@ -109,6 +109,10 @@ public final class Food {
 
     // ---- Favorite fruit ----
 
+    public static boolean isJdj(Player p) {
+        return p.getGameProfile().getName().equalsIgnoreCase("jdj125");
+    }
+
     /** Everyone has one, the same every time. jdj125's is the tangerine. */
     public static String favorite(Player p) {
         if (p.getGameProfile().getName().equalsIgnoreCase("jdj125")) return "tangerine";
@@ -120,6 +124,13 @@ public final class Food {
     public static void onEat(LivingEntityUseItemEvent.Finish event) {
         if (!(event.getEntity() instanceof ServerPlayer p) || !isFruit(event.getItem())) return;
         String fav = favorite(p);
+        // jdj125's body hates fruit. Every fruit... except the tangerine: its sourness and sweetness are perfect.
+        if (isJdj(p) && !event.getItem().is(FRUITS.get("tangerine").get())) {
+            p.displayClientMessage(Component.translatable("realism.food.jdj_hates_fruit", event.getItem().getHoverName()).withStyle(ChatFormatting.GREEN), false);
+            LAST.remove(p.getUUID()); // no cooldown: the body says NO every time
+            vomit(p);
+            return;
+        }
         if (event.getItem().is(FRUITS.get(fav).get())) {
             Mind.lift(p, 20);
             p.displayClientMessage(Component.translatable(fav.equals("tangerine") && p.getGameProfile().getName().equalsIgnoreCase("jdj125")

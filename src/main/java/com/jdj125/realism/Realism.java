@@ -81,6 +81,7 @@ public class Realism {
         Life.register(modBus);
         Fire.register(modBus);
         Food.register(modBus);
+        Drone.register(modBus);
         Jobs.register(modBus);
         Cars.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
@@ -148,6 +149,13 @@ public class Realism {
                 String result = Fire.callFireDepartment(sp);
                 if (!result.equals("phone.ok")) sp.displayClientMessage(net.minecraft.network.chat.Component.translatable("realism." + result), true);
             }
+        }));
+        r.playBidirectional(Drone.Pilot.TYPE, Drone.Pilot.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Drone.handlePilot(sp, payload);
+            else com.jdj125.realism.client.DroneClient.serverSaid(payload);
+        }));
+        r.playToServer(Drone.Sticks.TYPE, Drone.Sticks.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Drone.handleSticks(sp, payload);
         }));
         r.playToServer(World.SendText.TYPE, World.SendText.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) {

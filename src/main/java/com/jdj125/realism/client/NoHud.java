@@ -51,7 +51,7 @@ public final class NoHud {
         } catch (IllegalStateException notLoadedYet) {
             lock = true;
         }
-        if (!lock) return;
+        if (!lock || com.jdj125.realism.NoCheats.devGame()) return;
         // Only the Game tab: hide the World and More tab buttons.
         for (var child : screen.children())
             if (child instanceof TabNavigationBar bar) {

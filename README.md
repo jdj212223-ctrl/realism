@@ -213,6 +213,16 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 3.4.0: drones 🚁
+
+| Thing | What it does |
+|---|---|
+| 🚁 Camera Drone | Place it, then hold a **Drone Controller** and right-click to fly: you see through its camera while your body stays put. W/A/S/D move, jump = up, sneak = down, the mouse turns it, left-click takes a photo (saved like a screenshot), right-click stops. Steady: it hovers by itself. 6 minutes of battery. |
+| 🏎 FPV Drone | A fast racing drone: hold jump for thrust or it drops, and hit a wall fast and it breaks. 2 minutes of battery. Flying FPV for too long makes you dizzy, and even sick. |
+| 🎮 Drone Controller | You need one in your hand to fly. The signal reaches 160 blocks. |
+
+Batteries charge while the drone sits still. Punch a drone to pick it up. Also new: jdj125's body hates every fruit except the tangerine 🍊, and the country picker starts on your computer's time zone (e.g. Europe/Prague = Czechia). In the developer's test game (run from the code), cheats stay on for testing.
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 

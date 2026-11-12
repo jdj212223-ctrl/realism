@@ -32,8 +32,16 @@ public final class NoCheats {
         return colon >= 0 ? name.substring(colon + 1) : name;
     }
 
+    /**
+     * The developer's test game (run from the code, not a real install): cheats stay on there, so new things can be
+     * tested with /give and creative. Never true in a normal game, on a server, or in the automatic tests.
+     */
+    public static boolean devGame() {
+        return !net.neoforged.fml.loading.FMLEnvironment.production && net.neoforged.fml.loading.FMLEnvironment.dist.isClient();
+    }
+
     public static boolean allowed(String input) {
-        if (!RealismConfig.NO_COMMANDS.get()) return true;
+        if (!RealismConfig.NO_COMMANDS.get() || devGame()) return true;
         String name = root(input);
         if (REALISM.contains(name)) return true;
         return RealismConfig.ALLOWED_COMMANDS.get().stream().anyMatch(a -> a.equalsIgnoreCase(name));
@@ -50,7 +58,7 @@ public final class NoCheats {
 
     /** Creative back to survival. (Uses the real game mode: test players always say they're creative.) */
     public static boolean fixGameMode(ServerPlayer p) {
-        if (!RealismConfig.SURVIVAL_ONLY.get() || p.gameMode.getGameModeForPlayer() != GameType.CREATIVE) return false;
+        if (!RealismConfig.SURVIVAL_ONLY.get() || devGame() || p.gameMode.getGameModeForPlayer() != GameType.CREATIVE) return false;
         p.setGameMode(GameType.SURVIVAL);
         p.displayClientMessage(Component.translatable("realism.rules.no_creative").withStyle(ChatFormatting.RED), false);
         return true;

@@ -594,6 +594,20 @@
   "realism.food.tangerine_jdj": "🍊 MANDARINKA! Nejlepší ovoce na světě, a nikdy nezklame 🧡",
   "realism.food.your_favorite": "🍊 Tvoje oblíbené ovoce je: %s",
   "realism.food.vomit": "🤢 Pozvracel/a ses... Napij se vody a dej si pohov.",
-  "realism.era.screen.country": "📍 Země: %s (klikni pro změnu)",
-  "realism.era.country": "📍 Tento svět je v zemi %s."
+  "realism.era.screen.country": "Země: %s ⟳",
+  "realism.era.country": "📍 Tento svět je v zemi %s.",
+  "realism.food.jdj_hates_fruit": "🤢 Tvoje tělo NESNÁŠÍ %s. Povolené jsou jen mandarinky!",
+  "item.realism.camera_drone": "Dron s kamerou",
+  "item.realism.fpv_drone": "FPV dron",
+  "item.realism.drone_controller": "Ovladač dronu",
+  "entity.realism.drone": "Dron",
+  "realism.drone.start_camera": "🚁 Řídíš dron s kamerou: W/A/S/D pohyb, skok = nahoru, plížení = dolů, levé tlačítko = fotka, pravé = konec.",
+  "realism.drone.start_fpv": "🏎 Řídíš FPV dron: drž SKOK pro tah, jinak spadne! W/A/S/D řízení, pravé tlačítko = konec. Nenaraz do zdi!",
+  "realism.drone.hud": "🔋 %s%%   📡 %s m",
+  "realism.drone.signal_lost": "📡 Ztráta signálu! Dron je moc daleko.",
+  "realism.drone.battery_flat": "🔋 Vybitá baterie! Dron padá.",
+  "realism.drone.crashed": "💥 NÁRAZ! Tvůj dron je na kusy.",
+  "realism.drone.picked_up": "🚁 Dron sebrán.",
+  "realism.drone.none": "🚁 Žádný dron poblíž. Nejdřív nějaký polož!",
+  "realism.drone.dizzy": "😵 Z toho FPV létání se ti točí hlava..."
 }

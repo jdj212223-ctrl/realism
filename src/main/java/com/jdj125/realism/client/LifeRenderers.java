@@ -18,6 +18,7 @@ public final class LifeRenderers {
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(Ambulance.TYPE.get(), AmbulanceRenderer::new);
         event.registerEntityRenderer(com.jdj125.realism.Cars.CAR.get(), CarRenderer::new);
+        event.registerEntityRenderer(com.jdj125.realism.Drone.TYPE.get(), DroneClient.Renderer::new);
         event.registerBlockEntityRenderer(Hospital.MONITOR_ENTITY.get(), MonitorRenderer::new);
     }
 

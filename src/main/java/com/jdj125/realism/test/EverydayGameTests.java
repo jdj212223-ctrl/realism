@@ -30,6 +30,38 @@ public class EverydayGameTests {
         helper.runAfterDelay(70, () -> check.accept(p));
     }
 
+    @GameTest(template = "arena", timeoutTicks = 200)
+    public static void droneFliesWithAController(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var level = helper.getLevel();
+            var d = new com.jdj125.realism.Drone.Flyer(com.jdj125.realism.Drone.TYPE.get(), level);
+            d.owner = p.getUUID();
+            BlockPos start = helper.absolutePos(new BlockPos(4, 3, 4));
+            d.moveTo(start.getX() + 0.5, start.getY(), start.getZ() + 0.5, 0, 0);
+            level.addFreshEntity(d);
+            p.moveTo(start.getX() + 2.5, start.getY(), start.getZ() + 0.5, 0, 0);
+            // No controller: the drone won't listen.
+            com.jdj125.realism.Drone.handlePilot(p, new com.jdj125.realism.Drone.Pilot(d.getId(), true));
+            helper.assertTrue(d.pilot == null, "you need a Drone Controller");
+            p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new net.minecraft.world.item.ItemStack(com.jdj125.realism.Drone.CONTROLLER.get()));
+            com.jdj125.realism.Drone.handlePilot(p, new com.jdj125.realism.Drone.Pilot(d.getId(), true));
+            helper.assertTrue(p.getUUID().equals(d.pilot), "with a controller you fly it (found=" + (p.level().getEntity(d.getId()) == d)
+                    + " dist=" + p.distanceTo(d) + " hand=" + p.getMainHandItem() + " owner=" + d.owner + ")");
+            int battery = d.battery();
+            double y0 = d.getY();
+            // Full up for a second.
+            for (int i = 0; i < 20; i++) helper.runAfterDelay(i, () -> com.jdj125.realism.Drone.handleSticks(p,
+                    new com.jdj125.realism.Drone.Sticks(d.getId(), 0, 0, 1, 0, 0)));
+            helper.runAfterDelay(25, () -> {
+                helper.assertTrue(d.getY() > y0 + 1, "it climbs (from " + y0 + " to " + d.getY() + ")");
+                helper.assertTrue(d.battery() < battery, "flying uses the battery");
+                d.hurt(level.damageSources().playerAttack(p), 1);
+                helper.assertTrue(d.isRemoved(), "punching it picks it up");
+                helper.succeed();
+            });
+        });
+    }
+
     @GameTest(template = "arena", timeoutTicks = 140)
     public static void fruitVomitingAndCountry(GameTestHelper helper) {
         withPlayer(helper, p -> {

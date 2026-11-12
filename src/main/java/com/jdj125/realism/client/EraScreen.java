@@ -19,7 +19,29 @@ public class EraScreen extends Screen {
     }
 
     /** Starts on the computer's own region setting (no GPS: the player confirms or changes it). */
-    private static int country = Math.max(0, Era.COUNTRIES.indexOf(java.util.Locale.getDefault().getCountry()));
+    private static int country = Math.max(0, Era.COUNTRIES.indexOf(guessCountry()));
+
+    /**
+     * A first guess from the computer's own settings (no GPS, nothing sent anywhere): the time zone (e.g. Europe/Prague
+     * = Czechia), else the system language's country. The player confirms it or clicks to change it.
+     */
+    static String guessCountry() {
+        String tz = java.util.TimeZone.getDefault().getID();
+        String byZone = switch (tz) {
+            case "Europe/Prague" -> "CZ"; case "Europe/Bratislava" -> "SK"; case "Europe/Berlin" -> "DE"; case "Europe/Vienna" -> "AT";
+            case "Europe/Warsaw" -> "PL"; case "Europe/Budapest" -> "HU"; case "Europe/London" -> "GB"; case "Europe/Dublin" -> "IE";
+            case "Europe/Paris" -> "FR"; case "Europe/Madrid" -> "ES"; case "Europe/Lisbon" -> "PT"; case "Europe/Rome" -> "IT";
+            case "Europe/Amsterdam" -> "NL"; case "Europe/Brussels" -> "BE"; case "Europe/Zurich" -> "CH"; case "Europe/Copenhagen" -> "DK";
+            case "Europe/Stockholm" -> "SE"; case "Europe/Oslo" -> "NO"; case "Europe/Helsinki" -> "FI"; case "Europe/Kiev", "Europe/Kyiv" -> "UA";
+            case "Europe/Bucharest" -> "RO"; case "Europe/Zagreb" -> "HR"; case "Europe/Ljubljana" -> "SI"; case "Europe/Athens" -> "GR";
+            case "Europe/Istanbul" -> "TR"; case "America/Toronto", "America/Vancouver", "America/Edmonton", "America/Winnipeg", "America/Halifax" -> "CA";
+            case "America/Mexico_City" -> "MX"; case "America/Sao_Paulo" -> "BR"; case "America/Argentina/Buenos_Aires" -> "AR";
+            case "Asia/Tokyo" -> "JP"; case "Asia/Seoul" -> "KR"; case "Asia/Shanghai" -> "CN"; case "Asia/Kolkata" -> "IN";
+            case "Pacific/Auckland" -> "NZ"; case "Africa/Johannesburg" -> "ZA"; case "Africa/Cairo" -> "EG";
+            default -> tz.startsWith("America/") ? "US" : tz.startsWith("Australia/") ? "AU" : "";
+        };
+        return !byZone.isEmpty() ? byZone : java.util.Locale.getDefault().getCountry();
+    }
 
     @Override
     protected void init() {

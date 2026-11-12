@@ -594,6 +594,20 @@
   "realism.food.tangerine_jdj": "🍊 TANGERINE! The best fruit ever, and it never lets you down 🧡",
   "realism.food.your_favorite": "🍊 Your favorite fruit is: %s",
   "realism.food.vomit": "🤢 You threw up... Drink some water and take it easy.",
-  "realism.era.screen.country": "📍 Country: %s (click to change)",
-  "realism.era.country": "📍 This world is in %s."
+  "realism.era.screen.country": "Country: %s ⟳",
+  "realism.era.country": "📍 This world is in %s.",
+  "realism.food.jdj_hates_fruit": "🤢 Your body HATES %s. Only tangerines are allowed!",
+  "item.realism.camera_drone": "Camera Drone",
+  "item.realism.fpv_drone": "FPV Drone",
+  "item.realism.drone_controller": "Drone Controller",
+  "entity.realism.drone": "Drone",
+  "realism.drone.start_camera": "🚁 Flying the camera drone: W/A/S/D move, jump = up, sneak = down, left-click = photo, right-click = stop.",
+  "realism.drone.start_fpv": "🏎 Flying the FPV drone: hold JUMP for thrust or it drops! W/A/S/D steer, right-click = stop. Don't hit walls!",
+  "realism.drone.hud": "🔋 %s%%   📡 %s m",
+  "realism.drone.signal_lost": "📡 Signal lost! The drone is too far away.",
+  "realism.drone.battery_flat": "🔋 Battery flat! The drone is coming down.",
+  "realism.drone.crashed": "💥 CRASH! Your drone is in pieces.",
+  "realism.drone.picked_up": "🚁 Drone picked up.",
+  "realism.drone.none": "🚁 No drone nearby. Place one first!",
+  "realism.drone.dizzy": "😵 All that FPV flying is making you dizzy..."
 }
