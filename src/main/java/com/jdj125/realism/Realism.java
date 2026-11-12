@@ -87,6 +87,7 @@ public class Realism {
         Wave3.register(modBus);
         Wave4.register(modBus);
         Wave5.register(modBus);
+        SnackSecurity.register(modBus);
         Jobs.register(modBus);
         Cars.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);

@@ -564,4 +564,25 @@ public class EverydayGameTests {
             helper.succeed();
         });
     }
+
+    @GameTest(template = "arena", timeoutTicks = 160)
+    public static void snackSecuritySystemCatchesYou(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var level = helper.getLevel();
+            BlockPos floor = helper.absolutePos(new BlockPos(4, 0, 4));
+            p.moveTo(floor.getX() + 0.5, floor.getY(), floor.getZ() + 0.5);
+            BlockPos cam = floor.offset(2, 3, 0), low = floor.offset(1, 1, 0), high = floor.offset(0, 2, 1), wayUp = floor.offset(0, 4, -1);
+            level.setBlockAndUpdate(cam, com.jdj125.realism.SnackSecurity.CAMERA.get().defaultBlockState());
+            helper.assertTrue(com.jdj125.realism.SnackSecurity.reach(p, low).equals("open"), "a low cabinet just opens");
+            helper.assertTrue(com.jdj125.realism.SnackSecurity.reach(p, wayUp).equals("too_high"), "way up there = can't reach");
+            String r = "";
+            for (int i = 0; i < 40 && !r.equals("slipped"); i++) r = com.jdj125.realism.SnackSecurity.reach(p, high);
+            helper.assertTrue(r.equals("slipped"), "stretching for it, you slip sooner or later");
+            var clips = com.jdj125.realism.SnackSecurity.Footage.get(p.server).clips.get(cam);
+            helper.assertTrue(clips != null && clips.stream().anyMatch(c -> c.contains("|snack_fail|")), "the camera caught it");
+            com.jdj125.realism.SnackSecurity.watch(p, cam);
+            level.removeBlock(cam, false);
+            helper.succeed();
+        });
+    }
 }

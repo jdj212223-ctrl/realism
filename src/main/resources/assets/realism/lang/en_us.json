@@ -852,5 +852,15 @@
   "realism.life5.fact.21": "Pure gold is so soft you can squish it with your fingers.",
   "realism.life5.fact.22": "Hot water can sometimes freeze faster than cold water.",
   "realism.life5.fact.23": "There are more possible chess games than atoms in the observable universe.",
-  "realism.life5.fact.24": "Prague's astronomical clock has been ticking since 1410."
+  "realism.life5.fact.24": "Prague's astronomical clock has been ticking since 1410.",
+  "block.realism.snack_cabinet": "Snack Cabinet",
+  "block.realism.security_camera": "Security Camera",
+  "realism.snack.too_high": "The snacks are way up there... climb onto the counter first!",
+  "realism.snack.slipped": "🍪 You stretched for the snacks... and slipped off the counter! The Snack Security System wins.",
+  "realism.snack.footage": "📹 SECURITY FOOTAGE",
+  "realism.snack.nothing": "Nothing funny happened here... yet.",
+  "realism.snack.clip.snack_fail": "%s climbed the counter for snacks and fell off (%s min ago) 🤣",
+  "realism.snack.clip.snack_thief": "%s was caught raiding someone else's snacks (%s min ago) 👀",
+  "realism.snack.clip.ice_fail": "%s slipped on the ice (%s min ago) 😂",
+  "realism.life3.news.caught_on_camera": "Caught on camera: %s fell off the counter going for snacks!"
 }

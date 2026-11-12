@@ -419,6 +419,7 @@ public final class RealLife {
         p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 3, false, false, true));
         p.level().playSound(null, p.blockPosition(), SoundEvents.PLAYER_SMALL_FALL, SoundSource.PLAYERS, 1, 0.8f);
         say(p, "slip");
+        SnackSecurity.record(p.serverLevel(), p.blockPosition(), "ice_fail", p.getGameProfile().getName()); // caught on camera
     }
 
     public static boolean wet(Player p) {

@@ -20,7 +20,7 @@ public final class RealismConfig {
             GERMS, AGING, OLD_AGE_DEATH, RINGING_EARS, MOSQUITOES, TORCHES_BURN_OUT, WARM_CLOTHES, HAIR,
             CAR_CRASHES, EARTHQUAKES, DOG_WALKS, WEDDINGS, ELECTIONS, TAX_EVERYTHING, JET_LAG, TORNADO_DANGER,
             TRANSIT, RESTAURANTS, ADOPTION, TV_NEWS, WILDFIRES, STORM_OUTAGES,
-            LOANS, EMERGENCY_911, CHORES, FLOODS, LIBRARIES;
+            LOANS, EMERGENCY_911, CHORES, FLOODS, LIBRARIES, SNACK_SECURITY;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
@@ -136,6 +136,7 @@ public final class RealismConfig {
         CHORES = b.comment("Chores pile up every day: sweep with a Broom, wash bowls at a Sink").define("chores", true);
         FLOODS = b.comment("Thunderstorms flood low ground near rivers, beaches and swamps (the water drains after)").define("floods", true);
         LIBRARIES = b.comment("Read at bookshelves to learn (more next to 10+ shelves: a library)").define("libraries", true);
+        SNACK_SECURITY = b.comment("Snack Cabinets up high make you climb (and maybe slip); Security Cameras record the fails").define("snackSecurity", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

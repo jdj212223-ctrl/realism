@@ -213,6 +213,14 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.6.0: the Snack Security System 🍪📹
+
+- **Snack Cabinet** (planks around a cookie): holds 9 stacks of food, nothing else. Hang it up high! One block above your head is fine; two blocks up, you have to stretch off the counter for it, and you might **slip and crash to the floor** (35% each try). Three blocks up, you just can't reach.
+- **Security Camera** (iron, a glass pane, redstone): records every fail within 10 blocks: falling off the counter going for snacks, slipping on ice, and anyone raiding a Snack Cabinet that isn't theirs. Right-click it to watch the latest clips (watching fails is funny: +mood).
+- The best snack fails make the **newspaper**: "Caught on camera!"
+
+Turn it off with `snackSecurity` in the config.
+
 ## 4.5.0: real life, wave 5 🌍
 
 | Real life | What happens |

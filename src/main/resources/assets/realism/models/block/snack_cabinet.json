@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "particle": "realism:block/snack_cabinet_side",
+    "side": "realism:block/snack_cabinet_side",
+    "top": "realism:block/snack_cabinet_top",
+    "front": "realism:block/snack_cabinet_front"
+  }
+}

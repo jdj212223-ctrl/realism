@@ -745,5 +745,15 @@
   "realism.life5.fact.21": "Čisté zlato je tak měkké, že ho zmáčkneš prsty.",
   "realism.life5.fact.22": "Horká voda může někdy zmrznout rychleji než studená.",
   "realism.life5.fact.23": "Možných šachových partií je víc než atomů ve vesmíru.",
-  "realism.life5.fact.24": "Pražský orloj tiká od roku 1410."
+  "realism.life5.fact.24": "Pražský orloj tiká od roku 1410.",
+  "block.realism.snack_cabinet": "Skříňka na sladkosti",
+  "block.realism.security_camera": "Bezpečnostní kamera",
+  "realism.snack.too_high": "Sladkosti jsou moc vysoko... nejdřív vylez na linku!",
+  "realism.snack.slipped": "🍪 Natáhl ses pro sladkosti... a sklouzl jsi z linky! Bezpečnostní systém vyhrál.",
+  "realism.snack.footage": "📹 ZÁZNAM Z KAMERY",
+  "realism.snack.nothing": "Tady se zatím nic vtipného nestalo.",
+  "realism.snack.clip.snack_fail": "%s vylezl na linku pro sladkosti a spadl (před %s min) 🤣",
+  "realism.snack.clip.snack_thief": "%s byl přistižen, jak vybírá cizí sladkosti (před %s min) 👀",
+  "realism.snack.clip.ice_fail": "%s uklouzl na ledu (před %s min) 😂",
+  "realism.life3.news.caught_on_camera": "Zachyceno kamerou: %s spadl z linky, když lezl pro sladkosti!"
 }
