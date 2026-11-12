@@ -491,4 +491,41 @@ public class EverydayGameTests {
             helper.succeed();
         });
     }
+
+    @GameTest(template = "arena", timeoutTicks = 200)
+    public static void wave4TrainsTipsKidsAndFevers(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var level = helper.getLevel();
+            // Two train stations: ride from one to the other.
+            BlockPos a = p.blockPosition().offset(2, 0, 0), b = p.blockPosition().offset(-3, 0, 3);
+            level.setBlockAndUpdate(a, com.jdj125.realism.Wave4.TRAIN_STATION.get().defaultBlockState());
+            level.setBlockAndUpdate(b, com.jdj125.realism.Wave4.TRAIN_STATION.get().defaultBlockState());
+            var st = com.jdj125.realism.Wave4.Stations.get(p.server);
+            helper.assertTrue(com.jdj125.realism.Wave4.destinations(st, a, true).contains(b), "station b is on the line");
+            com.jdj125.realism.World.addMoney(p, 100 - com.jdj125.realism.World.balance(p));
+            helper.assertTrue(com.jdj125.realism.Wave4.travel(p, a, b, true), "a ticket and a ride");
+            helper.assertTrue(p.blockPosition().closerThan(b, 3) && com.jdj125.realism.World.balance(p) == 100 - com.jdj125.realism.Wave4.fare(true, a, b), "arrived, ticket paid");
+            level.removeBlock(a, false);
+            level.removeBlock(b, false);
+            // A tip: no tax.
+            var q = helper.makeMockServerPlayerInLevel();
+            long before = com.jdj125.realism.World.balance(q);
+            helper.assertTrue(com.jdj125.realism.Wave4.tip(p, q, 10) && com.jdj125.realism.World.balance(q) == before + 10, "the whole tip arrives");
+            // Adopt a baby villager.
+            var kid = net.minecraft.world.entity.EntityType.VILLAGER.create(level);
+            kid.moveTo(p.getX() + 1, p.getY(), p.getZ());
+            kid.setAge(-24000);
+            level.addFreshEntity(kid);
+            com.jdj125.realism.Wave4.adopt(p, kid);
+            helper.assertTrue(kid.getPersistentData().getString("realismParent").equals(p.getUUID().toString()), "adopted");
+            // The thermometer: healthy 36.6, the flu is a fever.
+            var body = com.jdj125.realism.BodyEvents.body(p);
+            body.flu = 0; body.infection = 0; body.foodPoisoning = 0; body.freezing = 0; body.burn = 0;
+            helper.assertTrue(com.jdj125.realism.Wave4.temperature(p) == 36.6, "healthy: " + com.jdj125.realism.Wave4.temperature(p));
+            body.flu = 1000;
+            helper.assertTrue(com.jdj125.realism.Wave4.temperature(p) >= 38, "the flu gives you a fever");
+            com.jdj125.realism.Wave4.tvNews(p);
+            helper.succeed();
+        });
+    }
 }

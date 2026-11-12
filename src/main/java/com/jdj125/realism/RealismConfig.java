@@ -18,7 +18,8 @@ public final class RealismConfig {
     public static final ModConfigSpec.BooleanValue NO_COMMANDS, SURVIVAL_ONLY, SMOKE, KITCHEN_FIRES, FRUITS, VOMITING, WEIGHT, CHESTS_KEEP_ITEMS,
             FOOD_SPOILS, SUNBURN, ALLERGIES, TREES_FALL, SLIPPERY_ICE, WET_CLOTHES,
             GERMS, AGING, OLD_AGE_DEATH, RINGING_EARS, MOSQUITOES, TORCHES_BURN_OUT, WARM_CLOTHES, HAIR,
-            CAR_CRASHES, EARTHQUAKES, DOG_WALKS, WEDDINGS, ELECTIONS, TAX_EVERYTHING, JET_LAG, TORNADO_DANGER;
+            CAR_CRASHES, EARTHQUAKES, DOG_WALKS, WEDDINGS, ELECTIONS, TAX_EVERYTHING, JET_LAG, TORNADO_DANGER,
+            TRANSIT, RESTAURANTS, ADOPTION, TV_NEWS, WILDFIRES, STORM_OUTAGES;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
@@ -119,6 +120,14 @@ public final class RealismConfig {
         TAX_EVERYTHING = b.comment("Payments between players (/pay, phone) are taxed by the payer's country").define("taxEverything", true);
         JET_LAG = b.comment("Crossing thousands of blocks quickly gives you jet lag for a day").define("jetLag", true);
         TORNADO_DANGER = b.comment("With ProtoManly's Weather: tornado debris injures you, basements and Interceptors vehicles keep you safe, phones warn you").define("tornadoDanger", true);
+        b.pop();
+        b.comment("Realism 4.4: real life, wave 4").push("reallife4");
+        TRANSIT = b.comment("Train stations and bus stops: pay the fare and travel to another stop").define("transit", true);
+        RESTAURANTS = b.comment("Eating at a Diner Table lifts your mood and pays the restaurant owner; /tip").define("restaurants", true);
+        ADOPTION = b.comment("Sneak-right-click a baby villager to adopt them; feed them bread; they grow up after 10 days").define("adoption", true);
+        TV_NEWS = b.comment("TVs show the news, the weather and live tornado coverage").define("tvNews", true);
+        WILDFIRES = b.comment("Wildfires start now and then in hot, dry places").define("wildfires", true);
+        STORM_OUTAGES = b.comment("Thunderstorms knock down power cables that are out in the open").define("stormOutages", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

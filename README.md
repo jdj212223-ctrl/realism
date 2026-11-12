@@ -213,6 +213,22 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.4.0: real life, wave 4 🌍
+
+| Real life | What happens |
+|---|---|
+| 🚆 Trains | Build **Train Stations** (bricks, iron, rail) in different places. Right-click to pick where to go (it shows the fare), sneak + right-click to board: pay and arrive at the other station. Fare: 5 + 1 per 100 blocks. |
+| 🚌 Buses | **Bus Stops** (blue dye, iron) work the same, cheaper, up to 1500 blocks away. |
+| 🍽️ Restaurants | Eating at a **Diner Table** (red and white wool on planks) is a nicer meal (more mood), and the player who set the table gets paid 5 for each meal. |
+| 💰 Tips | `/tip <player> <amount>`: no tax, and it makes you both happy. |
+| 👶 Adopting a kid | Sneak + right-click a baby villager with an empty hand. Feed them **bread** every day or two (they get sad when hungry), being near them makes you happy, and after 10 days they grow up. |
+| 📺 TV news | Right-click a TV: the weather, **live tornado coverage** (with PMWeather) and the latest headlines. |
+| 🔥 Wildfires | Hot, dry places (deserts, savannas, badlands) sometimes catch fire. Call the fire department! |
+| ⚡ Power outages | Thunderstorms knock down power cables that are out in the open: bury them or keep them under a roof. |
+| 🌡️ Thermometer | Glass panes and redstone. Use it on yourself or a friend: 36.6 °C healthy, a fever with the flu, higher with an infection, low when freezing. |
+
+Each one can be turned off in the `[reallife4]` config.
+
 ## 4.3.0: tornadoes 🌪️ and real life, wave 3 🌍
 
 ### 🌪️ Tornadoes (with ProtoManly's Weather)

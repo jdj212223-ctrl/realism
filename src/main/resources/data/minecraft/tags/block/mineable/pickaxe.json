@@ -42,6 +42,8 @@
     "realism:chimney",
     "realism:panel_radiator",
     "realism:fridge",
-    "realism:tornado_siren"
+    "realism:tornado_siren",
+    "realism:train_station",
+    "realism:bus_stop"
   ]
 }

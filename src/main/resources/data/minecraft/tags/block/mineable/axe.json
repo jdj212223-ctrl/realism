@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "realism:workbench",
-    "realism:school_desk"
+    "realism:school_desk",
+    "realism:diner_table"
   ]
 }

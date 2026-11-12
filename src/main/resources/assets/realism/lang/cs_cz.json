@@ -693,5 +693,21 @@
   "realism.life3.school.university": "🎓 Máš vysokou školu! Práce ti platí o 50 % víc.",
   "realism.life3.wedding.asked": "💍 %s tě žádá o ruku! Přikrč se vedle něj a řekni ANO (30 sekund).",
   "realism.life3.wedding.married": "💍 %s a %s se právě vzali! Gratulujeme!",
-  "realism.life3.vote.ok": "Volil jsi %s. Hlasy se sčítají každých 20 dní."
+  "realism.life3.vote.ok": "Volil jsi %s. Hlasy se sčítají každých 20 dní.",
+  "block.realism.train_station": "Nádraží",
+  "block.realism.bus_stop": "Autobusová zastávka",
+  "block.realism.diner_table": "Restaurační stůl",
+  "item.realism.thermometer": "Teploměr",
+  "realism.life4.pick": "%s na %s, %s: jízdné %s. Přikrč se a klikni pro nástup.",
+  "realism.life4.no_money": "Na jízdenku potřebuješ %s peněz.",
+  "realism.life4.arrived_train": "🚆 Vlak dorazil! (jízdenka: %s)",
+  "realism.life4.arrived_bus": "🚌 Autobus dorazil! (jízdenka: %s)",
+  "realism.life4.adopted": "👶 Adoptoval jsi dítě! Krm ho chlebem každý den nebo dva.",
+  "realism.life4.kid_name": "Dítě: %s",
+  "realism.life4.temp.normal": "%s: %s °C. Zdravý!",
+  "realism.life4.temp.fever": "%s: %s °C. Horečka!",
+  "realism.life4.tv.title": "📺 VEČERNÍ ZPRÁVY",
+  "realism.life4.tv.tornado": "🌪 ŽIVĚ: tornádo %s, %s mph, %s bloků na %s od tebe. Ukryj se!",
+  "realism.life4.wildfire": "🔥 LESNÍ POŽÁR u %s, %s! Volej hasiče!",
+  "realism.life4.outage": "⚡ Bouřka strhla elektrické vedení!"
 }

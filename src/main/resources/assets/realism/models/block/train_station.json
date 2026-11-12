@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "particle": "realism:block/train_station_side",
+    "side": "realism:block/train_station_side",
+    "top": "realism:block/train_station_top",
+    "front": "realism:block/train_station_side"
+  }
+}
