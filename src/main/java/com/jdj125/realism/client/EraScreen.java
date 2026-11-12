@@ -18,15 +18,26 @@ public class EraScreen extends Screen {
         Minecraft.getInstance().setScreen(new EraScreen());
     }
 
+    /** Starts on the computer's own region setting (no GPS: the player confirms or changes it). */
+    private static int country = Math.max(0, Era.COUNTRIES.indexOf(java.util.Locale.getDefault().getCountry()));
+
     @Override
     protected void init() {
         int cx = width / 2, y = height / 2 + 10;
+        addRenderableWidget(Button.builder(countryLabel(), b -> {
+            country = (country + (hasShiftDown() ? Era.COUNTRIES.size() - 1 : 1)) % Era.COUNTRIES.size();
+            b.setMessage(countryLabel());
+        }).bounds(cx - 100, y + 26, 200, 20).build());
         addRenderableWidget(Button.builder(Component.translatable("realism.era.screen.year0"), b -> pick(Era.YEAR_0)).bounds(cx - 155, y, 150, 20).build());
         addRenderableWidget(Button.builder(Component.translatable("realism.era.screen.today"), b -> pick(Era.TODAY)).bounds(cx + 5, y, 150, 20).build());
     }
 
+    private static Component countryLabel() {
+        return Component.translatable("realism.era.screen.country", Era.countryName(Era.COUNTRIES.get(country)));
+    }
+
     private void pick(int year) {
-        PacketDistributor.sendToServer(new Era.Choose(year));
+        PacketDistributor.sendToServer(new Era.Choose(year, Era.COUNTRIES.get(country)));
         onClose();
     }
 

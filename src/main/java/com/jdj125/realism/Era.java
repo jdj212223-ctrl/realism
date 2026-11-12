@@ -125,6 +125,8 @@ public final class Era {
     public static class Data extends SavedData {
         public boolean chosen;
         public int year = TODAY;
+        /** Where in the real world this world is (a country code like "CZ"), picked with the era. "" = not set. */
+        public String country = "";
         public final Set<String> invented = new HashSet<>();
 
         public static Data get(MinecraftServer server) {
@@ -135,6 +137,7 @@ public final class Era {
             Data d = new Data();
             d.chosen = tag.getBoolean("chosen");
             d.year = tag.contains("year") ? tag.getInt("year") : TODAY;
+            d.country = tag.getString("country");
             for (Tag t : tag.getList("invented", Tag.TAG_STRING)) d.invented.add(t.getAsString());
             return d;
         }
@@ -143,6 +146,7 @@ public final class Era {
         public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
             tag.putBoolean("chosen", chosen);
             tag.putInt("year", year);
+            tag.putString("country", country);
             ListTag l = new ListTag();
             for (String s : invented) l.add(StringTag.valueOf(s));
             tag.put("invented", l);
@@ -173,6 +177,32 @@ public final class Era {
 
     /** Picks the era (an operator's choice, once). Year 0 dresses everyone online in period clothes. */
     public static void choose(MinecraftServer server, int startYear) {
+        choose(server, startYear, "");
+    }
+
+    /** Country codes you can pick for a world (the client pre-selects the computer's own region). */
+    public static final java.util.List<String> COUNTRIES = java.util.List.of("CZ", "SK", "DE", "AT", "PL", "HU", "GB", "IE", "FR", "ES", "PT",
+            "IT", "NL", "BE", "CH", "DK", "SE", "NO", "FI", "UA", "RO", "HR", "SI", "GR", "TR", "US", "CA", "MX", "BR", "AR", "JP", "KR", "CN",
+            "IN", "AU", "NZ", "ZA", "EG");
+
+    public static String countryName(String code) {
+        return code.isEmpty() ? "?" : java.util.Locale.of("", code).getDisplayCountry(java.util.Locale.ENGLISH);
+    }
+
+    /** Puts the world in a real country (a known code), and tells everyone. */
+    public static boolean setCountry(MinecraftServer server, String code) {
+        String c = code.toUpperCase(java.util.Locale.ROOT);
+        if (!COUNTRIES.contains(c)) return false;
+        Data d = Data.get(server);
+        d.country = c;
+        d.setDirty();
+        for (ServerPlayer p : server.getPlayerList().getPlayers())
+            p.displayClientMessage(Component.translatable("realism.era.country", countryName(c)), false);
+        return true;
+    }
+
+    public static void choose(MinecraftServer server, int startYear, String country) {
+        if (!country.isEmpty()) setCountry(server, country);
         Data d = Data.get(server);
         d.chosen = true;
         d.year = startYear;
@@ -231,9 +261,10 @@ public final class Era {
     }
 
     /** The operator's answer: 0 or 2026. */
-    public record Choose(int year) implements CustomPacketPayload {
+    public record Choose(int year, String country) implements CustomPacketPayload {
         public static final Type<Choose> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Realism.MODID, "era_choose"));
-        public static final StreamCodec<ByteBuf, Choose> CODEC = StreamCodec.composite(ByteBufCodecs.VAR_INT, Choose::year, Choose::new);
+        public static final StreamCodec<ByteBuf, Choose> CODEC = StreamCodec.composite(ByteBufCodecs.VAR_INT, Choose::year,
+                ByteBufCodecs.stringUtf8(8), Choose::country, Choose::new);
 
         @Override
         public Type<? extends CustomPacketPayload> type() {
@@ -241,9 +272,9 @@ public final class Era {
         }
     }
 
-    public static void handleChoice(ServerPlayer p, int year) {
+    public static void handleChoice(ServerPlayer p, int year, String country) {
         if (p.getServer() == null || !mayChoose(p) || Data.get(p.getServer()).chosen) return;
-        choose(p.getServer(), year <= YEAR_0 ? YEAR_0 : TODAY);
+        choose(p.getServer(), year <= YEAR_0 ? YEAR_0 : TODAY, country);
     }
 
     @SubscribeEvent
@@ -324,12 +355,19 @@ public final class Era {
                     MinecraftServer server = ctx.getSource().getServer();
                     Data d = Data.get(server);
                     ctx.getSource().sendSuccess(() -> Component.translatable(d.chosen ? "realism.era.info" : "realism.era.not_chosen", d.year), false);
+                    if (!d.country.isEmpty()) ctx.getSource().sendSuccess(() -> Component.translatable("realism.era.country", countryName(d.country)), false);
                     for (Invention i : INVENTIONS)
                         ctx.getSource().sendSuccess(() -> Component.translatable(d.invented.contains(i.key()) ? "realism.era.done" : "realism.era.todo",
                                 Component.translatable("realism.invention." + i.key()), i.year(),
                                 Component.translatable(BuiltInRegistries.ITEM.get(ResourceLocation.parse(i.item())).getDescriptionId())), false);
                     return d.year;
                 })
+                .then(Commands.literal("country").requires(s -> s.hasPermission(2))
+                        .then(Commands.argument("code", com.mojang.brigadier.arguments.StringArgumentType.word()).executes(ctx -> {
+                            if (setCountry(ctx.getSource().getServer(), com.mojang.brigadier.arguments.StringArgumentType.getString(ctx, "code"))) return 1;
+                            ctx.getSource().sendFailure(Component.literal(String.join(" ", COUNTRIES)));
+                            return 0;
+                        })))
                 .then(Commands.literal("start").requires(s -> s.hasPermission(2))
                         .then(Commands.literal("year0").executes(ctx -> {
                             choose(ctx.getSource().getServer(), YEAR_0);

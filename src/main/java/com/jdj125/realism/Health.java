@@ -178,6 +178,7 @@ public final class Health {
             b.thirst += 20; // throwing up: you get thirsty twice as fast
             keep(p, MobEffects.HUNGER, 0);
             if (rand.nextInt(40) == 0) p.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 120, 0, true, false, true));
+            if (rand.nextInt(90) == 0) Food.vomit(p);
             if (b.foodPoisoning == 0) say(p, "food_poisoning.better");
         }
 
@@ -227,6 +228,7 @@ public final class Health {
         if (chance > 0 && p.getRandom().nextFloat() < chance && b.foodPoisoning == 0) {
             b.foodPoisoning = (int) RealismConfig.dayTicks();
             say(p, "food_poisoning.start");
+            if (p instanceof ServerPlayer sp && p.getRandom().nextBoolean()) Food.vomit(sp);
         }
         if (s.is(Items.POTION) && b.foodPoisoning > 0) b.foodPoisoning = b.foodPoisoning * 3 / 4;
     }

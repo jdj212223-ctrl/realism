@@ -30,6 +30,36 @@ public class EverydayGameTests {
         helper.runAfterDelay(70, () -> check.accept(p));
     }
 
+    @GameTest(template = "arena", timeoutTicks = 140)
+    public static void fruitVomitingAndCountry(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var r = net.minecraft.util.RandomSource.create(1);
+            helper.assertTrue(java.util.List.of("banana", "mango", "pineapple", "orange", "tangerine", "lemon")
+                    .contains(com.jdj125.realism.Food.fruitFor(2.0f, r)), "hot places grow tropical fruit");
+            helper.assertTrue(java.util.List.of("pear", "plum", "cherries", "grapes").contains(com.jdj125.realism.Food.fruitFor(0.3f, r)),
+                    "cool places grow pears, plums and cherries");
+            helper.assertTrue(com.jdj125.realism.Food.isFruit(new net.minecraft.world.item.ItemStack(com.jdj125.realism.Food.FRUITS.get("tangerine").get())),
+                    "a tangerine is a fruit");
+            helper.assertTrue(com.jdj125.realism.Food.FRUITS.containsKey(com.jdj125.realism.Food.favorite(p)), "everyone has a favorite fruit");
+            p.getFoodData().setFoodLevel(18);
+            helper.assertTrue(com.jdj125.realism.Food.vomit(p), "throwing up works");
+            helper.assertTrue(p.getFoodData().getFoodLevel() == 14 && p.hasEffect(net.minecraft.world.effect.MobEffects.CONFUSION), "you lose food and feel sick");
+            helper.assertFalse(com.jdj125.realism.Food.vomit(p), "but not again right away");
+            int fruit = 0;
+            BlockPos leafAt = helper.absolutePos(new BlockPos(3, 2, 3));
+            var leaves = net.minecraft.world.level.block.Blocks.OAK_LEAVES.defaultBlockState();
+            for (int i = 0; i < 2000; i++)
+                for (var drop : net.minecraft.world.level.block.Block.getDrops(leaves, helper.getLevel(), leafAt, null))
+                    if (com.jdj125.realism.Food.isFruit(drop)) fruit++;
+            helper.assertTrue(fruit > 20, "leaves drop fruit now and then (got " + fruit + " from 2000)");
+            var server = helper.getLevel().getServer();
+            helper.assertTrue(com.jdj125.realism.Era.setCountry(server, "cz"), "a world can be in Czechia");
+            helper.assertTrue(com.jdj125.realism.Era.Data.get(server).country.equals("CZ"), "the country is saved");
+            helper.assertFalse(com.jdj125.realism.Era.setCountry(server, "XX"), "made-up countries don't work");
+            helper.succeed();
+        });
+    }
+
     @GameTest(template = "arena", timeoutTicks = 100)
     public static void fireAndHeating(GameTestHelper helper) {
         var level = helper.getLevel();

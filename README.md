@@ -202,6 +202,17 @@ No commands for players (not even ops): no /give, /gamemode or /tp. Realism's ow
 
 Config section `[fire]`: `smoke`, `kitchenFires`.
 
+## 3.3.0: fruit, throwing up, and your country 🍊🤢🌍
+
+| Thing | What it does |
+|---|---|
+| 🍊 Fruit | Tangerine, orange, lemon, banana, pear, plum, cherries, peach, strawberry, grapes, kiwi, mango, pineapple. Leaves drop fruit now and then, depending on the climate: tropical fruit in hot places, citrus in warm ones, pears, plums and cherries where it's cooler. Grass hides strawberries. Fruit lifts your mood. |
+| 😋 Favorite fruit | Everyone has one (it's told when you join): eating it makes you really happy. jdj125's is the tangerine 🧡 |
+| 🤢 Throwing up | Food poisoning makes you throw up now and then, and so does spinning around until you're dizzy. You lose some food and feel sick for a bit. Blocky and quick, nothing gross. |
+| 📍 Your country | When you pick the era for a new world, you also pick the real country it's in. It starts on your computer's region setting (no GPS, no tracking: you confirm it). `/era` shows it; ops can change it with `/era country <code>`. |
+
+Config section `[food]`: `fruits`, `vomiting`.
+
 A small panel in the top-left shows water, rest, stamina, blood and injuries (only once they matter).
 `/realism` shows your numbers (ops can test with `/realism set|bleed|burn`). English and Czech.
 

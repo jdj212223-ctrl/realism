@@ -80,6 +80,7 @@ public class Realism {
         Kitchen.register(modBus);
         Life.register(modBus);
         Fire.register(modBus);
+        Food.register(modBus);
         Jobs.register(modBus);
         Cars.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
@@ -103,6 +104,7 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Jobs.class);
         NeoForge.EVENT_BUS.register(NoCheats.class);
         NeoForge.EVENT_BUS.register(Fire.class);
+        NeoForge.EVENT_BUS.register(Food.class);
         NeoForge.EVENT_BUS.addListener(Fire::commands);
         NeoForge.EVENT_BUS.addListener(Jobs::commands);
         NeoForge.EVENT_BUS.addListener(Era::commands);
@@ -126,7 +128,7 @@ public class Realism {
         r.playToClient(Afterlife.Judgment.TYPE, Afterlife.Judgment.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.AfterlifeClient.start(payload)));
         r.playToClient(Era.OpenChoice.TYPE, Era.OpenChoice.CODEC, (payload, ctx) -> ctx.enqueueWork(com.jdj125.realism.client.EraScreen::open));
         r.playToServer(Era.Choose.TYPE, Era.Choose.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
-            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Era.handleChoice(sp, payload.year());
+            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Era.handleChoice(sp, payload.year(), payload.country());
         }));
         // Only ever runs on a client, so the client-only screen class is never loaded on a server.
         r.playToClient(Tech.OpenComputer.TYPE, Tech.OpenComputer.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.OsScreen.open(payload)));

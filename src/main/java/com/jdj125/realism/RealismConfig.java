@@ -15,7 +15,7 @@ public final class RealismConfig {
     public static final ModConfigSpec CLIENT_SPEC;
     public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION, NO_HUD, LOCK_WORLD_CREATION;
     /** Realism 3.1: no cheating in real life. */
-    public static final ModConfigSpec.BooleanValue NO_COMMANDS, SURVIVAL_ONLY, SMOKE, KITCHEN_FIRES;
+    public static final ModConfigSpec.BooleanValue NO_COMMANDS, SURVIVAL_ONLY, SMOKE, KITCHEN_FIRES, FRUITS, VOMITING;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
@@ -80,6 +80,10 @@ public final class RealismConfig {
         b.comment("Realism 3.2: fire and heating").push("fire");
         SMOKE = b.comment("Fire indoors (or a fireplace with no chimney) fills the room with smoke that hurts unless you crouch").define("smoke", true);
         KITCHEN_FIRES = b.comment("A burning stove left alone, or sparks from a fireplace, can set things on fire").define("kitchenFires", true);
+        b.pop();
+        b.comment("Realism 3.3: food").push("food");
+        FRUITS = b.comment("Leaves sometimes drop fruit (depending on the climate) and grass hides strawberries").define("fruits", true);
+        VOMITING = b.comment("Food poisoning and spinning around too much make you throw up").define("vomiting", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();
