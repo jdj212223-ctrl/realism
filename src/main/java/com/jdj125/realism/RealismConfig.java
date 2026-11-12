@@ -15,7 +15,8 @@ public final class RealismConfig {
     public static final ModConfigSpec CLIENT_SPEC;
     public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION, NO_HUD, LOCK_WORLD_CREATION, MOTION_WEBCAM;
     /** Realism 3.1: no cheating in real life. */
-    public static final ModConfigSpec.BooleanValue NO_COMMANDS, SURVIVAL_ONLY, SMOKE, KITCHEN_FIRES, FRUITS, VOMITING, WEIGHT, CHESTS_KEEP_ITEMS;
+    public static final ModConfigSpec.BooleanValue NO_COMMANDS, SURVIVAL_ONLY, SMOKE, KITCHEN_FIRES, FRUITS, VOMITING, WEIGHT, CHESTS_KEEP_ITEMS,
+            FOOD_SPOILS, SUNBURN, ALLERGIES, TREES_FALL, SLIPPERY_ICE, WET_CLOTHES;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
@@ -88,6 +89,14 @@ public final class RealismConfig {
         b.comment("Realism 4.0: weight and boxes").push("carrying");
         WEIGHT = b.comment("Everything you carry weighs something: over 25 kg you slow down, over 40 kg you can't run, over 60 kg you can't jump and you sink, over 100 kg you can't pick anything up").define("weight", true);
         CHESTS_KEEP_ITEMS = b.comment("Breaking a chest or barrel keeps the items inside it (like picking up a real box)").define("chestsKeepItems", true);
+        b.pop();
+        b.comment("Realism 4.1: real life, wave 1").push("reallife");
+        FOOD_SPOILS = b.comment("Food goes bad over a few days (spoiled food = food poisoning); a powered Fridge keeps it fresh").define("foodSpoils", true);
+        SUNBURN = b.comment("Lots of hot sun with no hat gives a sunburn").define("sunburn", true);
+        ALLERGIES = b.comment("Some players are allergic to pollen, cats or bee stings").define("allergies", true);
+        TREES_FALL = b.comment("Chopping the bottom log brings the whole tree down (crouch to chop one log)").define("treesFall", true);
+        SLIPPERY_ICE = b.comment("Running on ice can make you slip and fall").define("slipperyIce", true);
+        WET_CLOTHES = b.comment("Swimming and rain soak you; soaked in the cold can give you the flu").define("wetClothes", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

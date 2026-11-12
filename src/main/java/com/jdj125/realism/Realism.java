@@ -83,6 +83,7 @@ public class Realism {
         Food.register(modBus);
         Drone.register(modBus);
         Consoles.register(modBus);
+        RealLife.register(modBus);
         Jobs.register(modBus);
         Cars.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
@@ -109,6 +110,7 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Food.class);
         NeoForge.EVENT_BUS.register(Consoles.class);
         NeoForge.EVENT_BUS.register(Weight.class);
+        NeoForge.EVENT_BUS.register(RealLife.class);
         NeoForge.EVENT_BUS.addListener(Fire::commands);
         NeoForge.EVENT_BUS.addListener(Jobs::commands);
         NeoForge.EVENT_BUS.addListener(Era::commands);

@@ -40,6 +40,7 @@
     "realism:coal_heater",
     "realism:fireplace",
     "realism:chimney",
-    "realism:panel_radiator"
+    "realism:panel_radiator",
+    "realism:fridge"
   ]
 }

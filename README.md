@@ -213,6 +213,20 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.1.0: real life, wave 1 🌍
+
+| Real life | What happens |
+|---|---|
+| 🍖 Food goes bad | Food remembers the day it was made. Raw meat and fish spoil after **2 days**, most food after **4**, bread after **5**, vegetables and apples after **10** (honey, dried kelp and golden food never). The tooltip says fresh / getting old / spoiled. Spoiled food = food poisoning and throwing up. Food in a chest keeps aging, like real life. |
+| ❄️ Fridge | Iron, packed ice, redstone. Holds 27 stacks and, **while it has power** (100 W), stops the clock for the food inside. |
+| ☀️ Sunburn | Half an hour (real time) of hot sun in a hot biome with no hat: a 1st degree burn. You get a warning halfway. |
+| 🤧 Allergies | You're born with them (the same every time): **pollen** (sneezing near flowers), **cats** (sneezing near cats) or **bee stings** (you swell up: slow, weak and dizzy). You're told yours when you join. Most people have none. |
+| 🌲 Trees fall | Chop the bottom log of a real tree (with natural leaves) and the whole trunk comes down. It wears your axe and tires you. Crouch to chop just one log. Log houses never fall. |
+| 🧊 Slippery ice | Running on ice can make you slip and fall. Walk carefully! |
+| 🌧️ Wet clothes | Swimming and rain soak you for 2 minutes (faster next to a fire). Soaked somewhere cold can give you the flu. |
+
+Each one can be turned off in the `[reallife]` config.
+
 ## 4.0.0: the big real-life update 🎮⚖️📦
 
 ### 🎮 Game consoles through the years

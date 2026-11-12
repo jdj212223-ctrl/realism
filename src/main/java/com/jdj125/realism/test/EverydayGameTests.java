@@ -339,4 +339,63 @@ public class EverydayGameTests {
             });
         });
     }
+
+    @GameTest(template = "arena", timeoutTicks = 200)
+    public static void foodGoesBadButTheFridgeKeepsItFresh(GameTestHelper helper) {
+        var level = helper.getLevel();
+        long today = com.jdj125.realism.RealLife.today(level);
+        var beef = new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BEEF);
+        beef.set(com.jdj125.realism.RealLife.MADE.get(), today - 3);
+        helper.assertTrue(com.jdj125.realism.RealLife.spoiled(beef, level), "3-day-old raw beef is spoiled");
+        var bread = new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BREAD);
+        bread.set(com.jdj125.realism.RealLife.MADE.get(), today - 3);
+        helper.assertFalse(com.jdj125.realism.RealLife.spoiled(bread, level), "3-day-old bread is still fine");
+        helper.assertTrue(com.jdj125.realism.RealLife.shelfDays(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.HONEY_BOTTLE)) < 0, "honey never goes bad");
+        // A powered fridge stops the clock.
+        BlockPos at = helper.absolutePos(new BlockPos(3, 2, 3));
+        level.setBlockAndUpdate(at, com.jdj125.realism.RealLife.FRIDGE.get().defaultBlockState());
+        level.setBlockAndUpdate(at.below(), com.jdj125.realism.Power.GENERATOR.get().defaultBlockState()
+                .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, true));
+        if (level.getBlockEntity(at.below()) instanceof com.jdj125.realism.Power.GeneratorEntity g) g.fuel = 100000;
+        var fridge = (com.jdj125.realism.RealLife.FridgeEntity) level.getBlockEntity(at);
+        var fresh = new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.CHICKEN);
+        fresh.set(com.jdj125.realism.RealLife.MADE.get(), today);
+        fridge.setItem(0, fresh);
+        helper.runAfterDelay(101, () -> {
+            level.setDayTime(level.getDayTime()); // (the fridge already noted today)
+            helper.assertTrue(com.jdj125.realism.Power.powered(level, at), "the fridge has power");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 160)
+    public static void treesFallWhenYouChopTheBottom(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var level = helper.getLevel();
+            BlockPos base = p.blockPosition().offset(2, 0, 0);
+            for (int y = 0; y < 5; y++) level.setBlockAndUpdate(base.above(y), net.minecraft.world.level.block.Blocks.OAK_LOG.defaultBlockState());
+            for (int dx = -1; dx <= 1; dx++)
+                for (int dz = -1; dz <= 1; dz++)
+                    level.setBlockAndUpdate(base.offset(dx, 5, dz), net.minecraft.world.level.block.Blocks.OAK_LEAVES.defaultBlockState());
+            helper.assertTrue(com.jdj125.realism.RealLife.trunk(level, base).size() == 4, "4 logs above the bottom one");
+            // A log house (no leaves) doesn't fall.
+            BlockPos house = p.blockPosition().offset(-3, 0, 0);
+            for (int y = 0; y < 3; y++) level.setBlockAndUpdate(house.above(y), net.minecraft.world.level.block.Blocks.OAK_LOG.defaultBlockState());
+            helper.assertTrue(com.jdj125.realism.RealLife.trunk(level, house).isEmpty(), "a log wall isn't a tree");
+            p.gameMode.destroyBlock(base);
+            helper.assertTrue(level.getBlockState(base.above(4)).isAir(), "the whole trunk came down");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 140)
+    public static void allergiesAreTheSameEveryTime(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            helper.assertTrue(com.jdj125.realism.RealLife.allergies(p).equals(com.jdj125.realism.RealLife.allergies(p)), "you're born with them");
+            com.jdj125.realism.RealLife.sneeze(p);
+            com.jdj125.realism.RealLife.slip(p);
+            helper.assertFalse(p.isSprinting(), "slipping stops you running");
+            helper.succeed();
+        });
+    }
 }

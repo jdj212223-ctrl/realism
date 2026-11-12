@@ -33,6 +33,20 @@ public final class WeightClient {
         }
     }
 
+    /** How fresh a food is. */
+    @SubscribeEvent
+    public static void onFreshness(ItemTooltipEvent event) {
+        var s = event.getItemStack();
+        var level = Minecraft.getInstance().level;
+        if (level == null || !s.has(com.jdj125.realism.RealLife.MADE.get())) return;
+        int shelf = com.jdj125.realism.RealLife.shelfDays(s);
+        if (shelf < 0) return;
+        long age = com.jdj125.realism.RealLife.age(s, level);
+        String key = age > shelf ? "spoiled" : age >= shelf - 1 && shelf > 1 ? "old" : "fresh";
+        ChatFormatting c = age > shelf ? ChatFormatting.RED : key.equals("old") ? ChatFormatting.YELLOW : ChatFormatting.GREEN;
+        event.getToolTip().add(Component.translatable("realism.life.food." + key, age).withStyle(c));
+    }
+
     @SubscribeEvent
     public static void onInventory(ScreenEvent.Render.Post event) {
         if (!Weight.on() || !(event.getScreen() instanceof InventoryScreen screen)) return;
