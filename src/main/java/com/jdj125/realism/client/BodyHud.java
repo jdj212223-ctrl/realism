@@ -63,7 +63,7 @@ public final class BodyHud {
             g.drawString(mc.font, c, x, g.guiHeight() / 2, (alpha << 24) | (nightmare ? 0xC06060 : 0x9090D0), false);
             return;
         }
-        if (mc.options.hideGui || mc.player.isCreative() || mc.player.isSpectator()) return;
+        if (mc.options.hideGui || mc.player.isCreative() || mc.player.isSpectator() || NoHud.on()) return;
         Font font = mc.font;
         int x = 4, y = 4;
         if (s.thirst() >= 0.2f) {

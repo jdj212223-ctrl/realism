@@ -557,5 +557,7 @@
   "realism.car.filled": "⛽ Gas can filled (-%s money)",
   "realism.hud.hygiene": "🧼 Clean %s%%",
   "realism.hud.bladder": "🚽 Bladder %s%%",
-  "realism.hud.teeth": "🦷 Teeth %s%%"
+  "realism.hud.teeth": "🦷 Teeth %s%%",
+  "realism.rules.no_commands": "🚫 No cheating in real life: commands are off on this world.",
+  "realism.rules.no_creative": "🚫 Real life has no creative mode. Back to survival!"
 }

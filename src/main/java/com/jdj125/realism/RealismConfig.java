@@ -13,7 +13,10 @@ public final class RealismConfig {
     public static final ModConfigSpec.IntValue HEAVEN_MINUTES, HELL_MINUTES, DARK_MINUTES;
     /** Client settings (realism-client.toml): echo in caves, black and white vision in old times. */
     public static final ModConfigSpec CLIENT_SPEC;
-    public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION;
+    public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION, NO_HUD, LOCK_WORLD_CREATION;
+    /** Realism 3.1: no cheating in real life. */
+    public static final ModConfigSpec.BooleanValue NO_COMMANDS, SURVIVAL_ONLY;
+    public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
     static {
@@ -66,10 +69,22 @@ public final class RealismConfig {
         JOBS = b.comment("Jobs with a daily paycheck (/job)").define("jobs", true);
         CARS = b.comment("Cars need fuel, and crashes hurt").define("cars", true);
         b.pop();
+        b.comment("Realism 3.1: no cheating in real life").push("rules");
+        NO_COMMANDS = b.comment("Players (even ops) can't use commands like /give or /gamemode. The server console still can.")
+                .define("noCommands", true);
+        ALLOWED_COMMANDS = b.comment("Commands players may still use: Realism's own (money, countries, jobs, the law, the ambulance) and talking")
+                .defineListAllowEmpty("allowedCommands", java.util.List.of("pay", "country", "job", "law", "ambulance", "era", "realism",
+                        "botpass", "msg", "tell", "w", "me", "list", "help", "trigger"), () -> "", o -> o instanceof String);
+        SURVIVAL_ONLY = b.comment("Creative mode switches back to survival by itself (real life has no creative mode)").define("survivalOnly", true);
+        b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();
         ECHO = c.comment("Sounds echo in big caves and halls").define("echo", true);
         OLD_TIMES_VISION = c.comment("Black and white vision until colour TV is invented (worlds that started in year 0)").define("oldTimesVision", true);
+        NO_HUD = c.comment("No health, hunger, armor, air or XP bars and no Realism status panel: real life has no HUD (the hotbar stays)")
+                .define("noHud", true);
+        LOCK_WORLD_CREATION = c.comment("Create World shows only the Game tab, with creative mode and cheats locked off")
+                .define("lockWorldCreation", true);
         CLIENT_SPEC = c.build();
     }
 

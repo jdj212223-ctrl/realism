@@ -557,5 +557,7 @@
   "realism.car.filled": "⛽ Kanystr naplněn (-%s peněz)",
   "realism.hud.hygiene": "🧼 Čistota %s%%",
   "realism.hud.bladder": "🚽 Močový měchýř %s%%",
-  "realism.hud.teeth": "🦷 Zuby %s%%"
+  "realism.hud.teeth": "🦷 Zuby %s%%",
+  "realism.rules.no_commands": "🚫 Ve skutečném životě se nepodvádí: příkazy jsou na tomto světě vypnuté.",
+  "realism.rules.no_creative": "🚫 Skutečný život nemá kreativní režim. Zpátky do survivalu!"
 }

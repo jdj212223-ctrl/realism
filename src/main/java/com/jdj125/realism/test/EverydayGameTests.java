@@ -31,6 +31,40 @@ public class EverydayGameTests {
     }
 
     @GameTest(template = "arena", timeoutTicks = 140)
+    public static void noCommandsForPlayers(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            helper.assertTrue(com.jdj125.realism.NoCheats.root("/minecraft:give @s dirt").equals("give"), "reads the command name");
+            helper.assertFalse(com.jdj125.realism.NoCheats.allowed("/gamemode creative"), "/gamemode is blocked");
+            helper.assertFalse(com.jdj125.realism.NoCheats.allowed("give @s diamond"), "/give is blocked");
+            helper.assertTrue(com.jdj125.realism.NoCheats.allowed("/pay jdj125 5"), "/pay still works");
+            // Even an op player gets nothing from /give...
+            var server = helper.getLevel().getServer();
+            server.getCommands().performPrefixedCommand(p.createCommandSourceStack().withPermission(4), "give @s minecraft:diamond 5");
+            helper.assertFalse(p.getInventory().contains(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND)),
+                    "a player's /give does nothing");
+            // ...but the server console still can.
+            BlockPos at = helper.absolutePos(new BlockPos(1, 2, 1));
+            server.getCommands().performPrefixedCommand(server.createCommandSourceStack().withPermission(4).withLevel(helper.getLevel()),
+                    "setblock " + at.getX() + " " + at.getY() + " " + at.getZ() + " minecraft:gold_block");
+            helper.assertTrue(helper.getLevel().getBlockState(at).is(net.minecraft.world.level.block.Blocks.GOLD_BLOCK),
+                    "the server console's commands still work");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 140)
+    public static void creativeSwitchesBackToSurvival(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            p.setGameMode(GameType.CREATIVE);
+            helper.assertTrue(com.jdj125.realism.NoCheats.fixGameMode(p), "creative gets fixed");
+            helper.assertTrue(p.gameMode.getGameModeForPlayer() == GameType.SURVIVAL, "back in survival");
+            p.setGameMode(GameType.ADVENTURE);
+            helper.assertFalse(com.jdj125.realism.NoCheats.fixGameMode(p), "adventure (the afterlife) is left alone");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 140)
     public static void bathroomFixesDailyLife(GameTestHelper helper) {
         withPlayer(helper, p -> {
             Body b = BodyEvents.body(p);

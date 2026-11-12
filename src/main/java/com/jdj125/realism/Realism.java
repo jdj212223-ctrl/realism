@@ -99,6 +99,7 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Afterlife.class);
         NeoForge.EVENT_BUS.register(Life.class);
         NeoForge.EVENT_BUS.register(Jobs.class);
+        NeoForge.EVENT_BUS.register(NoCheats.class);
         NeoForge.EVENT_BUS.addListener(Jobs::commands);
         NeoForge.EVENT_BUS.addListener(Era::commands);
         NeoForge.EVENT_BUS.addListener(Justice::commands);
