@@ -82,6 +82,7 @@ public class Realism {
         Fire.register(modBus);
         Food.register(modBus);
         Drone.register(modBus);
+        Consoles.register(modBus);
         Jobs.register(modBus);
         Cars.register(modBus);
         container.registerConfig(ModConfig.Type.SERVER, RealismConfig.SPEC);
@@ -106,6 +107,8 @@ public class Realism {
         NeoForge.EVENT_BUS.register(NoCheats.class);
         NeoForge.EVENT_BUS.register(Fire.class);
         NeoForge.EVENT_BUS.register(Food.class);
+        NeoForge.EVENT_BUS.register(Consoles.class);
+        NeoForge.EVENT_BUS.register(Weight.class);
         NeoForge.EVENT_BUS.addListener(Fire::commands);
         NeoForge.EVENT_BUS.addListener(Jobs::commands);
         NeoForge.EVENT_BUS.addListener(Era::commands);
@@ -136,6 +139,7 @@ public class Realism {
         r.playToServer(Tech.SaveComputer.TYPE, Tech.SaveComputer.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Tech.save(sp, payload);
         }));
+        r.playToClient(Consoles.OpenConsole.TYPE, Consoles.OpenConsole.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.ConsoleScreen.open(payload)));
         r.playToServer(Tech.PlayGame.TYPE, Tech.PlayGame.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> Tech.playGame(ctx.player())));
         r.playToClient(World.OpenPhone.TYPE, World.OpenPhone.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.PhoneScreen.open(payload)));
         r.playToServer(World.CallAmbulance.TYPE, World.CallAmbulance.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {

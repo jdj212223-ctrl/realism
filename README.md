@@ -213,6 +213,44 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.0.0: the big real-life update 🎮⚖️📦
+
+### 🎮 Game consoles through the years
+Original look-alikes (no real names or logos; every tooltip and the in-game **Credits** screen say which real console inspired it). Buy them from the **Tech Dealer**.
+
+| Console | Year | Inspired by |
+|---|---|---|
+| Grey Console | 1994 | Sony PlayStation |
+| Slim Black Console | 2000 | Sony PlayStation 2 |
+| Big Black Box Console | 2001 | Microsoft Xbox |
+| White Curvy Console 📷 | 2005 | Microsoft Xbox 360 (+ Kinect) |
+| Glossy Black Console | 2006 | Sony PlayStation 3 |
+| Black Slab Console 📷 | 2013 | Microsoft Xbox One (+ Kinect) |
+| Angled Console | 2013 | Sony PlayStation 4 |
+| Hybrid Handheld | 2017 | Nintendo Switch |
+| Black Tower Console | 2020 | Microsoft Xbox Series X |
+| White Wing Console | 2020 | Sony PlayStation 5 |
+| Hybrid Handheld 2 | 2025 | Nintendo Switch 2 |
+
+- Home consoles need **power** (newer ones use more watts) and a **Game Controller** in your inventory. The handhelds work anywhere.
+- Older consoles draw **chunky pixels with fewer colours**; newer ones are smooth.
+- Original games: **Block Dash**, **Paddle Duel**, **Tangerine Catch** 🍊, and with a **Motion Camera** plugged into a 📷 console: **Box Punch** 🥊 and **Wall Dodge** 🧱. Winning lifts your mood.
+- **📷 Real webcam motion games (Mac):** press *Webcam: ON* in a console with a Motion Camera. Punch with your real arms and lean with your body. Only movement is used, on your computer: no picture is shown, saved or sent. Off by default (`motionWebcam`). Without a webcam (or on Windows/Linux for now), the keyboard works.
+- **🥽 VR:** with Vivecraft, the consoles open and play like any screen. Motion games use the keyboard or webcam.
+- Webcam capture uses [webcam-capture-driver-native](https://github.com/eduramiba/webcam-capture-driver-native) by Eduardo Ramos (Apache 2.0). PlayStation is a trademark of Sony Interactive Entertainment; Xbox and Kinect are trademarks of Microsoft; Switch is a trademark of Nintendo. Fan-made look-alikes, not affiliated.
+
+### ⚖️ Weight
+Everything weighs something (shown on the tooltip in kg), and the inventory shows what you carry.
+- Over **25 kg** you slow down, over **40 kg** you can't run (and it tires you), over **60 kg** you can't jump and you **sink** in water, over **100 kg** you can't pick anything else up.
+- Armor counts (a full iron suit is ~22 kg), a bucket of water is 11 kg, an anvil is 50 kg, an iron block 25 kg.
+- Config: `weight`.
+
+### 📦 Chests keep their stuff
+Breaking a **chest, trapped chest or barrel** doesn't spill it: everything stays inside, like picking up a real box. Place it again and it's all there. A full chest is heavy! Config: `chestsKeepItems`.
+
+### 🌊 Water isn't soft from up high
+Falling **40+ blocks** into water hurts like hitting concrete.
+
 ## 3.4.0: drones 🚁
 
 | Thing | What it does |

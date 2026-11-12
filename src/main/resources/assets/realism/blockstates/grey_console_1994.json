@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "camera=false,facing=north": {
+      "model": "realism:block/grey_console_1994"
+    },
+    "camera=true,facing=north": {
+      "model": "realism:block/grey_console_1994_camera"
+    },
+    "camera=false,facing=east": {
+      "model": "realism:block/grey_console_1994",
+      "y": 90
+    },
+    "camera=true,facing=east": {
+      "model": "realism:block/grey_console_1994_camera",
+      "y": 90
+    },
+    "camera=false,facing=south": {
+      "model": "realism:block/grey_console_1994",
+      "y": 180
+    },
+    "camera=true,facing=south": {
+      "model": "realism:block/grey_console_1994_camera",
+      "y": 180
+    },
+    "camera=false,facing=west": {
+      "model": "realism:block/grey_console_1994",
+      "y": 270
+    },
+    "camera=true,facing=west": {
+      "model": "realism:block/grey_console_1994_camera",
+      "y": 270
+    }
+  }
+}

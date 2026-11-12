@@ -1,0 +1,76 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "front": "realism:block/console/black_slab_console_2013_front",
+    "side": "realism:block/console/black_slab_console_2013_side",
+    "top": "realism:block/console/black_slab_console_2013_top",
+    "particle": "realism:block/console/black_slab_console_2013_side",
+    "cam": "realism:block/console/motion_camera"
+  },
+  "elements": [
+    {
+      "from": [
+        1,
+        0,
+        3
+      ],
+      "to": [
+        15,
+        4,
+        13
+      ],
+      "faces": {
+        "north": {
+          "texture": "#front"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "down": {
+          "texture": "#side"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        4,
+        7
+      ],
+      "to": [
+        12,
+        6,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cam"
+        },
+        "south": {
+          "texture": "#cam"
+        },
+        "east": {
+          "texture": "#cam"
+        },
+        "west": {
+          "texture": "#cam"
+        },
+        "up": {
+          "texture": "#cam"
+        },
+        "down": {
+          "texture": "#cam"
+        }
+      }
+    }
+  ]
+}

@@ -13,9 +13,9 @@ public final class RealismConfig {
     public static final ModConfigSpec.IntValue HEAVEN_MINUTES, HELL_MINUTES, DARK_MINUTES;
     /** Client settings (realism-client.toml): echo in caves, black and white vision in old times. */
     public static final ModConfigSpec CLIENT_SPEC;
-    public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION, NO_HUD, LOCK_WORLD_CREATION;
+    public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION, NO_HUD, LOCK_WORLD_CREATION, MOTION_WEBCAM;
     /** Realism 3.1: no cheating in real life. */
-    public static final ModConfigSpec.BooleanValue NO_COMMANDS, SURVIVAL_ONLY, SMOKE, KITCHEN_FIRES, FRUITS, VOMITING;
+    public static final ModConfigSpec.BooleanValue NO_COMMANDS, SURVIVAL_ONLY, SMOKE, KITCHEN_FIRES, FRUITS, VOMITING, WEIGHT, CHESTS_KEEP_ITEMS;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
@@ -85,6 +85,10 @@ public final class RealismConfig {
         FRUITS = b.comment("Leaves sometimes drop fruit (depending on the climate) and grass hides strawberries").define("fruits", true);
         VOMITING = b.comment("Food poisoning and spinning around too much make you throw up").define("vomiting", true);
         b.pop();
+        b.comment("Realism 4.0: weight and boxes").push("carrying");
+        WEIGHT = b.comment("Everything you carry weighs something: over 25 kg you slow down, over 40 kg you can't run, over 60 kg you can't jump and you sink, over 100 kg you can't pick anything up").define("weight", true);
+        CHESTS_KEEP_ITEMS = b.comment("Breaking a chest or barrel keeps the items inside it (like picking up a real box)").define("chestsKeepItems", true);
+        b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();
         ECHO = c.comment("Sounds echo in big caves and halls").define("echo", true);
@@ -93,6 +97,8 @@ public final class RealismConfig {
                 .define("noHud", true);
         LOCK_WORLD_CREATION = c.comment("Create World shows only the Game tab, with creative mode and cheats locked off")
                 .define("lockWorldCreation", true);
+        MOTION_WEBCAM = c.comment("Motion games use your real webcam (arms and head). Off until you turn it on in a console. Frames stay on your computer: nothing is saved or sent.")
+                .define("motionWebcam", false);
         CLIENT_SPEC = c.build();
     }
 

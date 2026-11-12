@@ -1,0 +1,43 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "front": "realism:block/console/slim_black_console_2000_front",
+    "side": "realism:block/console/slim_black_console_2000_side",
+    "top": "realism:block/console/slim_black_console_2000_top",
+    "particle": "realism:block/console/slim_black_console_2000_side"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        0,
+        4
+      ],
+      "to": [
+        14,
+        3,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#front"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "down": {
+          "texture": "#side"
+        }
+      }
+    }
+  ]
+}

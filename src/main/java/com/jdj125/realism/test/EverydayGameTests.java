@@ -255,4 +255,88 @@ public class EverydayGameTests {
         }
         helper.succeed();
     }
+
+    @GameTest(template = "arena", timeoutTicks = 140)
+    public static void consolesNeedPowerAndTakeAMotionCamera(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var level = helper.getLevel();
+            int curvy = 3, tower = 8;
+            helper.assertTrue(com.jdj125.realism.Consoles.MODELS.get(curvy).motion(), "the 2005 console takes a motion camera");
+            BlockPos at = p.blockPosition().offset(1, 0, 0);
+            BlockPos other = p.blockPosition().offset(-1, 0, 0);
+            level.setBlockAndUpdate(at, com.jdj125.realism.Consoles.BLOCKS_BY_MODEL.get(curvy).get().defaultBlockState());
+            level.setBlockAndUpdate(other, com.jdj125.realism.Consoles.BLOCKS_BY_MODEL.get(tower).get().defaultBlockState());
+            helper.assertFalse(com.jdj125.realism.Power.powered(level, at), "no grid = no power");
+            helper.assertTrue(com.jdj125.realism.Consoles.watts(level.getBlockState(at).getBlock()) == 120, "the console uses power");
+            for (BlockPos g : new BlockPos[]{at.below(), at.below().east()})
+                level.setBlockAndUpdate(g, com.jdj125.realism.Power.GENERATOR.get().defaultBlockState()
+                        .setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, true));
+            for (BlockPos g : new BlockPos[]{at.below(), at.below().east()})
+                if (level.getBlockEntity(g) instanceof com.jdj125.realism.Power.GeneratorEntity ge) ge.fuel = 1000;
+            helper.runAfterDelay(1, () -> {
+                var grid = com.jdj125.realism.Power.grid(level, at);
+                helper.assertTrue(grid.used() == 120 && grid.made() == 200 && grid.on(), "two generators (200 W) run the 120 W console: " + grid);
+            });
+            // The Motion Camera plugs into the 2005 console, but not into the 2020 tower.
+            var hit = new net.minecraft.world.phys.BlockHitResult(at.getCenter(), net.minecraft.core.Direction.UP, at, false);
+            p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new net.minecraft.world.item.ItemStack(com.jdj125.realism.Consoles.MOTION_CAMERA.get()));
+            level.getBlockState(at).useItemOn(p.getMainHandItem(), level, p, net.minecraft.world.InteractionHand.MAIN_HAND, hit);
+            helper.assertTrue(level.getBlockState(at).getValue(com.jdj125.realism.Consoles.CAMERA), "camera plugged in");
+            var hit2 = new net.minecraft.world.phys.BlockHitResult(other.getCenter(), net.minecraft.core.Direction.UP, other, false);
+            p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new net.minecraft.world.item.ItemStack(com.jdj125.realism.Consoles.MOTION_CAMERA.get()));
+            level.getBlockState(other).useItemOn(p.getMainHandItem(), level, p, net.minecraft.world.InteractionHand.MAIN_HAND, hit2);
+            helper.assertFalse(level.getBlockState(other).getValue(com.jdj125.realism.Consoles.CAMERA), "no camera on the tower");
+            helper.assertTrue(com.jdj125.realism.Consoles.ITEMS_BY_MODEL.size() == com.jdj125.realism.Consoles.MODELS.size(), "every console has an item");
+            helper.runAfterDelay(3, helper::succeed);
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 140)
+    public static void heavyLoadsSlowYouDown(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            p.getAbilities().instabuild = false;
+            p.getInventory().clearContent();
+            helper.assertTrue(com.jdj125.realism.Weight.apply(p) == 0, "nothing carried = no weight");
+            helper.assertTrue(p.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED)
+                    .getModifier(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Realism.MODID, "heavy_load")) == null, "not slowed");
+            float feather = com.jdj125.realism.Weight.of(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.FEATHER));
+            float iron = com.jdj125.realism.Weight.of(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.IRON_BLOCK));
+            float stone = com.jdj125.realism.Weight.of(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.STONE));
+            helper.assertTrue(feather < stone && stone < iron, "a feather < stone < an iron block (" + feather + ", " + stone + ", " + iron + ")");
+            p.getInventory().add(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.IRON_BLOCK, 3)); // 75 kg
+            p.setSprinting(true);
+            float w = com.jdj125.realism.Weight.apply(p);
+            helper.assertTrue(w > com.jdj125.realism.Weight.NO_JUMP, "3 iron blocks are heavy: " + w);
+            helper.assertFalse(p.isSprinting(), "too heavy to run");
+            helper.assertTrue(p.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED)
+                    .getModifier(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(Realism.MODID, "heavy_load")) != null, "slowed down");
+            p.getInventory().clearContent();
+            com.jdj125.realism.Weight.apply(p);
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 160)
+    public static void brokenChestsKeepTheirItems(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var level = helper.getLevel();
+            BlockPos at = p.blockPosition().offset(1, 0, 0);
+            level.setBlockAndUpdate(at, net.minecraft.world.level.block.Blocks.CHEST.defaultBlockState());
+            var chest = (net.minecraft.world.level.block.entity.ChestBlockEntity) level.getBlockEntity(at);
+            chest.setItem(0, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND, 5));
+            chest.setItem(5, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BREAD, 3));
+            p.gameMode.destroyBlock(at);
+            helper.runAfterDelay(2, () -> {
+                var drops = level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new net.minecraft.world.phys.AABB(at).inflate(2));
+                helper.assertTrue(drops.stream().noneMatch(e -> e.getItem().is(net.minecraft.world.item.Items.DIAMOND)), "the diamonds didn't spill out");
+                var box = drops.stream().filter(e -> e.getItem().is(net.minecraft.world.item.Items.CHEST)).findFirst();
+                helper.assertTrue(box.isPresent(), "the chest dropped: " + drops);
+                var inside = box.get().getItem().get(net.minecraft.core.component.DataComponents.CONTAINER);
+                helper.assertTrue(inside != null && inside.copyOne().is(net.minecraft.world.item.Items.DIAMOND), "the diamonds are still inside it");
+                helper.assertTrue(com.jdj125.realism.Weight.of(box.get().getItem()) > com.jdj125.realism.Weight.of(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.CHEST)),
+                        "a full chest weighs more than an empty one");
+                helper.succeed();
+            });
+        });
+    }
 }

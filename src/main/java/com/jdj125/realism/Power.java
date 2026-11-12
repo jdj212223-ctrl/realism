@@ -116,13 +116,15 @@ public final class Power {
         if (b == Health.MEDICAL_SCANNER.get()) return -SCANNER_W;
         if (b == Hospital.MONITOR.get()) return -MONITOR_W;
         if (b == Tech.PC_CASE.get() || Tech.MODEL_BLOCKS.stream().anyMatch(m -> m.get() == b)) return -COMPUTER_W;
+        if (Consoles.index(b) >= 0) return -Consoles.watts(b);
         return 0;
     }
 
     static boolean electrical(Level level, BlockPos pos, BlockState s) {
         Block b = s.getBlock();
         return b == CABLE.get() || b == Fire.RADIATOR.get() || b == GENERATOR.get() || b == SOLAR_PANEL.get() || b == LAMP.get() || b == Health.MEDICAL_SCANNER.get()
-                || b == Hospital.MONITOR.get() || b == Tech.PC_CASE.get() || Tech.MODEL_BLOCKS.stream().anyMatch(m -> m.get() == b);
+                || b == Hospital.MONITOR.get() || b == Tech.PC_CASE.get() || Tech.MODEL_BLOCKS.stream().anyMatch(m -> m.get() == b)
+                || Consoles.index(b) >= 0;
     }
 
     /** What a grid makes and uses. */

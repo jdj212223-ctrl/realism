@@ -1,0 +1,76 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "front": "realism:block/console/big_black_box_2001_front",
+    "side": "realism:block/console/big_black_box_2001_side",
+    "top": "realism:block/console/big_black_box_2001_top",
+    "particle": "realism:block/console/big_black_box_2001_side",
+    "cam": "realism:block/console/motion_camera"
+  },
+  "elements": [
+    {
+      "from": [
+        1,
+        0,
+        2
+      ],
+      "to": [
+        15,
+        5,
+        14
+      ],
+      "faces": {
+        "north": {
+          "texture": "#front"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "down": {
+          "texture": "#side"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        5,
+        7
+      ],
+      "to": [
+        12,
+        7,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cam"
+        },
+        "south": {
+          "texture": "#cam"
+        },
+        "east": {
+          "texture": "#cam"
+        },
+        "west": {
+          "texture": "#cam"
+        },
+        "up": {
+          "texture": "#cam"
+        },
+        "down": {
+          "texture": "#cam"
+        }
+      }
+    }
+  ]
+}

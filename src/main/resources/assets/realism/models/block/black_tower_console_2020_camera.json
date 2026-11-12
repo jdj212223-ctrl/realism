@@ -1,0 +1,76 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "front": "realism:block/console/black_tower_console_2020_front",
+    "side": "realism:block/console/black_tower_console_2020_side",
+    "top": "realism:block/console/black_tower_console_2020_top",
+    "particle": "realism:block/console/black_tower_console_2020_side",
+    "cam": "realism:block/console/motion_camera"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        0,
+        4
+      ],
+      "to": [
+        12,
+        14,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#front"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "down": {
+          "texture": "#side"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        14,
+        7
+      ],
+      "to": [
+        12,
+        16,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#cam"
+        },
+        "south": {
+          "texture": "#cam"
+        },
+        "east": {
+          "texture": "#cam"
+        },
+        "west": {
+          "texture": "#cam"
+        },
+        "up": {
+          "texture": "#cam"
+        },
+        "down": {
+          "texture": "#cam"
+        }
+      }
+    }
+  ]
+}
