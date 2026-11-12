@@ -229,7 +229,7 @@ public final class World {
     public static boolean pay(ServerPlayer from, ServerPlayer to, long amount) {
         if (amount <= 0 || balance(from) < amount || from == to) return false;
         addMoney(from, -amount);
-        addMoney(to, amount);
+        addMoney(to, Wave3.taxed(from, amount)); // 4.3: sales tax goes to your country
         return true;
     }
 

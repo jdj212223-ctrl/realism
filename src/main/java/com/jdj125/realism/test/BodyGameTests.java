@@ -284,16 +284,18 @@ public class BodyGameTests {
         withPlayer(helper, leader -> {
             @SuppressWarnings("removal") ServerPlayer friend = helper.makeMockServerPlayerInLevel();
             World.Data data = World.Data.get(leader.serverLevel());
+            data.countries.keySet().removeIf(k -> k.startsWith("testland")); // leftovers from an earlier failed run
             String name = "Testland" + leader.getId();
             World.Country c = new World.Country(name, leader.getUUID());
             c.tax = 20;
             c.flags.add(leader.blockPosition());
             data.countries.put(name.toLowerCase(), c);
-            helper.assertTrue(data.countryAt(leader.blockPosition()) == c, "the flag claims the land around it");
+            helper.assertTrue(data.countryAt(leader.blockPosition()) == c, "the flag claims the land around it (found " + (data.countryAt(leader.blockPosition()) == null ? "none" : data.countryAt(leader.blockPosition()).name + " flags=" + data.countryAt(leader.blockPosition()).flags) + ", countries=" + data.countries.keySet() + ")");
             helper.assertTrue(data.countryAt(leader.blockPosition().offset(200, 0, 200)) != c, "but not far away");
             long kept = World.earn(leader, 100);
             helper.assertTrue(kept == 80 && c.treasury == 20 && World.balance(leader) == 80, "20% tax goes to the treasury");
-            helper.assertTrue(World.pay(leader, friend, 30) && World.balance(friend) == 30 && World.balance(leader) == 50, "paying moves money");
+            helper.assertTrue(World.pay(leader, friend, 30) && World.balance(friend) == 24 && World.balance(leader) == 50 && c.treasury == 26,
+                    "paying moves money (4.3: minus 20% sales tax to the treasury)");
             helper.assertFalse(World.pay(leader, friend, 999), "you can't pay more than you have");
             helper.assertFalse(data.signal(leader.blockPosition().offset(5000, 0, 5000)), "no tower = no signal");
             data.towers.add(leader.blockPosition());

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "realism:workbench"
+    "realism:workbench",
+    "realism:school_desk"
   ]
 }

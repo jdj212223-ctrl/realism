@@ -72,6 +72,9 @@ public class Body implements INBTSerializable<CompoundTag> {
     public int germs, ringing;
     public long born = Long.MIN_VALUE, hairCut = Long.MIN_VALUE;
     public int birthday;
+    /** 4.3: school (0-100) and who you're married to (a UUID, or empty). */
+    public int education;
+    public String spouse = "";
 
     @Override
     public CompoundTag serializeNBT(HolderLookup.Provider provider) {
@@ -123,6 +126,8 @@ public class Body implements INBTSerializable<CompoundTag> {
         t.putLong("born", born);
         t.putLong("hairCut", hairCut);
         t.putInt("birthday", birthday);
+        t.putInt("education", education);
+        t.putString("spouse", spouse);
         return t;
     }
 
@@ -175,5 +180,7 @@ public class Body implements INBTSerializable<CompoundTag> {
         born = t.contains("born") ? t.getLong("born") : Long.MIN_VALUE;
         hairCut = t.contains("hairCut") ? t.getLong("hairCut") : Long.MIN_VALUE;
         birthday = t.getInt("birthday");
+        education = t.getInt("education");
+        spouse = t.getString("spouse");
     }
 }

@@ -17,7 +17,8 @@ public final class RealismConfig {
     /** Realism 3.1: no cheating in real life. */
     public static final ModConfigSpec.BooleanValue NO_COMMANDS, SURVIVAL_ONLY, SMOKE, KITCHEN_FIRES, FRUITS, VOMITING, WEIGHT, CHESTS_KEEP_ITEMS,
             FOOD_SPOILS, SUNBURN, ALLERGIES, TREES_FALL, SLIPPERY_ICE, WET_CLOTHES,
-            GERMS, AGING, OLD_AGE_DEATH, RINGING_EARS, MOSQUITOES, TORCHES_BURN_OUT, WARM_CLOTHES, HAIR;
+            GERMS, AGING, OLD_AGE_DEATH, RINGING_EARS, MOSQUITOES, TORCHES_BURN_OUT, WARM_CLOTHES, HAIR,
+            CAR_CRASHES, EARTHQUAKES, DOG_WALKS, WEDDINGS, ELECTIONS, TAX_EVERYTHING, JET_LAG, TORNADO_DANGER;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
@@ -108,6 +109,16 @@ public final class RealismConfig {
         TORCHES_BURN_OUT = b.comment("Torches you place burn out after 3 Minecraft days (lanterns don't)").define("torchesBurnOut", true);
         WARM_CLOTHES = b.comment("Leather clothes keep you warm; out in the snow at night without them you can catch the flu").define("warmClothes", true);
         HAIR = b.comment("Hair grows: after 10 days it's messy; sneak-use shears on yourself or use them on a friend for a haircut").define("hair", true);
+        b.pop();
+        b.comment("Realism 4.3: real life, wave 3, and tornadoes (with ProtoManly's Weather)").push("reallife3");
+        CAR_CRASHES = b.comment("Hitting a wall fast in a car hurts: cuts, bleeding, broken legs").define("carCrashes", true);
+        EARTHQUAKES = b.comment("Now and then an earthquake: the screen shakes, glass breaks, sand and gravel slide").define("earthquakes", true);
+        DOG_WALKS = b.comment("Tamed dogs need a walk every 2 days or they get sad (and so do you)").define("dogWalks", true);
+        WEDDINGS = b.comment("Propose with a Wedding Ring; the other player crouches to say yes").define("weddings", true);
+        ELECTIONS = b.comment("Every 20 days each country elects its leader from /vote").define("elections", true);
+        TAX_EVERYTHING = b.comment("Payments between players (/pay, phone) are taxed by the payer's country").define("taxEverything", true);
+        JET_LAG = b.comment("Crossing thousands of blocks quickly gives you jet lag for a day").define("jetLag", true);
+        TORNADO_DANGER = b.comment("With ProtoManly's Weather: tornado debris injures you, basements and Interceptors vehicles keep you safe, phones warn you").define("tornadoDanger", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

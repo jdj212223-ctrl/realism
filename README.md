@@ -213,6 +213,31 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.3.0: tornadoes 🌪️ and real life, wave 3 🌍
+
+### 🌪️ Tornadoes (with ProtoManly's Weather)
+PMWeather makes the (very realistic) tornadoes; Realism makes them dangerous like real ones. Works great with **Interceptors**. Without PMWeather nothing changes.
+- **Flying debris** inside a tornado: cuts and bleeding, worse the stronger it is (EF0-EF5), and broken legs in EF3+.
+- **Shelter:** a basement (3+ blocks of ground over your head) or an **Interceptors vehicle** keeps you safe. A house protects against weak tornadoes, not EF3 and up.
+- **Heavy loads** (over 60 kg) keep your feet on the ground: the wind lifts you much less.
+- **Tornado Warning** on your **Phone** when a tornado is within 1500 blocks (strength, wind, distance, direction).
+- **Tornado Siren** (iron, note block, redstone): needs power, wails when a tornado is within 1500 blocks.
+
+### 🌍 Real life, wave 3
+| Real life | What happens |
+|---|---|
+| 🚗 Car crashes | Hit a wall fast in a car: you get hurt, may bleed, and very fast crashes can break your legs. |
+| 🌋 Earthquakes | About every 10 days: the screen shakes, glass breaks, sand and gravel slide. Magnitude 4-6. |
+| 🐕 Dog walks | Your tamed dogs need a walk (300 blocks together) every 2 days, or they whine and you feel bad. A walk makes you both happy. |
+| 📰 Newspapers | Paper, paper, ink sac = 3. Read today's headlines: deaths, weddings, graduations, elections, earthquakes, crashes, tornadoes. |
+| 🏫 School | Study at a **School Desk** with a book. 50 = high-school diploma (+20% pay), 100 = university degree (+50% pay). |
+| 💍 Weddings | Use a **Wedding Ring** (diamond + gold) on someone; they **crouch** next to you to say yes. Being near your husband or wife makes you happy. |
+| 🗳️ Elections | `/vote <player>` for your country's leader. Every 20 days the votes are counted (2 votes minimum) and the winner leads. |
+| 🧾 Taxes on everything | Money you pay other players is taxed by your country (sales tax to the treasury). |
+| 🌙 Jet lag | Cross thousands of blocks in a minute (teleports, the Nether) and you're tired and slow for a day. |
+
+Each one can be turned off in the `[reallife3]` config.
+
 ## 4.2.0: real life, wave 2 🌍
 
 | Real life | What happens |

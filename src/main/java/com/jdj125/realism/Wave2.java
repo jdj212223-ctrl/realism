@@ -158,7 +158,7 @@ public final class Wave2 {
             int ticks = (int) (20 * (10 - d) * 3); // up to 30 seconds right next to it
             Body b = BodyEvents.body(p);
             b.ringing = Math.max(b.ringing, ticks);
-            PacketDistributor.sendToPlayer(p, new Ringing(b.ringing));
+            if (p.connection != null && p.connection.hasChannel(Ringing.TYPE)) PacketDistributor.sendToPlayer(p, new Ringing(b.ringing));
             say(p, "ringing");
         }
     }

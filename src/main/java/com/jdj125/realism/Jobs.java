@@ -61,7 +61,7 @@ public final class Jobs {
     /** Today's pay before tax. */
     public static long wage(Player p) {
         Integer rate = PAY.get(p.getData(JOB));
-        return rate == null ? 0 : Math.min(DAILY_CAP, (long) rate * p.getData(WORK));
+        return rate == null ? 0 : Math.min(DAILY_CAP, (long) (rate * p.getData(WORK) * Wave3.payBonus(p)));
     }
 
     /** Payday: the day's wage (taxed by your country), then a fresh day. Returns what was paid. */

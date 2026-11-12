@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "particle": "realism:block/tornado_siren_side",
+    "side": "realism:block/tornado_siren_side",
+    "top": "realism:block/tornado_siren_top",
+    "front": "realism:block/tornado_siren_side"
+  }
+}

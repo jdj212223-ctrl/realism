@@ -118,6 +118,7 @@ public final class Power {
         if (b == Tech.PC_CASE.get() || Tech.MODEL_BLOCKS.stream().anyMatch(m -> m.get() == b)) return -COMPUTER_W;
         if (Consoles.index(b) >= 0) return -Consoles.watts(b);
         if (b == RealLife.FRIDGE.get()) return -RealLife.FRIDGE_W;
+        if (b == Wave3.SIREN.get()) return -Wave3.SIREN_W;
         return 0;
     }
 
@@ -125,7 +126,7 @@ public final class Power {
         Block b = s.getBlock();
         return b == CABLE.get() || b == Fire.RADIATOR.get() || b == GENERATOR.get() || b == SOLAR_PANEL.get() || b == LAMP.get() || b == Health.MEDICAL_SCANNER.get()
                 || b == Hospital.MONITOR.get() || b == Tech.PC_CASE.get() || Tech.MODEL_BLOCKS.stream().anyMatch(m -> m.get() == b)
-                || Consoles.index(b) >= 0 || b == RealLife.FRIDGE.get();
+                || Consoles.index(b) >= 0 || b == RealLife.FRIDGE.get() || b == Wave3.SIREN.get();
     }
 
     /** What a grid makes and uses. */

@@ -437,4 +437,58 @@ public class EverydayGameTests {
         com.jdj125.realism.Wave2.Torches.get(level).put(at, level.getGameTime() - 24000L * 4); // lit 4 days ago
         helper.succeedWhen(() -> helper.assertTrue(level.getBlockState(at).isAir(), "the old torch burned out"));
     }
+
+    @GameTest(template = "arena", timeoutTicks = 160)
+    public static void tornadoDebrisHurtsButBasementsAreSafe(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var level = helper.getLevel();
+            var t = new com.jdj125.realism.Tornadoes.Twister(42, p.position(), 180, 60); // an EF4 right on top of you
+            helper.assertTrue(t.ef() == 4, "180 mph is EF4");
+            helper.assertFalse(com.jdj125.realism.Tornadoes.sheltered(p, t), "out in the open = not safe");
+            float before = p.getHealth();
+            com.jdj125.realism.Tornadoes.debris(p, t);
+            helper.assertTrue(p.getHealth() < before, "debris hurts");
+            // A basement: 4 blocks of stone overhead.
+            BlockPos at = p.blockPosition();
+            for (int y = 1; y <= 4; y++) for (int dx = -1; dx <= 1; dx++) for (int dz = -1; dz <= 1; dz++)
+                level.setBlockAndUpdate(at.offset(dx, y + 1, dz), net.minecraft.world.level.block.Blocks.STONE.defaultBlockState());
+            helper.assertTrue(com.jdj125.realism.Tornadoes.sheltered(p, t), "a basement keeps you safe");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 160)
+    public static void wave3SchoolWeddingsTaxesAndNews(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var b = com.jdj125.realism.BodyEvents.body(p);
+            helper.assertTrue(com.jdj125.realism.Wave3.payBonus(p) == 1.0, "no school, normal pay");
+            b.education = 45;
+            b.funCooldown = 0;
+            com.jdj125.realism.Wave3.study(p);
+            helper.assertTrue(b.education == 50 && com.jdj125.realism.Wave3.payBonus(p) == 1.2, "a high-school diploma pays 20% more");
+            // A second (mock) player to marry.
+            var q = helper.makeMockServerPlayerInLevel();
+            q.moveTo(p.getX() + 1, p.getY(), p.getZ());
+            com.jdj125.realism.Wave3.marry(p, q);
+            helper.assertTrue(b.spouse.equals(q.getUUID().toString()), "married");
+            // Sales tax: a country with 10% tax keeps 10 of every 100 paid.
+            var data = com.jdj125.realism.World.Data.get(p.serverLevel());
+            var c = new com.jdj125.realism.World.Country("Testland", p.getUUID());
+            c.citizens.add(q.getUUID());
+            data.countries.put(c.name, c);
+            helper.assertTrue(com.jdj125.realism.Wave3.taxed(p, 100) == 90 && c.treasury == 10, "10% sales tax to the treasury");
+            // An election: two votes for q make q the leader.
+            helper.assertTrue(com.jdj125.realism.Wave3.vote(p, q).equals("ok") && com.jdj125.realism.Wave3.vote(q, q).equals("ok"), "votes counted");
+            com.jdj125.realism.Wave3.countVotes(p.serverLevel());
+            helper.assertTrue(c.leader.equals(q.getUUID()), "q won the election");
+            data.countries.remove(c.name);
+            // An earthquake and a car crash make the news.
+            com.jdj125.realism.Wave3.earthquake(p.serverLevel(), p.blockPosition(), 2);
+            com.jdj125.realism.Wave3.crash(p, 0.9);
+            var news = com.jdj125.realism.Wave3.News.get(p.server).lines;
+            helper.assertTrue(news.stream().anyMatch(l -> l.contains("|quake|")) && news.stream().anyMatch(l -> l.contains("|wedding|")), "it's all in the paper");
+            com.jdj125.realism.Wave3.read(p);
+            helper.succeed();
+        });
+    }
 }
