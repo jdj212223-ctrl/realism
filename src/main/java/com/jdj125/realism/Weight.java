@@ -77,6 +77,7 @@ public final class Weight {
     }
 
     private static float base(ItemStack s, Item i) {
+        if (Diabolical.full(s)) return Diabolical.FULL_BAG_KG; // 4.7: a body bag with someone in it
         if (i instanceof ArmorItem a) {
             float per = switch (a.getType()) {
                 case HELMET -> 0.25f;

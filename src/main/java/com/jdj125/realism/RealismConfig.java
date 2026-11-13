@@ -20,7 +20,7 @@ public final class RealismConfig {
             GERMS, AGING, OLD_AGE_DEATH, RINGING_EARS, MOSQUITOES, TORCHES_BURN_OUT, WARM_CLOTHES, HAIR,
             CAR_CRASHES, EARTHQUAKES, DOG_WALKS, WEDDINGS, ELECTIONS, TAX_EVERYTHING, JET_LAG, TORNADO_DANGER,
             TRANSIT, RESTAURANTS, ADOPTION, TV_NEWS, WILDFIRES, STORM_OUTAGES,
-            LOANS, EMERGENCY_911, CHORES, FLOODS, LIBRARIES, SNACK_SECURITY;
+            LOANS, EMERGENCY_911, CHORES, FLOODS, LIBRARIES, SNACK_SECURITY, NO_HAND_WOOD, HIDING_BODIES;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
@@ -137,6 +137,10 @@ public final class RealismConfig {
         FLOODS = b.comment("Thunderstorms flood low ground near rivers, beaches and swamps (the water drains after)").define("floods", true);
         LIBRARIES = b.comment("Read at bookshelves to learn (more next to 10+ shelves: a library)").define("libraries", true);
         SNACK_SECURITY = b.comment("Snack Cabinets up high make you climb (and maybe slip); Security Cameras record the fails").define("snackSecurity", true);
+        b.pop();
+        b.comment("Realism 4.7: diabolical").push("diabolical");
+        NO_HAND_WOOD = b.comment("Logs need an axe (start with a Flint Hatchet: leaves drop sticks, gravel drops flint more often)").define("noHandWood", true);
+        HIDING_BODIES = b.comment("Body Bags move remains; witnesses report it; bodies smell; evidence fades after days").define("hidingBodies", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

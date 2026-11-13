@@ -862,5 +862,19 @@
   "realism.snack.clip.snack_fail": "%s climbed the counter for snacks and fell off (%s min ago) 🤣",
   "realism.snack.clip.snack_thief": "%s was caught raiding someone else's snacks (%s min ago) 👀",
   "realism.snack.clip.ice_fail": "%s slipped on the ice (%s min ago) 😂",
-  "realism.life3.news.caught_on_camera": "Caught on camera: %s fell off the counter going for snacks!"
+  "realism.life3.news.caught_on_camera": "Caught on camera: %s fell off the counter going for snacks!",
+  "item.realism.flint_hatchet": "Flint Hatchet",
+  "item.realism.body_bag": "Body Bag",
+  "item.realism.body_bag.tip": "Use it on remains to bag them up.",
+  "item.realism.body_bag.full": "Someone is inside. Heavy! Use it on the ground to put them down.",
+  "realism.diabolical.need_axe": "You can't break wood with your hands. Find flint and sticks and make a Flint Hatchet.",
+  "realism.diabolical.bagged": "You zipped the body into the bag...",
+  "realism.diabolical.put_down": "You put the body down.",
+  "realism.diabolical.hidden": "The body is hidden underground... for now.",
+  "realism.diabolical.witness": "You saw %s put a body in a bag!",
+  "realism.diabolical.smell": "Something nearby smells awful...",
+  "realism.diabolical.smell_buried": "Something under the ground here smells awful...",
+  "realism.crime.hiding_body": "hiding a body",
+  "realism.forensics.prints_faded": "Too much time has passed: any fingerprints are gone.",
+  "realism.forensics.too_old": "These remains are too old: no evidence is left."
 }

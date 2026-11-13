@@ -213,6 +213,20 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.7.0: diabolical 😈
+
+### 🌲 No breaking wood with your hands
+Logs need an **axe**. Punching a tree does nothing (and hurts). To get started: **leaves** sometimes drop **sticks**, **gravel** drops **flint** more often, and a **Flint Hatchet** (flint over a stick, fits in your inventory grid) chops your first tree. Config: `noHandWood`.
+
+### 🕵️ Hiding a body
+- A **Body Bag** (3 leather + black dye) picks up **remains**. A full bag weighs **70 kg**, so carrying it is slow and tiring.
+- Use it on the ground to put the body down somewhere else, like **underground**.
+- Anyone who **sees** you bag a body reports it: **"hiding a body"** goes on your record.
+- **Bodies smell** from half a day to 10 days after death, even buried ("something under the ground here smells awful..."), so people walking by can find them.
+- **Evidence fades**: after **3 days** the Forensics Kit finds no fingerprints, after **7 days** not even the cause of death.
+
+Config: `hidingBodies`.
+
 ## 4.6.0: the Snack Security System 🍪📹
 
 - **Snack Cabinet** (planks around a cookie): holds 9 stacks of food, nothing else. Hang it up high! One block above your head is fine; two blocks up, you have to stretch off the counter for it, and you might **slip and crash to the floor** (35% each try). Three blocks up, you just can't reach.

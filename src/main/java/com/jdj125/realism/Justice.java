@@ -285,7 +285,16 @@ public final class Justice {
             if (level.isClientSide || ctx.getPlayer() == null) return InteractionResult.SUCCESS;
             Player p = ctx.getPlayer();
             p.displayClientMessage(Component.translatable("realism.forensics.title", r.name.isEmpty() ? "?" : r.name), false);
+            String left = Diabolical.evidence(level, r); // 4.7: evidence fades with time
+            if (left.equals("too_old")) {
+                p.displayClientMessage(Component.translatable("realism.forensics.too_old"), false);
+                return InteractionResult.CONSUME;
+            }
             p.displayClientMessage(Component.translatable("realism.forensics.cause", Component.translatable("realism.forensics.cause." + r.cause)), false);
+            if (left.equals("no_prints")) {
+                p.displayClientMessage(Component.translatable("realism.forensics.prints_faded"), false);
+                return InteractionResult.CONSUME;
+            }
             if (!r.weapon.isEmpty())
                 p.displayClientMessage(Component.translatable("realism.forensics.weapon",
                         Component.translatable(net.minecraft.core.registries.BuiltInRegistries.ITEM.get(net.minecraft.resources.ResourceLocation.parse(r.weapon)).getDescriptionId())), false);
@@ -368,6 +377,7 @@ public final class Justice {
             r.cause = b.collapseCause.isEmpty() && !byPlayer ? "unknown" : causeKey(b.collapseCause, byPlayer);
             r.killer = byPlayer ? b.attackerName : "";
             r.weapon = byPlayer ? b.attackerWeapon : "";
+            r.died = level.getGameTime();
             r.setChanged();
         }
     }
@@ -417,6 +427,8 @@ public final class Justice {
 
     public static class RemainsEntity extends BlockEntity {
         public String name = "", cause = "unknown", killer = "", weapon = "";
+        /** 4.7: when they died (game time), so evidence can fade; Long.MIN_VALUE if unknown. */
+        public long died = Long.MIN_VALUE;
 
         public RemainsEntity(BlockPos pos, BlockState state) {
             super(REMAINS_ENTITY.get(), pos, state);
@@ -429,6 +441,7 @@ public final class Justice {
             tag.putString("cause", cause);
             tag.putString("killer", killer);
             tag.putString("weapon", weapon);
+            tag.putLong("died", died);
         }
 
         @Override
@@ -438,6 +451,7 @@ public final class Justice {
             cause = tag.contains("cause") ? tag.getString("cause") : "unknown";
             killer = tag.getString("killer");
             weapon = tag.getString("weapon");
+            died = tag.contains("died") ? tag.getLong("died") : Long.MIN_VALUE;
         }
     }
 

@@ -755,5 +755,14 @@
   "realism.snack.clip.snack_fail": "%s vylezl na linku pro sladkosti a spadl (před %s min) 🤣",
   "realism.snack.clip.snack_thief": "%s byl přistižen, jak vybírá cizí sladkosti (před %s min) 👀",
   "realism.snack.clip.ice_fail": "%s uklouzl na ledu (před %s min) 😂",
-  "realism.life3.news.caught_on_camera": "Zachyceno kamerou: %s spadl z linky, když lezl pro sladkosti!"
+  "realism.life3.news.caught_on_camera": "Zachyceno kamerou: %s spadl z linky, když lezl pro sladkosti!",
+  "item.realism.flint_hatchet": "Pazourková sekerka",
+  "item.realism.body_bag": "Pytel na tělo",
+  "realism.diabolical.need_axe": "Dřevo rukama nerozbiješ. Najdi pazourek a klacky a vyrob si pazourkovou sekerku.",
+  "realism.diabolical.witness": "Viděl jsi, jak %s dává tělo do pytle!",
+  "realism.diabolical.smell": "Něco poblíž strašně zapáchá...",
+  "realism.diabolical.smell_buried": "Něco tady pod zemí strašně zapáchá...",
+  "realism.crime.hiding_body": "ukrývání těla",
+  "realism.forensics.prints_faded": "Uplynulo moc času: otisky prstů už zmizely.",
+  "realism.forensics.too_old": "Ostatky jsou moc staré: žádné důkazy nezůstaly."
 }

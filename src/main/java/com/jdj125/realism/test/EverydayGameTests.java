@@ -384,6 +384,7 @@ public class EverydayGameTests {
             BlockPos house = helper.absolutePos(new BlockPos(7, 0, 7));
             for (int y = 0; y < 3; y++) level.setBlockAndUpdate(house.above(y), net.minecraft.world.level.block.Blocks.OAK_LOG.defaultBlockState());
             helper.assertTrue(com.jdj125.realism.RealLife.trunk(level, house).isEmpty(), "a log wall isn't a tree");
+            p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.IRON_AXE)); // 4.7: logs need an axe
             p.gameMode.destroyBlock(base);
             helper.assertTrue(level.getBlockState(base.above(4)).isAir(), "the whole trunk came down");
             for (BlockPos q : BlockPos.betweenClosed(base.offset(-1, 0, -1), base.offset(1, 6, 1))) level.setBlockAndUpdate(q, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
@@ -582,6 +583,46 @@ public class EverydayGameTests {
             helper.assertTrue(clips != null && clips.stream().anyMatch(c -> c.contains("|snack_fail|")), "the camera caught it");
             com.jdj125.realism.SnackSecurity.watch(p, cam);
             level.removeBlock(cam, false);
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 160)
+    public static void diabolicalNoHandWoodAndHidingBodies(GameTestHelper helper) {
+        withPlayer(helper, p -> {
+            var level = helper.getLevel();
+            BlockPos floor = helper.absolutePos(new BlockPos(4, 0, 4));
+            p.moveTo(floor.getX() + 0.5, floor.getY(), floor.getZ() + 0.5);
+            // Bare hands can't break a log; a flint hatchet can.
+            BlockPos log = floor.offset(2, 0, 0);
+            level.setBlockAndUpdate(log, net.minecraft.world.level.block.Blocks.OAK_LOG.defaultBlockState());
+            p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, net.minecraft.world.item.ItemStack.EMPTY);
+            helper.assertFalse(com.jdj125.realism.Diabolical.canChop(p), "no axe = can't chop");
+            p.gameMode.destroyBlock(log);
+            helper.assertTrue(level.getBlockState(log).is(net.minecraft.world.level.block.Blocks.OAK_LOG), "the log is still there");
+            p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new net.minecraft.world.item.ItemStack(com.jdj125.realism.Diabolical.FLINT_HATCHET.get()));
+            helper.assertTrue(com.jdj125.realism.Diabolical.canChop(p), "the flint hatchet chops");
+            p.gameMode.destroyBlock(log);
+            helper.assertTrue(level.getBlockState(log).isAir(), "chopped");
+            // Remains: bag them up, carry them (70 kg), put them down elsewhere.
+            BlockPos at = floor.offset(-2, 0, 0);
+            level.setBlockAndUpdate(at, com.jdj125.realism.Justice.REMAINS.get().defaultBlockState());
+            var r = (com.jdj125.realism.Justice.RemainsEntity) level.getBlockEntity(at);
+            r.name = "Victim"; r.killer = "Suspect"; r.cause = "player"; r.died = level.getGameTime();
+            var bag = new net.minecraft.world.item.ItemStack(com.jdj125.realism.Diabolical.BODY_BAG.get());
+            helper.assertTrue(com.jdj125.realism.Diabolical.bagUp(p, level, at, r, bag), "bagged");
+            helper.assertTrue(level.getBlockState(at).isAir() && com.jdj125.realism.Diabolical.full(bag), "the remains are in the bag");
+            helper.assertTrue(com.jdj125.realism.Weight.of(bag) == com.jdj125.realism.Diabolical.FULL_BAG_KG, "a full body bag is heavy");
+            BlockPos away = floor.offset(-2, 0, 3);
+            helper.assertTrue(com.jdj125.realism.Diabolical.putDown(p, level, away, bag), "put down");
+            var moved = (com.jdj125.realism.Justice.RemainsEntity) level.getBlockEntity(away);
+            helper.assertTrue(moved.name.equals("Victim") && moved.killer.equals("Suspect"), "the evidence came along");
+            helper.assertTrue(com.jdj125.realism.Diabolical.evidence(level, moved).equals("all"), "fresh: all the evidence");
+            moved.died = level.getGameTime() - 24000L * 4;
+            helper.assertTrue(com.jdj125.realism.Diabolical.evidence(level, moved).equals("no_prints"), "4 days later the prints are gone");
+            moved.died = level.getGameTime() - 24000L * 8;
+            helper.assertTrue(com.jdj125.realism.Diabolical.evidence(level, moved).equals("too_old"), "8 days later nothing is left");
+            level.removeBlock(away, false);
             helper.succeed();
         });
     }
