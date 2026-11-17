@@ -1041,5 +1041,9 @@
   "realism.phoneos.scan_file.bricker": "🔍 Scan of %s: BRICKER! %s",
   "realism.phoneos.scan_file.spyware": "🔍 Scan of %s: SPYWARE! %s",
   "realism.phoneos.scan_file.adware": "🔍 Scan of %s: ADWARE! %s",
-  "realism.phoneos.scan_file.broken": "🔍 Scan of %s: broken app. %s"
+  "realism.phoneos.scan_file.broken": "🔍 Scan of %s: broken app. %s",
+  "realism.phoneos.app_drone": "🛸 %s: battery %s%%, %s m away, propellers: %s",
+  "realism.phoneos.props_ok": "OK",
+  "realism.phoneos.props_chipped": "CHIPPED (replace them!)",
+  "realism.phoneos.props_none": "MISSING"
 }

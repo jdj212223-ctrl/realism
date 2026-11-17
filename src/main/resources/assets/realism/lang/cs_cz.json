@@ -929,5 +929,9 @@
   "realism.phoneos.scan_file.bricker": "🔍 Kontrola %s: BRICKER! %s",
   "realism.phoneos.scan_file.spyware": "🔍 Kontrola %s: SPYWARE! %s",
   "realism.phoneos.scan_file.adware": "🔍 Kontrola %s: ADWARE! %s",
-  "realism.phoneos.scan_file.broken": "🔍 Kontrola %s: poškozená aplikace. %s"
+  "realism.phoneos.scan_file.broken": "🔍 Kontrola %s: poškozená aplikace. %s",
+  "realism.phoneos.app_drone": "🛸 %s: baterie %s%%, %s m daleko, vrtule: %s",
+  "realism.phoneos.props_ok": "v pořádku",
+  "realism.phoneos.props_chipped": "POŠKOZENÉ (vyměň je!)",
+  "realism.phoneos.props_none": "CHYBÍ"
 }

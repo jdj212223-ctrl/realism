@@ -53,6 +53,14 @@ public class PhoneAppsGameTests {
     }
 
     @GameTest(template = "arena", timeoutTicks = 120)
+    public static void droneStatusNeedsTheDronesPermission(GameTestHelper helper) {
+        JsonObject app = json("{\"screens\":{\"main\":{\"title\":\"DroneFly\",\"buttons\":[{\"label\":\"Status\",\"do\":[\"drone_status\",\"rth\"]}]}}}");
+        helper.assertTrue(PhoneApps.scan(json("{\"name\":\"DroneFly\",\"version\":\"1.0\",\"permissions\":[\"drones\"]}"), app).clean(), "DroneFly with the drones permission is clean");
+        helper.assertFalse(PhoneApps.scan(json("{\"name\":\"DroneFly\",\"version\":\"1.0\"}"), app).clean(), "without it, it's refused");
+        helper.succeed();
+    }
+
+    @GameTest(template = "arena", timeoutTicks = 120)
     public static void theStoreRefusesABricker(GameTestHelper helper) {
         ItemStack phone = new ItemStack(World.PHONE.get());
         helper.assertTrue(PhoneApps.install(phone, BOOST_M, BOOST, "store").equals("phoneos.app_rejected"), "a store install of a bricker is refused");

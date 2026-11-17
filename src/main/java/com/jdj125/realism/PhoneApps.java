@@ -44,7 +44,7 @@ import java.util.zip.ZipInputStream;
  * <p>
  * A phone .appp is a zip with {@code manifest.json} (name, version, author, description, permissions: location, files,
  * drones) and {@code app.json} (screens with a title, text lines and buttons; each button runs actions; plus an
- * optional background timer). Actions: say, toast, sound ding|chime|pling|bell, open &lt;screen&gt;, fun, rth,
+ * optional background timer). Actions: say, toast, sound ding|chime|pling|bell, open &lt;screen&gt;, fun, rth, drone_status,
  * location, share_location, delete &lt;path&gt;, ad &lt;text&gt;.
  * <p>
  * Two ways to get apps:
@@ -136,7 +136,7 @@ public final class PhoneApps {
                         if (background) { bad.add("adware: pop-up ads in the background"); if (kind.equals("clean")) kind = "adware"; }
                         else warn.add("shows an ad when you press it");
                     }
-                    case "rth" -> { if (!perms.contains("drones")) bad.add("broken: drones without the drones permission"); }
+                    case "rth", "drone_status" -> { if (!perms.contains("drones")) bad.add("broken: drones without the drones permission"); }
                     case "say", "toast", "sound", "open", "fun" -> {
                     }
                     default -> bad.add("broken: unknown action " + verb);
@@ -271,6 +271,17 @@ public final class PhoneApps {
                     if (PhoneOS.service(phone, PhoneOS.DRONE))
                         for (Drone.Flyer d : p.serverLevel().getEntitiesOfClass(Drone.Flyer.class, p.getBoundingBox().inflate(400), d -> p.getUUID().equals(d.owner)))
                             if (d.pilot == null) d.returning = true;
+                }
+                case "drone_status" -> {
+                    List<Drone.Flyer> mine = PhoneOS.service(phone, PhoneOS.DRONE) ? p.serverLevel().getEntitiesOfClass(Drone.Flyer.class,
+                            p.getBoundingBox().inflate(400), d -> p.getUUID().equals(d.owner)) : List.of();
+                    if (!PhoneOS.service(phone, PhoneOS.DRONE)) p.sendSystemMessage(Component.translatable("realism.phoneos.no_droned").withStyle(ChatFormatting.RED));
+                    else if (mine.isEmpty()) p.sendSystemMessage(Component.translatable("realism.phoneos.no_drones").withStyle(ChatFormatting.GRAY));
+                    for (Drone.Flyer d : mine)
+                        p.sendSystemMessage(Component.translatable("realism.phoneos.app_drone", Component.translatable("item.realism." + d.model().id),
+                                d.battery() * 100 / Math.max(1, d.maxBattery()), (int) p.distanceTo(d),
+                                Component.translatable(d.hasProps() ? (d.chipped ? "realism.phoneos.props_chipped" : "realism.phoneos.props_ok") : "realism.phoneos.props_none"))
+                                .withStyle(ChatFormatting.AQUA));
                 }
                 case "location" -> p.sendSystemMessage(Component.translatable("realism.phoneos.app_location", p.blockPosition().getX(), p.blockPosition().getY(), p.blockPosition().getZ()).withStyle(ChatFormatting.AQUA));
                 case "share_location" -> {
