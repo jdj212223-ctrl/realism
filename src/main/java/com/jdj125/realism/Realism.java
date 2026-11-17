@@ -134,6 +134,7 @@ public class Realism {
         NeoForge.EVENT_BUS.addListener(Era::commands);
         NeoForge.EVENT_BUS.addListener(Justice::commands);
         NeoForge.EVENT_BUS.addListener(World::commands);
+        NeoForge.EVENT_BUS.addListener(PhoneApps::commands);
         NeoForge.EVENT_BUS.addListener(RealismCommand::register);
     }
 

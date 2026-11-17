@@ -182,6 +182,13 @@ public final class PhoneOS {
         return kind == BRICKER ? "phoneos.installed_bricker" : "phoneos.installed";
     }
 
+    /** A file list as NBT. */
+    public static ListTag fileList(List<String> files) {
+        ListTag list = new ListTag();
+        files.forEach(s -> list.add(StringTag.valueOf(s)));
+        return list;
+    }
+
     /** What's installed from outside the store, by kind. */
     static boolean hasApp(ItemStack phone, int kind) {
         return has(phone, APPS + SIDELOAD_APPS[kind]);
@@ -199,7 +206,11 @@ public final class PhoneOS {
                     d -> p.getUUID().equals(d.owner)))
                 drones.add(d.model().id + ":" + d.battery() * 100 / Math.max(1, d.maxBattery()) + ":" + (int) p.distanceTo(d) + ":" + (d.hasProps() ? (d.chipped ? "chipped" : "ok") : "none"));
         }
-        sb.append("drones=").append(String.join(",", drones));
+        sb.append("drones=").append(String.join(",", drones)).append(';');
+        // Realism 4.12: .appp apps, the open app screen and the App Store list.
+        sb.append("apps=").append(String.join(",", PhoneApps.installed(phone).keySet())).append(';');
+        sb.append("view=").append(PhoneApps.view(p, phone)).append(';');
+        sb.append("store=").append(PhoneApps.storeList(p));
         return sb.toString();
     }
 
@@ -215,6 +226,8 @@ public final class PhoneOS {
             save(phone, os);
             p.displayClientMessage(Component.translatable("realism.phoneos.water").withStyle(ChatFormatting.RED), false);
         }
+        if (!bricked(phone).isEmpty()) return;
+        PhoneApps.second(p);
         if (!bricked(phone).isEmpty()) return;
         if (hasApp(phone, ADWARE) && p.getRandom().nextInt(150) == 0) {
             p.displayClientMessage(Component.translatable("realism.phoneos.ad." + p.getRandom().nextInt(4)).withStyle(ChatFormatting.LIGHT_PURPLE), true);
@@ -273,6 +286,8 @@ public final class PhoneOS {
                 player.displayClientMessage(Component.translatable("realism.phoneos.need_phone"), true);
                 return InteractionResultHolder.fail(pkg);
             }
+            // Realism 4.12: a package made from a real .appp file (/appp sideload).
+            if (player instanceof ServerPlayer sp && PhoneApps.useFilePackage(sp, pkg, phone)) return InteractionResultHolder.consume(pkg);
             int kind = kind(pkg, player.getRandom());
             if (player.isShiftKeyDown()) {
                 // The scanner: says what it really is.
@@ -304,6 +319,15 @@ public final class PhoneOS {
         ItemStack phone = phoneOf(p);
         if (phone.isEmpty() || !bricked(phone).isEmpty()) return;
         String key;
+        // Realism 4.12: .appp apps and the App Store refresh the phone themselves.
+        if (action.equals("store")) { PhoneApps.store(p); return; }
+        if (action.startsWith("get ")) { PhoneApps.get(p, action.substring(4)); return; }
+        if (action.startsWith("app ")) { PhoneApps.open(p, action.substring(4)); return; }
+        if (action.startsWith("tap ")) {
+            String[] t = action.substring(4).split(String.valueOf(PhoneApps.FIELD));
+            if (t.length == 3) try { PhoneApps.tap(p, t[0], t[1], Integer.parseInt(t[2])); } catch (NumberFormatException ignored) { }
+            return;
+        }
         if (action.startsWith("delete ")) key = delete(phone, action.substring(7));
         else if (action.equals("dev on") || action.equals("dev off")) {
             setDeveloperMode(phone, action.endsWith("on"));

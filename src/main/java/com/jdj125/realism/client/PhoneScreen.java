@@ -1,6 +1,7 @@
 package com.jdj125.realism.client;
 
 import com.jdj125.realism.Bullying;
+import com.jdj125.realism.PhoneApps;
 import com.jdj125.realism.PhoneOS;
 import com.jdj125.realism.World;
 import net.minecraft.client.Minecraft;
@@ -23,7 +24,7 @@ import java.util.Map;
  * drones) and any sideloaded apps.
  */
 public class PhoneScreen extends Screen {
-    private enum Mode {BOOT, HOME, APPS, FILES, SETTINGS, SKYPILOT, BRICKED}
+    private enum Mode {BOOT, HOME, APPS, FILES, SETTINGS, SKYPILOT, BRICKED, STORE, APP}
 
     private final World.OpenPhone info;
     private final String[] contacts;
@@ -90,6 +91,87 @@ public class PhoneScreen extends Screen {
             case FILES -> files(x, y);
             case SETTINGS -> settings(x, y);
             case SKYPILOT -> skyPilot(x, y);
+            case STORE -> store(x, y);
+            case APP -> app(x, y);
+        }
+    }
+
+    // ---- Realism 4.12: .appp apps ----
+
+    private static final String FIELD = String.valueOf(PhoneApps.FIELD), ITEM = String.valueOf(PhoneApps.ITEM);
+
+    private static String[] parts(String s, String sep) {
+        return s.isEmpty() ? new String[0] : s.split(sep, -1);
+    }
+
+    /** The open app screen: name, screen id, title, lines, button labels (from the server). */
+    private String[] view() {
+        String[] v = parts(os.getOrDefault("view", ""), FIELD);
+        return v.length == 5 ? v : null;
+    }
+
+    private void store(int x, int y) {
+        String list = os.getOrDefault("store", "");
+        int row = y + 40;
+        if (!list.startsWith("!"))
+            for (String item : parts(list, ITEM)) {
+                String[] a = parts(item, FIELD);
+                if (a.length < 6 || row > y + 150) continue;
+                String id = a[0];
+                boolean have = os.getOrDefault("apps", "").contains(a[1]);
+                addRenderableWidget(Button.builder(Component.literal((have ? "✓ " : "⬇ ") + a[1] + " " + a[2]), b -> action("get " + id))
+                        .tooltip(net.minecraft.client.gui.components.Tooltip.create(Component.literal(a[1] + " by " + a[3] + "\n" + a[5]
+                                + (a[4].isEmpty() ? "" : "\nPermissions: " + a[4]))))
+                        .bounds(x + 8, row, 104, 16).build());
+                row += 20;
+            }
+        addRenderableWidget(Button.builder(Component.translatable("realism.phoneos.store_refresh"), b -> action("store")).bounds(x + 8, y + 160, 104, 14).build());
+        back(x + 8, y + 182);
+    }
+
+    private void app(int x, int y) {
+        String[] v = view();
+        if (v != null) {
+            String[] labels = parts(v[4], ITEM);
+            int row = y + 178 - 18 * labels.length - 4;
+            for (int i = 0; i < labels.length; i++) {
+                int idx = i;
+                addRenderableWidget(Button.builder(Component.literal(labels[i]), b -> action("tap " + v[0] + FIELD + v[1] + FIELD + idx))
+                        .bounds(x + 8, row, 104, 16).build());
+                row += 18;
+            }
+        }
+        back(x + 8, y + 182);
+    }
+
+    private void drawStore(GuiGraphics g, int x, int y) {
+        title(g, x, y, "realism.phoneos.app.store");
+        String list = os.getOrDefault("store", "");
+        String status = switch (list) {
+            case "", "!loading" -> "realism.phoneos.store_loading";
+            case "!offline" -> "realism.phoneos.store_offline";
+            case "!empty" -> "realism.phoneos.store_empty";
+            default -> "realism.phoneos.store_scanned";
+        };
+        wrap(g, Component.translatable(status), x + 6, y + 16, 108, list.startsWith("!") && !list.equals("!loading") ? 0xFFFF7070 : 0xFF8FE08F);
+    }
+
+    private void drawApp(GuiGraphics g, int x, int y) {
+        String[] v = view();
+        if (v == null) {
+            title(g, x, y, "realism.phoneos.apps");
+            wrap(g, Component.translatable("realism.phoneos.store_loading"), x + 6, y + 20, 108, 0xFFDDDDDD);
+            return;
+        }
+        g.fill(x, y, x + 120, y + 12, 0xFF0F1626);
+        g.drawCenteredString(font, Component.literal(v[2].isEmpty() ? v[0] : v[2]), x + 60, y + 2, 0xFFFFFFFF);
+        int row = y + 18;
+        for (String line : parts(v[3], ITEM)) {
+            for (var l : font.split(Component.literal(line), 108)) {
+                if (row > y + 100) break;
+                g.drawString(font, l, x + 6, row, 0xFFDDDDDD, false);
+                row += 10;
+            }
         }
     }
 
@@ -138,6 +220,12 @@ public class PhoneScreen extends Screen {
         if (has(PhoneOS.APPS + "Files")) row = appButton(x, row, "realism.phoneos.app.files", () -> go(Mode.FILES));
         if (has(PhoneOS.APPS + "Settings")) row = appButton(x, row, "realism.phoneos.app.settings", () -> go(Mode.SETTINGS));
         if (has(PhoneOS.APPS + "SkyPilot")) row = appButton(x, row, "realism.phoneos.app.skypilot", () -> go(Mode.SKYPILOT));
+        row = appButton(x, row, "realism.phoneos.app.store", () -> { go(Mode.STORE); action("store"); });
+        for (String name : parts(os.getOrDefault("apps", ""), ",")) {
+            if (row > y + 160) break;
+            addRenderableWidget(Button.builder(Component.literal("📱 " + name), b -> { go(Mode.APP); action("app " + name); }).bounds(x + 8, row, 104, 16).build());
+            row += 20;
+        }
         if (has(PhoneOS.APPS + PhoneOS.SIDELOAD_APPS[PhoneOS.FINE])) row = appButton(x, row, "realism.phoneos.app.blockdash", () -> action("play"));
         for (int k = PhoneOS.ADWARE; k <= PhoneOS.BRICKER; k++)
             if (has(PhoneOS.APPS + PhoneOS.SIDELOAD_APPS[k])) {
@@ -233,6 +321,8 @@ public class PhoneScreen extends Screen {
                 wrap(g, Component.translatable("realism.phoneos.dev_info"), x + 6, y + 52, 108, 0xFFDDDDDD);
             }
             case SKYPILOT -> drawSkyPilot(g, x, y);
+            case STORE -> drawStore(g, x, y);
+            case APP -> drawApp(g, x, y);
         }
     }
 

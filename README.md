@@ -213,6 +213,24 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.12.0: real apps for RealismPhoneOS (.appp) 📲
+
+App Packages are now a real app format, and the phone has an **App Store**.
+
+- **`.appp` = a phone app**: a zip with `manifest.json` (name, version, author, description, permissions: `location`,
+  `files`, `drones`) and `app.json` (screens with a title, text and buttons; each button runs actions: `say`, `toast`,
+  `sound`, `open <screen>`, `fun`, `rth`, `location`, `share_location`, `delete <path>`, `ad`; plus an optional
+  background timer). Examples: `/Volumes/important/appp/examples/`.
+- **App Store** (on every phone): lists the apps on the **appp server** (`appStoreUrl` in the server config, default
+  `http://127.0.0.1:8787`). The server only lists apps that passed its scan, and the phone scans again before installing.
+- **The scan** (store and phone use the same rules): **bricker** (deletes realboot, realkernel, realism-launchd or system
+  files), **spyware** (your location without asking, or in the background), **adware** (ads in the background),
+  **broken** (unknown actions, too big).
+- **Sideloading for real**: put `.appp` files in the world folder's `realism_sideload/`, then `/appp list` and
+  `/appp sideload <file>` give you an App Package. Sneak + use = scan it, use = install (Developer Mode). Nobody stops a
+  sideloaded bricker: press its button and your phone really bricks (restore at a computer).
+- Deleting `/Apps/<name>` in the Files app uninstalls an app. The old random App Packages still work.
+
 ## 4.11.0: RealismPhoneOS 📱
 
 Your phone now runs its own (pretend) operating system, and every phone keeps its own files.

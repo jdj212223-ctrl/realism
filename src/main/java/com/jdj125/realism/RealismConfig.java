@@ -23,6 +23,7 @@ public final class RealismConfig {
             LOANS, EMERGENCY_911, CHORES, FLOODS, LIBRARIES, SNACK_SECURITY, NO_HAND_WOOD, HIDING_BODIES,
             TRAITS, DEPRESSION_TRAIT, BULLYING;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
+    public static final ModConfigSpec.ConfigValue<String> APP_STORE_URL;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
     static {
@@ -144,6 +145,7 @@ public final class RealismConfig {
         HIDING_BODIES = b.comment("Body Bags move remains; witnesses report it; bodies smell; evidence fades after days").define("hidingBodies", true);
         b.pop();
         b.comment("Realism 4.8: who you are").push("traits");
+        APP_STORE_URL = b.comment("RealismPhoneOS App Store: the appp server the phone's App Store app downloads apps from").define("appStoreUrl", "http://127.0.0.1:8787");
         TRAITS = b.comment("Pick one trait on your first join (perks and flaws); a Change Trait item lets you pick again").define("traits", true);
         DEPRESSION_TRAIT = b.comment("Offer the 'Living With Depression' trait (bad days, low energy; friends, sunlight and therapy help). Never any self-harm.").define("depressionTrait", true);
         BULLYING = b.comment("Bully NPCs at school and in towns; tell your family or call the helpline to make it stop").define("bullying", true);
