@@ -49,7 +49,7 @@ import java.util.zip.ZipInputStream;
  * <p>
  * Two ways to get apps:
  * <ul>
- * <li><b>App Store</b> (an app on every phone): lists the apps on the appp server (config {@code appStoreUrl}). The
+ * <li><b>App Store</b> (an app on every phone): lists the apps on the appp server (config {@code appStoreUrl}, by default the live store on Cloudflare). The
  * server only lists apps that passed its scan, and the phone scans again before installing.</li>
  * <li><b>Sideloading</b>: put .appp files in the world folder's {@code realism_sideload/}; {@code /appp sideload <file>}
  * gives an App Package for it. Needs Developer Mode, and nobody checks it: a bricker really bricks your phone when

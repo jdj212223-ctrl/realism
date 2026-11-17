@@ -221,8 +221,8 @@ App Packages are now a real app format, and the phone has an **App Store**.
   `files`, `drones`) and `app.json` (screens with a title, text and buttons; each button runs actions: `say`, `toast`,
   `sound`, `open <screen>`, `fun`, `rth`, `location`, `share_location`, `delete <path>`, `ad`; plus an optional
   background timer). Examples: `/Volumes/important/appp/examples/`.
-- **App Store** (on every phone): lists the apps on the **appp server** (`appStoreUrl` in the server config, default
-  `http://127.0.0.1:8787`). The server only lists apps that passed its scan, and the phone scans again before installing.
+- **App Store** (on every phone): lists the apps on the **appp server** (`appStoreUrl` in the server config, default the live store
+  https://appp-store.jdj212223.workers.dev). The server only lists apps that passed its scan, and the phone scans again before installing.
 - **The scan** (store and phone use the same rules): **bricker** (deletes realboot, realkernel, realism-launchd or system
   files), **spyware** (your location without asking, or in the background), **adware** (ads in the background),
   **broken** (unknown actions, too big).
