@@ -104,6 +104,11 @@ public final class Life {
             b.lifeStage |= 2;
             say(p, "bladder_full");
         }
+        if (b.bladder >= 90) {
+            // 4.9: really need to go: no running, and walking is slower.
+            p.setSprinting(false);
+            p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30, 0, true, false));
+        }
         if (b.bladder >= 100) accident(p, b);
         if (b.teeth < 25 && p.tickCount % (60 * 20) == 0) {
             Mind.lift(p, -3);
@@ -116,6 +121,7 @@ public final class Life {
         b.bladder = 0;
         b.lifeStage &= ~2;
         b.hygiene = Math.max(0, b.hygiene - 50);
+        b.wet = 5 * 60 * 20; // 4.9: your pants stay dark and wet for a while
         Mind.lift(p, -15);
         p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 0, true, false));
         p.displayClientMessage(Component.translatable("realism.life.accident"), false);
@@ -125,6 +131,7 @@ public final class Life {
         Body b = BodyEvents.body(p);
         b.hygiene = 100;
         b.germs = 0;
+        b.wet = 0;
         b.lifeStage &= ~1;
         p.clearFire();
         Mind.lift(p, 3);

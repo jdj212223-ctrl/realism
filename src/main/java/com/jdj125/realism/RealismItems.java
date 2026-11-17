@@ -94,6 +94,7 @@ public final class RealismItems {
                         return false;
                     }
                     b.bleeding = 0;
+                    b.bandaged = (int) Math.min(Integer.MAX_VALUE, RealismConfig.dayTicks() * 2);
                     patient.displayClientMessage(Component.translatable("realism.bandage.done"), true);
                 }
                 case TOURNIQUET -> {

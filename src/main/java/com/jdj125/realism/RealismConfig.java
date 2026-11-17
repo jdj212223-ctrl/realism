@@ -13,7 +13,7 @@ public final class RealismConfig {
     public static final ModConfigSpec.IntValue HEAVEN_MINUTES, HELL_MINUTES, DARK_MINUTES;
     /** Client settings (realism-client.toml): echo in caves, black and white vision in old times. */
     public static final ModConfigSpec CLIENT_SPEC;
-    public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION, NO_HUD, LOCK_WORLD_CREATION, MOTION_WEBCAM;
+    public static final ModConfigSpec.BooleanValue ECHO, OLD_TIMES_VISION, NO_HUD, LOCK_WORLD_CREATION, MOTION_WEBCAM, SKIN_VISUALS, MILD_VISUALS;
     /** Realism 3.1: no cheating in real life. */
     public static final ModConfigSpec.BooleanValue NO_COMMANDS, SURVIVAL_ONLY, SMOKE, KITCHEN_FIRES, FRUITS, VOMITING, WEIGHT, CHESTS_KEEP_ITEMS,
             FOOD_SPOILS, SUNBURN, ALLERGIES, TREES_FALL, SLIPPERY_ICE, WET_CLOTHES,
@@ -158,6 +158,9 @@ public final class RealismConfig {
                 .define("lockWorldCreation", true);
         MOTION_WEBCAM = c.comment("Motion games use your real webcam (arms and head). Off until you turn it on in a console. Frames stay on your computer: nothing is saved or sent.")
                 .define("motionWebcam", false);
+        SKIN_VISUALS = c.comment("See injuries on players' skin: wounds, bandages, bruises, burns, pale faces, eye bags, sweat, wet pants")
+                .define("skinVisuals", true);
+        MILD_VISUALS = c.comment("Mild look: bandages, bruises and colour only, no cuts or blood on the skin").define("mildVisuals", false);
         CLIENT_SPEC = c.build();
     }
 

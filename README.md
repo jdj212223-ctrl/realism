@@ -213,6 +213,29 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.9.0: you can see it 🩹
+
+Injuries now show **on your skin**, and everyone nearby can see them:
+
+| What happened | What it looks like |
+|---|---|
+| 🩸 Bleeding | cuts on your arm and leg (more and bigger when it's worse) |
+| 🩹 Bandaged | a white bandage on your arm and leg (for 2 days) |
+| 🔗 Tourniquet | a dark strap on your upper arm |
+| 🦴 Broken leg | a white cast |
+| 💪 Torn muscle | a beige wrap on your arm |
+| 🟣 Bruise | from falls and hits: **red** at first, then **purple**, then **yellow** as it heals (3 days) |
+| 🔥 Burn | a red patch on your hand (darker for worse burns) |
+| 🥶 Frostbite | pale blue fingers |
+| 😶 Lost blood | a pale face and hands |
+| 😴 No sleep | dark eye bags |
+| 💦 Exhausted | sweat drops |
+| 👖 Bladder accident | **dark, wet pants** for a few minutes (they dry faster in the sun; a shower fixes it right away) |
+
+Also: when you **really** need the toilet (90%), you can't run and you walk slower.
+
+Client settings: `skinVisuals` (on/off) and `mildVisuals` (bandages and colour only, no cuts).
+
 ## 4.8.0: who you are 🎭
 
 ### 🎭 Traits

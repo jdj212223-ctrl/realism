@@ -22,6 +22,14 @@ public final class LifeRenderers {
         event.registerBlockEntityRenderer(Hospital.MONITOR_ENTITY.get(), MonitorRenderer::new);
     }
 
+    /** 4.9: injuries on every player's skin. */
+    @SubscribeEvent
+    public static void addLayers(EntityRenderersEvent.AddLayers event) {
+        for (var skin : event.getSkins()) {
+            if (event.getSkin(skin) instanceof net.minecraft.client.renderer.entity.player.PlayerRenderer r) r.addLayer(new SkinLayer(r));
+        }
+    }
+
     @SubscribeEvent
     public static void layers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(AmbulanceRenderer.LAYER, AmbulanceRenderer.VanModel::create);
