@@ -275,6 +275,8 @@ public final class Era {
     public static void handleChoice(ServerPlayer p, int year, String country) {
         if (p.getServer() == null || !mayChoose(p) || Data.get(p.getServer()).chosen) return;
         choose(p.getServer(), year <= YEAR_0 ? YEAR_0 : TODAY, country);
+        // Realism 4.8: everyone online who hasn't picked a trait yet gets the trait screen now.
+        p.getServer().getPlayerList().getPlayers().forEach(Traits::prompt);
     }
 
     @SubscribeEvent

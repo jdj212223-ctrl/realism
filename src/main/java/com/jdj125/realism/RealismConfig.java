@@ -20,7 +20,8 @@ public final class RealismConfig {
             GERMS, AGING, OLD_AGE_DEATH, RINGING_EARS, MOSQUITOES, TORCHES_BURN_OUT, WARM_CLOTHES, HAIR,
             CAR_CRASHES, EARTHQUAKES, DOG_WALKS, WEDDINGS, ELECTIONS, TAX_EVERYTHING, JET_LAG, TORNADO_DANGER,
             TRANSIT, RESTAURANTS, ADOPTION, TV_NEWS, WILDFIRES, STORM_OUTAGES,
-            LOANS, EMERGENCY_911, CHORES, FLOODS, LIBRARIES, SNACK_SECURITY, NO_HAND_WOOD, HIDING_BODIES;
+            LOANS, EMERGENCY_911, CHORES, FLOODS, LIBRARIES, SNACK_SECURITY, NO_HAND_WOOD, HIDING_BODIES,
+            TRAITS, DEPRESSION_TRAIT, BULLYING;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
 
@@ -141,6 +142,11 @@ public final class RealismConfig {
         b.comment("Realism 4.7: diabolical").push("diabolical");
         NO_HAND_WOOD = b.comment("Logs need an axe (start with a Flint Hatchet: leaves drop sticks, gravel drops flint more often)").define("noHandWood", true);
         HIDING_BODIES = b.comment("Body Bags move remains; witnesses report it; bodies smell; evidence fades after days").define("hidingBodies", true);
+        b.pop();
+        b.comment("Realism 4.8: who you are").push("traits");
+        TRAITS = b.comment("Pick one trait on your first join (perks and flaws); a Change Trait item lets you pick again").define("traits", true);
+        DEPRESSION_TRAIT = b.comment("Offer the 'Living With Depression' trait (bad days, low energy; friends, sunlight and therapy help). Never any self-harm.").define("depressionTrait", true);
+        BULLYING = b.comment("Bully NPCs at school and in towns; tell your family or call the helpline to make it stop").define("bullying", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

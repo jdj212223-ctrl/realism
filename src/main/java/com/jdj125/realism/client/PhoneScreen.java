@@ -54,7 +54,11 @@ public class PhoneScreen extends Screen {
             PacketDistributor.sendToServer(new World.CallFire());
             onClose();
         }).bounds(x + 61, y + 62, 51, 14).build());
-        addRenderableWidget(Button.builder(Component.translatable("realism.phone.close"), b -> onClose()).bounds(x + 30, y + 176, 60, 16).build());
+        addRenderableWidget(Button.builder(Component.translatable("realism.phone.helpline"), b -> {
+            PacketDistributor.sendToServer(new com.jdj125.realism.Bullying.CallHelpline());
+            onClose();
+        }).bounds(x + 8, y + 158, 104, 16).build());
+        addRenderableWidget(Button.builder(Component.translatable("realism.phone.close"), b -> onClose()).bounds(x + 30, y + 178, 60, 16).build());
     }
 
     private void send() {

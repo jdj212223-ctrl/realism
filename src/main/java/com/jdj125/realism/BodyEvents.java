@@ -109,6 +109,8 @@ public final class BodyEvents {
         Justice.second(p, b);
         Rescue.second(p, b);
         Life.second(p, b);
+        Traits.second(p, b);
+        Bullying.second(p);
         if (b.unconscious > 0) b.unconscious = Math.max(0, b.unconscious - 20);
     }
 

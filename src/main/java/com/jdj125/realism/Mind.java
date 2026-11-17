@@ -150,6 +150,7 @@ public final class Mind {
             if (level.isClientSide) return InteractionResultHolder.success(stack);
             if (therapy) {
                 lift(player, 40);
+                Traits.therapy(player);
                 player.displayClientMessage(Component.translatable("realism.therapy.done"), false);
                 stack.consume(1, player);
                 return InteractionResultHolder.consume(stack);

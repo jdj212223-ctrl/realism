@@ -88,6 +88,8 @@ public class Realism {
         Wave4.register(modBus);
         Wave5.register(modBus);
         SnackSecurity.register(modBus);
+        Traits.register(modBus);
+        Bullying.register(modBus);
         Diabolical.register(modBus);
         Jobs.register(modBus);
         Cars.register(modBus);
@@ -122,6 +124,8 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Wave4.class);
         NeoForge.EVENT_BUS.register(Wave5.class);
         NeoForge.EVENT_BUS.register(Diabolical.class);
+        NeoForge.EVENT_BUS.register(Traits.class);
+        NeoForge.EVENT_BUS.register(Bullying.class);
         NeoForge.EVENT_BUS.addListener(Fire::commands);
         NeoForge.EVENT_BUS.addListener(Jobs::commands);
         NeoForge.EVENT_BUS.addListener(Era::commands);
@@ -143,6 +147,13 @@ public class Realism {
         r.playToClient(BodySync.TYPE, BodySync.CODEC, (payload, ctx) -> BodySync.latest = payload);
         r.playToClient(LifeSync.TYPE, LifeSync.CODEC, (payload, ctx) -> LifeSync.latest = payload);
         r.playToClient(Afterlife.Judgment.TYPE, Afterlife.Judgment.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.AfterlifeClient.start(payload)));
+        r.playToClient(Traits.OpenTraits.TYPE, Traits.OpenTraits.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> com.jdj125.realism.client.TraitScreen.open(payload.depression())));
+        r.playToServer(Traits.ChooseTrait.TYPE, Traits.ChooseTrait.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Traits.handleChoice(sp, payload.id());
+        }));
+        r.playToServer(Bullying.CallHelpline.TYPE, Bullying.CallHelpline.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Bullying.helpline(sp);
+        }));
         r.playToClient(Era.OpenChoice.TYPE, Era.OpenChoice.CODEC, (payload, ctx) -> ctx.enqueueWork(com.jdj125.realism.client.EraScreen::open));
         r.playToServer(Era.Choose.TYPE, Era.Choose.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Era.handleChoice(sp, payload.year(), payload.country());

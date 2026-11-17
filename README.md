@@ -213,6 +213,32 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.8.0: who you are 🎭
+
+### 🎭 Traits
+On your first join (right after the world's era is picked) you choose **ONE trait**. It stays with you, even after you die. A **Change Trait** item (single use) lets you pick again.
+
+| Trait | ✅ Perk | ❌ Flaw |
+|---|---|---|
+| 🙂 The Average Joe | none | none (good for learning the mod) |
+| 🩹 Paramedic | light bleeding stops sooner, blood comes back faster | seeing someone bleed badly makes you woozy |
+| 🚁 Drone Pilot | drones fly 50% further, batteries last 50% longer | motion-sick in fast cars and boats |
+| 🌙 Night Shift Worker | you need much less sleep at night | daylight wears you out |
+| 🍖 Iron Stomach | food poisoning never sticks | you get thirsty faster |
+| 🌧️ Living With Depression | friends, sunlight and therapy really help; every therapy session makes bad days rarer | some days are "bad days": your mood sinks and your energy is low |
+| 😰 Anxious | you sense danger before you see it | panic attacks when you're hurt or low and danger is close (crouch to breathe) |
+
+Living With Depression is handled with care: it's shown as a real illness that gets better with help. There is never any self-harm. Server owners can turn it off.
+
+### 🏫 Bullying
+A villager kid at school (or someone in a busy village) can start picking on you: mean words, shoving, **stealing your stuff**, leaving you out. Each time, your mood drops. How it stops, like real life:
+- 👥 **Friends**: another player standing next to you makes the bully back off. Three times and they give up.
+- 🧑‍🏫 **Telling a grown-up** (crouch + right-click with an empty hand): **teachers** (librarians) and **school counselors** (clerics) have a hidden attitude. Most just say *"ignore them"*, some make it **worse** by telling the bully who reported, and only a few really help. Other grown-ups help about half the time. Keep trying.
+- 📱 **The helpline** on your phone: anonymous, always answers, always does something.
+- When it stops, the bully gives back everything they took. The police don't handle normal bullying.
+
+Config section `[traits]`: `traits`, `depressionTrait`, `bullying`.
+
 ## 4.7.0: diabolical 😈
 
 ### 🌲 No breaking wood with your hands

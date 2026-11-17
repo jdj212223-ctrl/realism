@@ -86,7 +86,7 @@ public final class Drone {
             Vec3 at = Vec3.atBottomCenterOf(ctx.getClickedPos().relative(ctx.getClickedFace()));
             Flyer d = new Flyer(TYPE.get(), sl);
             d.setFpv(fpv);
-            d.setBattery(fpv ? FPV_BATTERY : CAMERA_BATTERY);
+            d.setBattery(Traits.droneBattery(ctx.getPlayer(), fpv ? FPV_BATTERY : CAMERA_BATTERY));
             if (ctx.getPlayer() != null) {
                 d.owner = ctx.getPlayer().getUUID();
                 d.setYRot(ctx.getPlayer().getYRot());
@@ -200,7 +200,7 @@ public final class Drone {
             super.tick();
             if (level().isClientSide) return; // the server moves it; positions arrive every tick
             ServerPlayer p = pilot();
-            if (p != null && (!p.isAlive() || p.distanceTo(this) > RANGE || p.level() != level())) {
+            if (p != null && (!p.isAlive() || p.distanceTo(this) > Traits.droneRange(p) || p.level() != level())) {
                 p.displayClientMessage(Component.translatable("realism.drone.signal_lost").withStyle(ChatFormatting.RED), true);
                 stopFlying(p);
                 p = null;
@@ -312,7 +312,7 @@ public final class Drone {
             return;
         }
         boolean hasController = p.getMainHandItem().is(CONTROLLER.get()) || p.getOffhandItem().is(CONTROLLER.get());
-        if (!hasController || p.distanceTo(d) > RANGE || (d.owner != null && !d.owner.equals(p.getUUID())) || (d.pilot != null && !d.pilot.equals(p.getUUID()))) {
+        if (!hasController || p.distanceTo(d) > Traits.droneRange(p) || (d.owner != null && !d.owner.equals(p.getUUID())) || (d.pilot != null && !d.pilot.equals(p.getUUID()))) {
             Pilot.tell(p, -1);
             return;
         }

@@ -328,6 +328,7 @@ public final class Wave3 {
         b.funCooldown = 20 * 60;
         int before = b.education;
         b.education = Math.min(100, b.education + 5);
+        Bullying.atSchool(p);
         say(p, "school.studied", b.education);
         if (before < 50 && b.education >= 50) {
             p.displayClientMessage(Component.translatable("realism.life3.school.high_school").withStyle(ChatFormatting.AQUA), false);
