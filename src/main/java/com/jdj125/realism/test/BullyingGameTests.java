@@ -48,6 +48,7 @@ public class BullyingGameTests {
         withPlayer(helper, p -> {
             Bullying.start(p, villager(helper, VillagerProfession.NONE, 0));
             helper.assertTrue(Bullying.bullied(p), "the kid should start bullying");
+            p.getInventory().add(new ItemStack(com.jdj125.realism.World.PHONE.get())); // the helpline needs a working phone
             Bullying.helpline(p);
             helper.assertFalse(Bullying.bullied(p), "the helpline always makes it stop");
             helper.succeed();

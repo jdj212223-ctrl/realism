@@ -213,6 +213,18 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.11.0: RealismPhoneOS 📱
+
+Your phone now runs its own (pretend) operating system, and every phone keeps its own files.
+
+**Booting:** `realboot` → `realkernel` → **`realism-launchd`** (the first program, it starts everything else) → the services: `telephonyd` (calls and texts), `droned` (drones), `bankd` (your balance), `springboard` (the home screen). You see it boot, line by line.
+
+**Apps:** 📁 **Files** (see and delete files... carefully), ⚙ **Settings** (Developer Mode), 🚁 **SkyPilot** (your drones' battery, distance and propellers, and a "return all home" button).
+
+**🧱 Bricking:** delete `realboot`, `realkernel` or `realism-launchd` (the Files app asks twice for system files) and the phone won't start: a black screen, a kernel panic or a boot loop. Delete just one service and only that part breaks (no `telephonyd` = no calls, no `bankd` = no balance, no `springboard` = no home screen). **Swimming with your phone** soaks it too. **Fix:** sneak + right-click a computer (PC case or any computer) with the phone: a full restore (your apps and settings are wiped).
+
+**📲 Sideloading:** craft an **App Package (.appp)** (paper + redstone). Turn on **Developer Mode** in Settings, then use the package to install it. **Sneak + use it first to scan it!** It might be a fun game (BlockDash: play it for mood), **adware** (scammy pop-up ads), **spyware** (it tells other players where you are) or a **bricker** ("optimizing your phone!" deletes `realism-launchd`).
+
 ## 4.10.0: drones, for real 🚁
 
 ### Five drones (our own designs)

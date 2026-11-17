@@ -90,6 +90,7 @@ public class Realism {
         SnackSecurity.register(modBus);
         Traits.register(modBus);
         Bullying.register(modBus);
+        PhoneOS.register(modBus);
         Diabolical.register(modBus);
         Jobs.register(modBus);
         Cars.register(modBus);
@@ -127,6 +128,7 @@ public class Realism {
         NeoForge.EVENT_BUS.register(Traits.class);
         NeoForge.EVENT_BUS.register(Bullying.class);
         NeoForge.EVENT_BUS.register(BodyLook.class);
+        NeoForge.EVENT_BUS.register(PhoneOS.class);
         NeoForge.EVENT_BUS.addListener(Fire::commands);
         NeoForge.EVENT_BUS.addListener(Jobs::commands);
         NeoForge.EVENT_BUS.addListener(Era::commands);
@@ -153,6 +155,9 @@ public class Realism {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Traits.handleChoice(sp, payload.id());
         }));
         r.playToClient(BodyLook.Look.TYPE, BodyLook.Look.CODEC, (payload, ctx) -> com.jdj125.realism.client.SkinLayer.LOOKS.put(payload.entity(), payload.flags()));
+        r.playToServer(PhoneOS.Action.TYPE, PhoneOS.Action.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) PhoneOS.handle(sp, payload.action());
+        }));
         r.playToServer(Bullying.CallHelpline.TYPE, Bullying.CallHelpline.CODEC, (payload, ctx) -> ctx.enqueueWork(() -> {
             if (ctx.player() instanceof net.minecraft.server.level.ServerPlayer sp) Bullying.helpline(sp);
         }));

@@ -112,6 +112,7 @@ public final class BodyEvents {
         Traits.second(p, b);
         Bullying.second(p);
         BodyLook.second(p, b);
+        PhoneOS.second(p);
         if (b.unconscious > 0) b.unconscious = Math.max(0, b.unconscious - 20);
     }
 

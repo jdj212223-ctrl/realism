@@ -236,7 +236,8 @@ public final class Fire {
 
     /** Calling the fire department: every firefighter online hears where. You need a phone and signal. */
     public static String callFireDepartment(ServerPlayer caller) {
-        if (!caller.getInventory().contains(new ItemStack(World.PHONE.get()))) return "phone.none";
+        if (PhoneOS.phoneOf(caller).isEmpty()) return "phone.none";
+        if (!PhoneOS.canCall(caller)) return "phoneos.no_service";
         if (!World.Data.get(caller.serverLevel()).signal(caller.blockPosition())) return "phone.no_signal";
         BlockPos at = caller.blockPosition();
         int told = 0;

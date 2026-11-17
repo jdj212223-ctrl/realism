@@ -135,7 +135,7 @@ public final class Tornadoes {
         double d = flat(t.position(), p.position());
         if (SEEN.add(t.id())) Wave3.headline(p.server, "tornado", t.ef());
         // Warnings on the phone
-        if (d < 1500 && p.getInventory().contains(new net.minecraft.world.item.ItemStack(World.PHONE.get()))
+        if (d < 1500 && PhoneOS.canCall(p)
                 && WARNED.computeIfAbsent(p.getUUID(), u -> new HashSet<>()).add(t.id())) {
             p.displayClientMessage(Component.translatable("realism.tornado.warning", "EF" + t.ef(), t.windspeed(), (int) d,
                     compass(t.position().subtract(p.position()))).withStyle(ChatFormatting.RED, ChatFormatting.BOLD), false);

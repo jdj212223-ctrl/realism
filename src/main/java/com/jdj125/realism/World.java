@@ -335,21 +335,28 @@ public final class World {
         @Override
         public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
             ItemStack stack = player.getItemInHand(hand);
-            if (!level.isClientSide && player instanceof ServerPlayer sp) {
-                Data d = Data.get(sp.serverLevel());
-                Country c = d.countryOf(sp.getUUID());
-                List<String> contacts = sp.server.getPlayerList().getPlayers().stream().filter(o -> o != sp).map(o -> o.getGameProfile().getName()).toList();
-                PacketDistributor.sendToPlayer(sp, new OpenPhone(d.signal(sp.blockPosition()), balance(sp), c == null ? "" : c.name, String.join(",", contacts)));
-            }
+            if (!level.isClientSide && player instanceof ServerPlayer sp) openPhone(sp);
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
         }
     }
 
-    public record OpenPhone(boolean signal, long balance, String country, String contacts) implements CustomPacketPayload {
+    /** Opens (or refreshes) the phone screen, with RealismPhoneOS's state (4.11). */
+    public static void openPhone(ServerPlayer sp) {
+        ItemStack phone = PhoneOS.phoneOf(sp);
+        if (phone.isEmpty() || !sp.connection.hasChannel(OpenPhone.TYPE)) return;
+        Data d = Data.get(sp.serverLevel());
+        Country c = d.countryOf(sp.getUUID());
+        List<String> contacts = sp.server.getPlayerList().getPlayers().stream().filter(o -> o != sp).map(o -> o.getGameProfile().getName()).toList();
+        long balance = PhoneOS.service(phone, PhoneOS.BANK) ? balance(sp) : -1;
+        PacketDistributor.sendToPlayer(sp, new OpenPhone(d.signal(sp.blockPosition()), balance, c == null ? "" : c.name, String.join(",", contacts),
+                PhoneOS.summary(sp, phone)));
+    }
+
+    public record OpenPhone(boolean signal, long balance, String country, String contacts, String os) implements CustomPacketPayload {
         public static final Type<OpenPhone> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Realism.MODID, "open_phone"));
         public static final StreamCodec<ByteBuf, OpenPhone> CODEC = StreamCodec.composite(ByteBufCodecs.BOOL, OpenPhone::signal,
                 ByteBufCodecs.VAR_LONG, OpenPhone::balance, ByteBufCodecs.STRING_UTF8, OpenPhone::country, ByteBufCodecs.STRING_UTF8,
-                OpenPhone::contacts, OpenPhone::new);
+                OpenPhone::contacts, ByteBufCodecs.STRING_UTF8, OpenPhone::os, OpenPhone::new);
 
         @Override
         public Type<? extends CustomPacketPayload> type() {
@@ -370,12 +377,13 @@ public final class World {
 
     /** Delivers a text if the sender holds a phone and both ends have signal. Returns the result key. */
     public static String text(ServerPlayer from, String toName, String text) {
-        if (!from.getInventory().contains(new ItemStack(PHONE.get()))) return "phone.none";
+        if (PhoneOS.phoneOf(from).isEmpty()) return "phone.none";
+        if (!PhoneOS.canCall(from)) return "phoneos.no_service";
         ServerPlayer to = from.server.getPlayerList().getPlayerByName(toName);
         if (to == null) return "phone.offline";
         Data d = Data.get(from.serverLevel());
         if (!d.signal(from.blockPosition())) return "phone.no_signal";
-        if (!d.signal(to.blockPosition()) || !to.getInventory().contains(new ItemStack(PHONE.get()))) return "phone.unreachable";
+        if (!d.signal(to.blockPosition()) || !PhoneOS.canCall(to)) return "phone.unreachable";
         String clean = text.length() > 200 ? text.substring(0, 200) : text;
         to.displayClientMessage(Component.translatable("realism.phone.received", from.getName(), clean).withStyle(ChatFormatting.AQUA), false);
         Afterlife.said(from, clean);
@@ -386,7 +394,8 @@ public final class World {
 
     /** Calling the ambulance by phone: you need a phone and signal; it goes to the nearest collapsed player within 256 blocks. */
     public static String callAmbulance(ServerPlayer caller) {
-        if (!caller.getInventory().contains(new ItemStack(PHONE.get()))) return "phone.none";
+        if (PhoneOS.phoneOf(caller).isEmpty()) return "phone.none";
+        if (!PhoneOS.canCall(caller)) return "phoneos.no_service";
         if (!Data.get(caller.serverLevel()).signal(caller.blockPosition())) return "phone.no_signal";
         return Rescue.dispatch(caller, 256) ? "phone.ok" : "phone.ambulance_failed";
     }

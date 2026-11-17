@@ -281,6 +281,10 @@ public final class Bullying {
 
     /** The helpline: anonymous, always answers, always does something. */
     public static void helpline(ServerPlayer p) {
+        if (PhoneOS.phoneOf(p).isEmpty() || !PhoneOS.canCall(p)) {
+            p.displayClientMessage(Component.translatable("realism.phoneos.no_service").withStyle(ChatFormatting.RED), true);
+            return;
+        }
         if (!bullied(p)) {
             p.displayClientMessage(Component.translatable("realism.bully.helpline.talk").withStyle(ChatFormatting.AQUA), false);
             Mind.lift(p, 5);
