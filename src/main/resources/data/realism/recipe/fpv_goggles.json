@@ -1,0 +1,22 @@
+{
+ "type": "minecraft:crafting_shaped",
+ "pattern": [
+  "LLL",
+  "GIG"
+ ],
+ "key": {
+  "L": {
+   "item": "minecraft:leather"
+  },
+  "G": {
+   "item": "minecraft:glass_pane"
+  },
+  "I": {
+   "item": "minecraft:iron_ingot"
+  }
+ },
+ "result": {
+  "id": "realism:fpv_goggles",
+  "count": 1
+ }
+}

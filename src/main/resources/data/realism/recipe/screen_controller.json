@@ -1,0 +1,23 @@
+{
+ "type": "minecraft:crafting_shaped",
+ "pattern": [
+  "S S",
+  "IGI",
+  "III"
+ ],
+ "key": {
+  "S": {
+   "item": "minecraft:stick"
+  },
+  "I": {
+   "item": "minecraft:iron_ingot"
+  },
+  "G": {
+   "item": "minecraft:glass_pane"
+  }
+ },
+ "result": {
+  "id": "realism:screen_controller",
+  "count": 1
+ }
+}

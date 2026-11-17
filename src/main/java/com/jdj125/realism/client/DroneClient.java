@@ -80,7 +80,7 @@ public final class DroneClient {
             }
             return;
         }
-        if (!event.isUseItem() || !(mc.player.getItemInHand(event.getHand()).is(Drone.CONTROLLER.get()))) return;
+        if (!event.isUseItem() || !(Drone.isController(mc.player.getItemInHand(event.getHand())))) return;
         // The nearest drone within 64 blocks (the server checks it's really yours).
         Drone.Flyer best = null;
         for (Entity e : mc.level.entitiesForRendering())
@@ -148,7 +148,9 @@ public final class DroneClient {
             pose.mulPose(Axis.YP.rotationDegrees(180 - net.minecraft.util.Mth.rotLerp(partialTick, d.yRotO, d.getYRot())));
             if (d.flying()) pose.translate(0, Math.sin((d.tickCount + partialTick) * 0.6) * 0.02, 0);
             pose.scale(1.4f, 1.4f, 1.4f);
-            ItemStack stack = new ItemStack(d.fpv() ? Drone.FPV_DRONE.get() : Drone.CAMERA_DRONE.get());
+            ItemStack stack = new ItemStack(Drone.item(d.model()));
+            if (d.model() == Drone.Model.POCKET) pose.scale(0.6f, 0.6f, 0.6f);
+            if (d.model() == Drone.Model.ENTERPRISE) pose.scale(1.5f, 1.5f, 1.5f);
             Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.FIXED, light, OverlayTexture.NO_OVERLAY, pose, buffers, d.level(), d.getId());
             pose.popPose();
             super.render(d, yaw, partialTick, pose, buffers, light);

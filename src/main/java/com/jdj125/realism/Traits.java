@@ -252,9 +252,14 @@ public final class Traits {
         }
     }
 
-    /** Drone Pilot perk: 50% more range. */
+    /** Drone Pilot perk: 50% more range (for the first drones' range). */
     public static int droneRange(Player p) {
-        return p != null && is(p, Trait.DRONE_PILOT) ? Drone.RANGE * 3 / 2 : Drone.RANGE;
+        return droneRange(p, Drone.RANGE);
+    }
+
+    /** Drone Pilot perk: 50% more range on top of a drone's own range. */
+    public static int droneRange(Player p, int base) {
+        return p != null && is(p, Trait.DRONE_PILOT) ? base * 3 / 2 : base;
     }
 
     /** Drone Pilot perk: 50% more battery. */

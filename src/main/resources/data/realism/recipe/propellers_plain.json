@@ -1,0 +1,20 @@
+{
+ "type": "minecraft:crafting_shaped",
+ "pattern": [
+  " S ",
+  "SIS",
+  " S "
+ ],
+ "key": {
+  "S": {
+   "item": "minecraft:stick"
+  },
+  "I": {
+   "item": "minecraft:iron_nugget"
+  }
+ },
+ "result": {
+  "id": "realism:propellers_plain",
+  "count": 2
+ }
+}

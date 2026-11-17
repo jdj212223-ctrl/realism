@@ -1,0 +1,23 @@
+{
+ "type": "minecraft:crafting_shaped",
+ "pattern": [
+  " I ",
+  "IRI",
+  " G "
+ ],
+ "key": {
+  "I": {
+   "item": "minecraft:iron_nugget"
+  },
+  "R": {
+   "item": "minecraft:redstone"
+  },
+  "G": {
+   "item": "minecraft:glass_pane"
+  }
+ },
+ "result": {
+  "id": "realism:pocket_drone",
+  "count": 1
+ }
+}

@@ -1,0 +1,29 @@
+{
+ "type": "minecraft:crafting_shaped",
+ "pattern": [
+  "SGS",
+  "DRD",
+  "III"
+ ],
+ "key": {
+  "S": {
+   "item": "minecraft:stick"
+  },
+  "I": {
+   "item": "minecraft:iron_ingot"
+  },
+  "G": {
+   "item": "minecraft:glass_pane"
+  },
+  "D": {
+   "item": "minecraft:diamond"
+  },
+  "R": {
+   "item": "minecraft:redstone_block"
+  }
+ },
+ "result": {
+  "id": "realism:enterprise_controller",
+  "count": 1
+ }
+}

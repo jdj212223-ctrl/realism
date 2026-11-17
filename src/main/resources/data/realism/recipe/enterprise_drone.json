@@ -1,0 +1,26 @@
+{
+ "type": "minecraft:crafting_shaped",
+ "pattern": [
+  "IDI",
+  "RGR",
+  "IDI"
+ ],
+ "key": {
+  "I": {
+   "item": "minecraft:iron_ingot"
+  },
+  "D": {
+   "item": "minecraft:diamond"
+  },
+  "R": {
+   "item": "minecraft:redstone_block"
+  },
+  "G": {
+   "item": "minecraft:glass_pane"
+  }
+ },
+ "result": {
+  "id": "realism:enterprise_drone",
+  "count": 1
+ }
+}

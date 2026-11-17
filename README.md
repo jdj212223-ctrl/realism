@@ -213,6 +213,26 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.10.0: drones, for real 🚁
+
+### Five drones (our own designs)
+| Drone | What it's like |
+|---|---|
+| 📷 Camera Drone | slow and steady, hovers by itself, takes photos. 6 min battery |
+| 🏎 FPV Drone | fast racer, real thrust, breaks if it hits a wall. 2 min. Needs FPV Goggles |
+| 🤳 Pocket Drone | tiny: **use it in the air to launch it from your palm** and it follows you. 4 min, short range |
+| 🛡 Cinewhoop FPV | FPV with prop guards: it **bounces off walls**. 4 min. Needs FPV Goggles |
+| 🏢 Enterprise Drone | big, slow, **wind-proof**, a **thermal camera** that makes living things glow through walls. 15 min, long range |
+
+### Controllers
+Drone Controller (basic), **Screen Controller** (+25% range), **Pro Controller** (+60%), **Enterprise Controller** (+60%, the only one that pairs with the Enterprise Drone, and it flies nothing else). FPV drones also need **FPV Goggles** in your inventory.
+
+### Propellers 🌀
+Hitting things **chips** a propeller (wobbly flight, double battery use) or **breaks** them (it can't fly). Craft new **marked** (orange tips) and **plain** propellers and right-click the drone. **Marked ones go on FIRST** (they belong on the marked motors). Put the plain ones on first and the drone **flips over the moment it takes off**, just like a real one.
+
+### Weather, signal and coming home
+Rain and storms push small drones around, and **cold** drains batteries faster. Near the edge of the range the HUD warns **"weak signal"**. If the signal is lost, or the battery drops under 10%, the drone **flies home by itself** and lands next to you.
+
 ## 4.9.0: you can see it 🩹
 
 Injuries now show **on your skin**, and everyone nearby can see them:

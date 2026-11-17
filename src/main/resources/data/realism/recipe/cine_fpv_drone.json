@@ -1,0 +1,26 @@
+{
+ "type": "minecraft:crafting_shaped",
+ "pattern": [
+  "SIS",
+  "IRI",
+  "SGS"
+ ],
+ "key": {
+  "S": {
+   "item": "minecraft:stick"
+  },
+  "I": {
+   "item": "minecraft:iron_ingot"
+  },
+  "R": {
+   "item": "minecraft:redstone"
+  },
+  "G": {
+   "item": "minecraft:glass_pane"
+  }
+ },
+ "result": {
+  "id": "realism:cine_fpv_drone",
+  "count": 1
+ }
+}

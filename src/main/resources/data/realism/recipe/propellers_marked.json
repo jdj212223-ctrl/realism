@@ -1,0 +1,20 @@
+{
+ "type": "minecraft:crafting_shaped",
+ "pattern": [
+  " S ",
+  "SOS",
+  " S "
+ ],
+ "key": {
+  "S": {
+   "item": "minecraft:stick"
+  },
+  "O": {
+   "item": "minecraft:orange_dye"
+  }
+ },
+ "result": {
+  "id": "realism:propellers_marked",
+  "count": 2
+ }
+}
