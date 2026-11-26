@@ -1,0 +1,72 @@
+# Builds Realism, runs every GameTest, and publishes a GitHub release for each new version.
+# A release happens on a push to main when gradle.properties has a mod_version that isn't released yet:
+# bump the version, push, and the release builds itself here (never on someone's Mac).
+name: Build and release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build
+        run: ./gradlew build --no-daemon
+
+      - name: GameTests
+        run: ./gradlew runGameTestServer --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: realism-jar
+          path: build/libs/realism-*.jar
+
+  release:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: realism-jar
+          path: dist
+
+      - name: Release this version (if it's new)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version=$(grep '^mod_version=' gradle.properties | cut -d= -f2)
+          tag="v$version"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "$tag is already released: nothing to do."
+            exit 0
+          fi
+          # The notes are this version's section of the README ("## 4.13.0: ..." up to the next "## ").
+          awk -v v="## $version:" 'index($0, v) == 1 {on = 1; print; next} on && /^## / {exit} on {print}' README.md > notes.md
+          title=$(head -n 1 notes.md | sed 's/^## /Realism /')
+          [ -n "$title" ] || title="Realism $version"
+          tail -n +2 notes.md > body.md
+          printf '\n\nNeoForge 1.21.1. Drop the jar in your `mods` folder.\n' >> body.md
+          gh release create "$tag" dist/realism-"$version".jar --title "$title" --notes-file body.md --target "$GITHUB_SHA"
