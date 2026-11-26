@@ -10,3 +10,4 @@ libs/
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
 run-*.log
+run-gametest/

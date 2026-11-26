@@ -113,6 +113,7 @@ public final class BodyEvents {
         Bullying.second(p);
         BodyLook.second(p, b);
         PhoneOS.second(p);
+        ColdHouse.second(p, b);
         if (b.unconscious > 0) b.unconscious = Math.max(0, b.unconscious - 20);
     }
 
@@ -185,6 +186,8 @@ public final class BodyEvents {
                 say(p, "sleep.rested");
                 Mind.lift(p, 20);
                 Mind.dream(p, b);
+                ColdHouse.wokeUp(p, b);
+                PhoneLife.charge(p, 100); // phones charge overnight
             }
             b.awake = 0;
             b.sleepStage = 0;

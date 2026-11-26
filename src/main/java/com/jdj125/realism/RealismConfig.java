@@ -21,7 +21,7 @@ public final class RealismConfig {
             CAR_CRASHES, EARTHQUAKES, DOG_WALKS, WEDDINGS, ELECTIONS, TAX_EVERYTHING, JET_LAG, TORNADO_DANGER,
             TRANSIT, RESTAURANTS, ADOPTION, TV_NEWS, WILDFIRES, STORM_OUTAGES,
             LOANS, EMERGENCY_911, CHORES, FLOODS, LIBRARIES, SNACK_SECURITY, NO_HAND_WOOD, HIDING_BODIES,
-            TRAITS, DEPRESSION_TRAIT, BULLYING;
+            TRAITS, DEPRESSION_TRAIT, BULLYING, COLD_HOUSE;
     public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> ALLOWED_COMMANDS;
     public static final ModConfigSpec.ConfigValue<String> APP_STORE_URL;
     public static final ModConfigSpec.IntValue COLLAPSE_SECONDS;
@@ -149,6 +149,9 @@ public final class RealismConfig {
         TRAITS = b.comment("Pick one trait on your first join (perks and flaws); a Change Trait item lets you pick again").define("traits", true);
         DEPRESSION_TRAIT = b.comment("Offer the 'Living With Depression' trait (bad days, low energy; friends, sunlight and therapy help). Never any self-harm.").define("depressionTrait", true);
         BULLYING = b.comment("Bully NPCs at school and in towns; tell your family or call the helpline to make it stop").define("bullying", true);
+        b.pop();
+        b.comment("Realism 4.13: the cold house (works with Cold Sweat, or with the biome's climate without it)").push("home");
+        COLD_HOUSE = b.comment("A house with no insulation lets the weather in: a freezing house chills you (shivering, bad sleep, a cold), a baking one makes you thirsty and sick. A Cold Sweat Hearth/Boiler/Icebox, Realism heaters and Fiberglass Insulation in the walls fix it").define("coldHouse", true);
         b.pop();
         SPEC = b.build();
         ModConfigSpec.Builder c = new ModConfigSpec.Builder();

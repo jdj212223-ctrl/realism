@@ -108,6 +108,7 @@ public final class PhoneOS {
     public static String bricked(ItemStack phone) {
         CompoundTag os = os(phone);
         if (os.getBoolean("water")) return "water";
+        if (os.getBoolean("badUpdate")) return "update";
         List<String> f = files(os);
         if (!f.contains(BOOT)) return "realboot";
         if (!f.contains(KERNEL)) return "realkernel";
@@ -131,7 +132,7 @@ public final class PhoneOS {
     /** Whether this player's phone can make calls and send texts (it's there, it boots, telephonyd runs). */
     public static boolean canCall(Player p) {
         ItemStack phone = phoneOf(p);
-        return !phone.isEmpty() && service(phone, TELEPHONY);
+        return !phone.isEmpty() && service(phone, TELEPHONY) && !PhoneLife.dead(phone);
     }
 
     // ---- Actions ----
@@ -211,6 +212,7 @@ public final class PhoneOS {
         sb.append("apps=").append(String.join(",", PhoneApps.installed(phone).keySet())).append(';');
         sb.append("view=").append(PhoneApps.view(p, phone)).append(';');
         sb.append("store=").append(PhoneApps.storeList(p));
+        sb.append(PhoneLife.summary(p, phone));
         return sb.toString();
     }
 
@@ -219,6 +221,7 @@ public final class PhoneOS {
     static void second(ServerPlayer p) {
         ItemStack phone = phoneOf(p);
         if (phone.isEmpty()) return;
+        PhoneLife.second(p, phone);
         // Water damage: swimming with your phone.
         if (p.isUnderWater() && p.getRandom().nextInt(30) == 0 && !os(phone).getBoolean("water")) {
             CompoundTag os = os(phone);
@@ -226,7 +229,7 @@ public final class PhoneOS {
             save(phone, os);
             p.displayClientMessage(Component.translatable("realism.phoneos.water").withStyle(ChatFormatting.RED), false);
         }
-        if (!bricked(phone).isEmpty()) return;
+        if (!bricked(phone).isEmpty() || PhoneLife.dead(phone)) return;
         PhoneApps.second(p);
         if (!bricked(phone).isEmpty()) return;
         if (hasApp(phone, ADWARE) && p.getRandom().nextInt(150) == 0) {
@@ -242,7 +245,7 @@ public final class PhoneOS {
 
     // ---- Restoring at a computer ----
 
-    private static boolean isComputer(Block b) {
+    static boolean isComputer(Block b) {
         return b == Tech.PC_CASE.get() || Tech.MODEL_BLOCKS.stream().anyMatch(m -> m.get() == b);
     }
 
@@ -317,8 +320,16 @@ public final class PhoneOS {
 
     public static void handle(ServerPlayer p, String action) {
         ItemStack phone = phoneOf(p);
-        if (phone.isEmpty() || !bricked(phone).isEmpty()) return;
+        if (phone.isEmpty() || !bricked(phone).isEmpty() || PhoneLife.dead(phone)) return;
         String key;
+        // Realism 4.14: battery, updates, messages, the Bank app.
+        String life = PhoneLife.handle(p, phone, action);
+        if (life != null) {
+            if (!life.isEmpty()) p.displayClientMessage(Component.translatable("realism." + life).withStyle(
+                    life.contains("fail") || life.contains("low") ? ChatFormatting.RED : ChatFormatting.AQUA), false);
+            World.openPhone(p);
+            return;
+        }
         // Realism 4.12: .appp apps and the App Store refresh the phone themselves.
         if (action.equals("store")) { PhoneApps.store(p); return; }
         if (action.startsWith("get ")) { PhoneApps.get(p, action.substring(4)); return; }

@@ -78,6 +78,8 @@ public class Body implements INBTSerializable<CompoundTag> {
     /** 4.5: money owed to the bank, the day the loan was taken, and undone chores (0-10). */
     public long debt, loanDay;
     public int chores;
+    /** 4.13 the cold house: how chilled (or overheated, below 0) you are from an uninsulated home, -100..100. */
+    public float houseChill;
     /** 4.9: ticks a bandage stays visible, ticks a bruise has left (it changes colour as it heals), ticks your pants stay wet. */
     public int bandaged, bruise, wet;
     /** 4.9: the skin look last sent to other players (not saved). */
@@ -138,6 +140,7 @@ public class Body implements INBTSerializable<CompoundTag> {
         t.putLong("debt", debt);
         t.putLong("loanDay", loanDay);
         t.putInt("chores", chores);
+        t.putFloat("houseChill", houseChill);
         t.putInt("bandaged", bandaged);
         t.putInt("bruise", bruise);
         t.putInt("wet", wet);
@@ -198,6 +201,7 @@ public class Body implements INBTSerializable<CompoundTag> {
         debt = t.getLong("debt");
         loanDay = t.getLong("loanDay");
         chores = t.getInt("chores");
+        houseChill = t.getFloat("houseChill");
         bandaged = t.getInt("bandaged");
         bruise = t.getInt("bruise");
         wet = t.getInt("wet");

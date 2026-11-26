@@ -213,6 +213,31 @@ Config section `[fire]`: `smoke`, `kitchenFires`.
 
 Config section `[food]`: `fruits`, `vomiting`.
 
+## 4.13.0: the cold house 🏠🥶 and RealismPhoneOS 2 📱
+
+### 🏠 The cold house (works great with Cold Sweat, and without it)
+A house only stays warm if something keeps it warm. Stand inside a house (a roof over you, and house things around: doors, windows, beds, planks) with **nothing insulating it**, and the weather slowly creeps in:
+
+| How long | Cold house 🥶 | Hot house 🥵 |
+|---|---|---|
+| A little | "Brr... this house is cold": mood and stamina drop | Stuffy: you get thirsty faster |
+| Longer | Shivering: stiff fingers (slow mining), slow walking (unless you wear leather clothes) | Sweating buckets, tired |
+| Way too long | You **catch a cold** | Sick from the heat (weak, dizzy) |
+| Sleeping there | Bad sleep: less rest and a worse mood | Same |
+
+**What fixes it:** a **Cold Sweat Hearth, Boiler or Icebox**, Realism heating (a burning **Coal Heater**, **Fireplace**, furnace or campfire, a powered **Panel Radiator**), or **Fiberglass Insulation** in the walls (it doesn't make heat, but it keeps most of the weather out). Leather clothes help with the cold.
+
+- **With Cold Sweat** installed, Realism uses Cold Sweat's temperature where you stand, so a Hearth that warms the room fixes it the real way. Without Cold Sweat it uses the biome's climate (colder at night and up high). Cold Sweat stays optional.
+- `/realism house` tells you what your house is like right now.
+- Config: `coldHouse` (section `[home]`).
+
+### 📱 RealismPhoneOS 2
+The phone got a full makeover: it looks and works like a real phone now.
+- **New look:** a status bar (time, signal, battery), wallpaper, app icons on a home screen with a dock, and a **lock screen** with your notifications. It only boots once (not every time you open it).
+- **New apps:** ☎ **Phone** (ambulance, fire department, the helpline), ✉ **Messages** (your texts are saved on the phone, with bubbles and unread badges), $ **Bank** (balance, your loan, send money), ♥ **Health** (water, rest, stamina, blood, mood, bladder, and what's wrong), ☀ **Weather** (how cold or hot it is, and whether your house is heated or insulated), ⌖ **Maps** (a live mini map, your coordinates and country), ◉ **Camera** (takes a photo without the HUD), ◷ **Clock**. Files, Settings, SkyPilot and the App Store got the new look too.
+- 🔋 **Battery:** about 1% a minute. Charge it overnight (sleep in a bed) or stand next to a computer. At 0% it's dead: no calls, no texts.
+- ⚙ **Software Update** in Settings (to RealismPhoneOS 2.1): it takes 30 seconds and eats battery. If the battery **dies mid-update, the phone bricks** (restore it at a computer).
+
 ## 4.12.0: real apps for RealismPhoneOS (.appp) 📲
 
 App Packages are now a real app format, and the phone has an **App Store**.

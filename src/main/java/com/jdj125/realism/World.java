@@ -386,6 +386,8 @@ public final class World {
         if (!d.signal(to.blockPosition()) || !PhoneOS.canCall(to)) return "phone.unreachable";
         String clean = text.length() > 200 ? text.substring(0, 200) : text;
         to.displayClientMessage(Component.translatable("realism.phone.received", from.getName(), clean).withStyle(ChatFormatting.AQUA), false);
+        PhoneLife.record(PhoneOS.phoneOf(from), toName, true, clean);
+        PhoneLife.record(PhoneOS.phoneOf(to), from.getGameProfile().getName(), false, clean);
         Afterlife.said(from, clean);
         to.level().playSound(null, to.blockPosition(), SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.PLAYERS, 0.8f, 1.8f);
         from.displayClientMessage(Component.translatable("realism.phone.sent", toName, clean).withStyle(ChatFormatting.GRAY), false);

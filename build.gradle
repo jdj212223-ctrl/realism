@@ -28,6 +28,7 @@ repositories {
 
 configurations {
     localRuntime
+    devMods { transitive = false }
     runtimeClasspath.extendsFrom localRuntime
 }
 
@@ -36,6 +37,9 @@ dependencies {
     compileOnly "mezz.jei:jei-1.21.1-neoforge-api:19.27.0.350"
     // Only for testing in the dev client; players install JEI themselves.
     localRuntime "mezz.jei:jei-1.21.1-neoforge:19.27.0.350"
+    // Cold Sweat is optional for players. It's copied into the dev client's mods folder only (see copyDevMods):
+    // in the GameTest server it would send packets to the fake test players.
+    devMods "maven.modrinth:cold-sweat:2.4.5"
 
 }
 
@@ -50,6 +54,8 @@ neoForge {
     runs {
         client {
             client()
+            // ./gradlew runClient -PdevUser=Tester plays as someone else (a fresh body in the same test world).
+            if (project.hasProperty('devUser')) programArguments.addAll('--username', project.property('devUser').toString())
         }
         server {
             server()
@@ -58,6 +64,8 @@ neoForge {
         // Boots a headless server, runs the GameTests, then exits.
         gameTestServer {
             type = "gameTestServer"
+            // Its own folder: no extra mods from the dev client's run/mods.
+            gameDirectory = project.file('run-gametest')
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
         configureEach {
@@ -97,3 +105,10 @@ neoForge.ideSyncTask generateModMetadata
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
+
+// Optional mods for playtesting in the dev client (run/mods), never on the GameTest server.
+tasks.register('copyDevMods', Copy) {
+    from configurations.devMods
+    into 'run/mods'
+}
+tasks.matching { it.name == 'runClient' }.configureEach { dependsOn 'copyDevMods' }

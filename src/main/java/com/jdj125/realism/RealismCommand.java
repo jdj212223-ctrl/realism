@@ -24,6 +24,16 @@ public final class RealismCommand {
                             String.format(java.util.Locale.ROOT, "%.1f", s.blood()), Blood.type(p)), false);
                     return 1;
                 })
+                // 4.13: what your house is like right now (is it insulated? how cold is it out there?).
+                .then(Commands.literal("house").executes(ctx -> {
+                    net.minecraft.server.level.ServerPlayer p = ctx.getSource().getPlayerOrException();
+                    double w = ColdHouse.weather(p);
+                    boolean inside = ColdHouse.inHouse(p);
+                    String ins = !inside ? "-" : Math.abs(w) < 0.05 ? "heated" : ColdHouse.insulation(p, w >= 0).name().toLowerCase(java.util.Locale.ROOT);
+                    ctx.getSource().sendSuccess(() -> net.minecraft.network.chat.Component.translatable("realism.coldhouse.status",
+                            Math.round(w * 100), inside ? "yes" : "no", ins, Math.round(BodyEvents.body(p).houseChill)), false);
+                    return 1;
+                }))
                 .then(Commands.literal("set").requires(src -> src.hasPermission(2))
                         .then(Commands.argument("stat", com.mojang.brigadier.arguments.StringArgumentType.word())
                                 .suggests((ctx, b) -> { b.suggest("thirst"); b.suggest("sleep"); b.suggest("stamina"); b.suggest("blood"); return b.buildFuture(); })
